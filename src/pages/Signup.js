@@ -1,13 +1,13 @@
 import React from 'react'
+import SignupForm from "../components/Signup/index"
 import Navbar from '../components/Navbar/index.jsx'
-
-function Home() {
+function Signup() {
     return (
         <div>
             <Navbar />
-            <h1 className='text-center m-auto'>this is homw page</h1>
+            <SignupForm />
         </div>
     )
 }
 
-export default Home
+export default Signup

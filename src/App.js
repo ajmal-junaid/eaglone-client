@@ -1,17 +1,20 @@
 import React from 'react';
-import Home from './pages/Home'
-import Login from './pages/Login'
-import Signup from './pages/Signup'
-import { Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './pages/User/Home'
+import NotFound from './pages/NotFound';
+import UserRoutes from './Routes/UserRoutes'
+import AdminRoutes from './Routes/AdminRoutes';
+
 function App() {
   return (
-    <div>
-        <Routes>
-          <Route exact path='/' element={<Home />} />
-          <Route exact path='/login' element={<Login />} />
-          <Route exact path='/signup' element={<Signup/>}/>
-        </Routes>
-    </div>
+    <Router>
+      <Routes>
+        <Route path='/' element={<Home />} />
+        <Route path="/admin/*" element={<AdminRoutes />} />
+        <Route path="/user/*" element={<UserRoutes />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </Router>
   )
 }
 

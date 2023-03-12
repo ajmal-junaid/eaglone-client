@@ -1,7 +1,39 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { baseUrl } from "../../../utils/constants";
+import ErrorMessage from "../../Common/ErrorMessage";
 
-function index() {
+function Index() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [mobile, setMobile] = useState("");
+  const [password, setPassword] = useState("");
+  const [error,setError] = useState("")
+  const navigate = useNavigate();
+  const formSubmit = (e) => {
+    e.preventDefault();
+    console.log(name, mobile, email, password);
+    axios({
+      method: "post",
+      url: `${baseUrl}user-signup`,
+      data: {
+        name,
+        email,
+        mobile,
+        password,
+        active: true,
+      },
+    }).then((res) => {
+      if(!res.data.err){
+        navigate("/user/login")
+      }else{
+       
+setError(res.data.message)
+      }
+      console.log(res.data, "REact daaaaaaaaaaaaaa");
+    });
+  };
   return (
     <div className="relative flex flex-col justify-center min-h-screen overflow-hidden border-2">
       <div className="w-full p-6 m-auto mt-24 bg-white rounded-md shadow-md lg:max-w-xl border-2">
@@ -15,6 +47,8 @@ function index() {
             </label>
             <input
               type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="block w-full px-4 py-2 mt-2 text-gray-700-700 bg-white border rounded-md focus:border-teal-400 focus:ring-teal-300 focus:outline-none focus:ring focus:ring-opacity-40"
             />
           </div>
@@ -24,6 +58,8 @@ function index() {
             </label>
             <input
               type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               className="block w-full px-4 py-2 mt-2 text-gray-700-700 bg-white border rounded-md focus:border-teal-400 focus:ring-teal-300 focus:outline-none focus:ring focus:ring-opacity-40"
             />
           </div>
@@ -34,6 +70,8 @@ function index() {
             </label>
             <input
               type="tel"
+              value={mobile}
+              onChange={(e) => setMobile(e.target.value)}
               className="block w-full px-4 py-2 mt-2 text-gray-700-700 bg-white border rounded-md focus:border-teal-400 focus:ring-teal-300 focus:outline-none focus:ring focus:ring-opacity-40"
             />
           </div>
@@ -44,6 +82,8 @@ function index() {
             </label>
             <input
               type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-md focus:border-teal-400 focus:ring-teal-300 focus:outline-none focus:ring focus:ring-opacity-40"
             />
           </div>
@@ -51,15 +91,23 @@ function index() {
             Forget Password?
           </a>
           <div className="mt-6">
-            <button className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-teal-300 rounded-md hover:bg-teal-500 focus:outline-none focus:bg-teal-800">
-              Login
+            <button
+              onClick={formSubmit}
+              className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-teal-300 rounded-md hover:bg-teal-500 focus:outline-none focus:bg-teal-800"
+            >
+              Sign Up
             </button>
           </div>
         </form>
+        <span className=" text-red-600 px-2 py-1 rounded">{error}</span>
+        <ErrorMessage message={error}/>
 
         <p className="mt-8 text-xs font-light text-center text-gray-700">
           Already &lsquo; have an account?
-          <Link to='/login' className="font-medium text-teal-400 hover:underline">
+          <Link
+            to="/user/login"
+            className="font-medium text-teal-400 hover:underline"
+          >
             Log in
           </Link>
         </p>
@@ -68,4 +116,4 @@ function index() {
   );
 }
 
-export default index;
+export default Index;

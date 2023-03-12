@@ -1,7 +1,7 @@
 import React from "react";
 import { Fragment, useState } from "react";
 import { Dialog, Disclosure, Popover, Transition } from "@headlessui/react";
-import Logo from "../../asset/eaglone-logo.png";
+import Logo from "../../../asset/eaglone-logo.png";
 import {
   ArrowPathIcon,
   Bars3Icon,
@@ -160,7 +160,7 @@ export default function Example() {
         </Popover.Group>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           <NavLink
-            to="/login" 
+            to="/user/login"
             className="text-sm font-semibold leading-6 text-gray-900 "
           >
             Log in <span aria-hidden="true">&rarr;</span>

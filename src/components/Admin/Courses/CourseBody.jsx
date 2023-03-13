@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import Modal from "react-modal";
+import { Link, Outlet } from 'react-router-dom';
 import { baseUrl } from '../../../utils/constants';
 import AddCourseForm from './AddCourseForm'
 
@@ -16,6 +17,7 @@ function CourseBody() {
         url: `${baseUrl}admin/courses`,
         headers: {
           "Content-Type": "application/json",
+          'authorization': `bearer ${JSON.parse(localStorage.getItem('adminToken'))}`
         },
       }).then((res) => {
         console.log(res.data.message);
@@ -108,17 +110,14 @@ function CourseBody() {
                         <td className="py-3 px-6 text-left whitespace-nowrap">{course.premium?"premium":"free"}</td>
                         
                         <td className="px-6 py-4 md:py-6 md:px-8 text-sm md:text-base font-medium leading-5 text-gray-800 ">
-                        <button
-                          className="bg-emerald-300 hover:bg-emerald-500 text-gray-800 text-xs py-1 px-3 rounded"
-                          //    onClick={() => handleEdit(rowIndex)}
-                        >
-                          Edit
-                        </button>
+                        
+                        <Link className="bg-emerald-300 hover:bg-emerald-500 text-gray-800 text-xs py-1 px-3 ml-4 rounded" to={`update-course/${course._id}`}>Edit</Link>
                       </td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
+                <Outlet/>
               </div>
             </div>
           </div>

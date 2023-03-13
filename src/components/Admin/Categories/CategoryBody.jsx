@@ -1,8 +1,13 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
+import { Link, Outlet } from "react-router-dom";
 import { baseUrl } from "../../../utils/constants";
 import AddCategoryForm from "./AddCategoryForm";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
+const MySwal = withReactContent(Swal);
 Modal.setAppElement("#root");
 
 function CategoryBody() {
@@ -14,6 +19,35 @@ function CategoryBody() {
 
   function closeModal() {
     setModalIsOpen(false);
+  }
+  function confirmDelete(name) {
+    MySwal.fire({
+      title: "Are you sure?",
+      text: "You will not be able to recover this data!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteFunction(name);
+      }
+    });
+  }
+
+  function deleteFunction(name) {
+    axios({
+      method: "delete",
+      url: `${baseUrl}admin/delete-category/${name}`,
+      headers: {
+        "Content-Type": "application/json",
+        'authorization': `bearer ${JSON.parse(localStorage.getItem('adminToken'))}`
+      },
+    }).then((res) => {
+      console.log(res.data.message);
+      console.log(res.data);
+    });
   }
   useEffect(() => {
     getCategories();
@@ -110,17 +144,25 @@ function CategoryBody() {
                         {row.description}
                       </td>
                       <td className="px-6 py-4 md:py-6 md:px-8 text-sm md:text-base font-medium leading-5 text-gray-800 ">
-                        <button
+                        <Link
                           className="bg-emerald-300 hover:bg-emerald-500 text-gray-800 text-xs py-1 px-3 rounded"
-                          //    onClick={() => handleEdit(rowIndex)}
+                          to={`update-category/${row._id}`}
                         >
                           Edit
+                        </Link>
+
+                        <button
+                          onClick={() => confirmDelete(row.name)}
+                          className="bg-red-300 hover:bg-red-500 text-gray-800 text-xs py-1 px-3 ml-4 rounded"
+                        >
+                          Delete
                         </button>
                       </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
+              <Outlet />
             </div>
           </div>
         </div>

@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { baseUrl } from "../../../utils/constants";
 
@@ -8,6 +8,12 @@ function Index() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  useEffect(() => {
+    const auth = localStorage.getItem('adminToken')
+    if (auth) {
+      navigate('/user/home')
+    }
+  }, [])
   const handleLogin = (e) => {
     e.preventDefault();
     axios({
@@ -19,6 +25,8 @@ function Index() {
       },
     }).then((res) => {
       if (!res.data.err) {
+        localStorage.setItem("adminToken", JSON.stringify(res.data.token))
+        localStorage.setItem("admAuth", JSON.stringify(res.data.auth))
         navigate("/admin/home");
       } else {
         setError(res.data.message);

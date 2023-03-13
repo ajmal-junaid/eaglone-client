@@ -11,7 +11,8 @@ function Dashboard() {
       method:'get',
       url:`${baseUrl}admin/users`,
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'authorization': `bearer ${JSON.parse(localStorage.getItem('adminToken'))}`
       }
     }).then((res)=>{
       console.log(res.data.userData);

@@ -30,23 +30,7 @@ function Index() {
       },
     }).then((res) => {
       if (res.data.success) {
-        axios({
-          method: "post",
-          url: `${baseUrl}user-signup`,
-          data: {
-            name,
-            email,
-            mobile,
-            password,
-            active: false,
-          },
-        }).then((res) => {
-          if (!res.data.err) {
-            navigate("/user/login");
-          } else {
-            setError(res.data.message);
-          }
-        });
+        navigate("/user/login");
       } else {
         setError(res.data.message);
       }
@@ -56,9 +40,13 @@ function Index() {
     e.preventDefault();
     axios({
       method: "post",
-      url: `${baseUrl}send-otp`,
+      url: `${baseUrl}user-signup`,
       data: {
+        name,
         email,
+        mobile,
+        password,
+        active: false,
       },
     }).then((res) => {
       if (res.data.success) {

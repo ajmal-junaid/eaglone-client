@@ -6,19 +6,23 @@ import { baseUrl } from "../../../utils/constants";
 import AddCategoryForm from "./AddCategoryForm";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import { useDispatch, useSelector } from "react-redux";
+import {setCategoryForm, unSetCategoryForm} from '../../../Redux/authentication/login'
+
 
 const MySwal = withReactContent(Swal);
 Modal.setAppElement("#root");
 
 function CategoryBody() {
-  const [modalIsOpen, setModalIsOpen] = useState(false);
   const [categories, setCategories] = useState([]);
+  const modalIsOpen=useSelector((state)=>state.categoryForm.value)
+  const dispatch = useDispatch()
   function openModal() {
-    setModalIsOpen(true);
+    dispatch(setCategoryForm())
   }
 
   function closeModal() {
-    setModalIsOpen(false);
+    dispatch(unSetCategoryForm())
   }
   function confirmDelete(name) {
     MySwal.fire({
@@ -51,7 +55,7 @@ function CategoryBody() {
   }
   useEffect(() => {
     getCategories();
-  }, []);
+  }, [modalIsOpen,categories]);
   const getCategories = () => {
     axios({
       method: "get",
@@ -62,7 +66,6 @@ function CategoryBody() {
     }).then((res) => {
       console.log(res.data.message);
       setCategories(res.data.data);
-      console.warn(categories);
     });
   };
   const headers = ["No", "Name", "Descriptions", "Actions"];
@@ -71,7 +74,7 @@ function CategoryBody() {
       <div className="my-6 lg:my-12 container px-6 mx-auto flex flex-col lg:flex-row items-start lg:items-center justify-between pb-4 border-b border-gray-300">
         <div>
           <h4 className="text-2xl font-bold leading-tight text-gray-800">
-            Category Management
+            Category Management<p>{modalIsOpen?"true":"false"}</p>
           </h4>
         </div>
         <div className="mt-6 lg:mt-0">

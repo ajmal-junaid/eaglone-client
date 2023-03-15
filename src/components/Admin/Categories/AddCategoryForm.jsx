@@ -1,14 +1,37 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { baseUrl } from "../../../utils/constants";
-
+import { useDispatch } from "react-redux";
+import { unSetCategoryForm} from '../../../Redux/authentication/login'
+import Swal from "sweetalert2";
 function AddCategoryForm() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
+  const [response, setResponse] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState(null);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const dispatch = useDispatch();
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: false,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+  })
+
+  const sweetAlert = (icon='success',text) => {
+    Toast.fire({
+      icon: icon,
+      title: text
+    })
+    setSubmitSuccess(false)
+  };
 
   function handleNameChange(event) {
     setName(event.target.value);
@@ -44,9 +67,17 @@ function AddCategoryForm() {
         }
       );
 
-      console.log(response);
+      console.log(response.data);
       if (response.status >= 200 && response.status < 300) {
-        setSubmitSuccess(true);
+        if(response.data.err){
+          sweetAlert('warning',response.data.message)
+          setResponse(response.data.message);
+        }else{
+          sweetAlert('success',response.data.message)
+          dispatch(unSetCategoryForm())
+        }
+        
+        setSubmitSuccess(false);
       } else {
         setSubmitError("Failed to submit form");
       }
@@ -116,7 +147,8 @@ function AddCategoryForm() {
         </div>
         <div className="flex justify-center">
           {submitError && <div>Error: {submitError}</div>}
-          {submitSuccess && <div>Form submitted successfully!</div>}
+          {submitSuccess ? sweetAlert('warning',response) : ""}
+          
           <button
             type="submit"
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"

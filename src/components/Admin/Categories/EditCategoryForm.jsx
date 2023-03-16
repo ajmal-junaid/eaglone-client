@@ -26,6 +26,7 @@ function EditCategoryForm() {
     };
     useEffect(() => {
         getCategory();
+        // eslint-disable-next-line
       }, []);
       const getCategory=()=>{
         axios({
@@ -38,7 +39,6 @@ function EditCategoryForm() {
             console.log(res.data);
             setName(res.data.data.name);
             setDescription(res.data.data.description);
-            // setImage(res.data.data.image)
           });
       }
   

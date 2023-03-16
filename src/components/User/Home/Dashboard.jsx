@@ -1,58 +1,126 @@
-import React from 'react'
+import React from "react";
+import bannerImage from "../../../asset/banner.jpg";
 
 function Dashboard() {
+  const cardsData = [
+    {
+      title: "Card 1",
+      description: "Duis au.",
+      image: "https://via.placeholder.com/500x400",
+    },
+    {
+      title: "Card 2",
+      description: "Duis au.",
+      image: "https://via.placeholder.com/300x200",
+    },
+    {
+      title: "Card 3",
+      description: "Duis au.",
+      image: "https://via.placeholder.com/300x200",
+    },
+    {
+      title: "Card 4",
+      description: "Duis au.",
+      image: "https://via.placeholder.com/300x200",
+    },
+    {
+      title: "Card 5",
+      description: "Duis au.",
+      image: "https://via.placeholder.com/300x200",
+    },
+    {
+      title: "Card 6",
+      description: "Duis au.",
+      image: "https://via.placeholder.com/300x200",
+    },
+  ];
   return (
     <>
-      <div className="my-6 lg:my-12 container px-6 mx-auto flex flex-col lg:flex-row items-start lg:items-center justify-between pb-4 border-b border-gray-300">
-        <div>
-          <h4 className="text-2xl font-bold leading-tight text-gray-800">User Profile</h4>
-          <ul className="flex flex-col md:flex-row items-start md:items-center text-gray-600 text-sm mt-3">
-            <li className="flex items-center mr-3 mt-3 md:mt-0">
-              <span className="mr-2">
-                <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-paperclip" width={16} height={16} viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                  <path stroke="none" d="M0 0h24v24H0z" />
-                  <path d="M15 7l-6.5 6.5a1.5 1.5 0 0 0 3 3l6.5 -6.5a3 3 0 0 0 -6 -6l-6.5 6.5a4.5 4.5 0 0 0 9 9 l6.5 -6.5" />
-                </svg>
-              </span>
-              <span>Active</span>
-            </li>
-            <li className="flex items-center mr-3 mt-3 md:mt-0">
-              <span className="mr-2">
-                <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-trending-up" width={16} height={16} viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                  <path stroke="none" d="M0 0h24v24H0z" />
-                  <polyline points="3 17 9 11 13 15 21 7" />
-                  <polyline points="14 7 21 7 21 14" />
-                </svg>
-              </span>
-              <span> Trending</span>
-            </li>
-            <li className="flex items-center mt-3 md:mt-0">
-              <span className="mr-2">
-                <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-plane-departure" width={16} height={16} viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                  <path stroke="none" d="M0 0h24v24H0z" />
-                  <path d="M15 12h5a2 2 0 0 1 0 4h-15l-3 -6h3l2 2h3l-2 -7h3z" transform="rotate(-15 12 12) translate(0 -1)" />
-                  <line x1={3} y1={21} x2={21} y2={21} />
-                </svg>
-              </span>
-              <span>Started on 29 Jan 2020</span>
-            </li>
-          </ul>
-        </div>
-        <div className="mt-6 lg:mt-0">
-          <button className="mx-2 my-2 bg-white transition duration-150 ease-in-out focus:outline-none hover:bg-gray-100 rounded text-indigo-700 px-6 py-2 text-sm">Back</button>
-          <button className="transition duration-150 ease-in-out hover:bg-indigo-600 focus:outline-none border bg-indigo-700 rounded text-white px-8 py-2 text-sm">Edit Profile</button>
-        </div>
-      </div>
-      {/* Page title ends */}
-      <div className="container mx-auto px-6">
-        {/* Remove class [ h-64 ] when adding a card block */}
-        {/* Remove class [ border-dashed border-2 border-gray-300 ] to remove dotted border */}
-        <div className="w-full h-64 rounded border-dashed border-2 border-gray-300">
-          {/* Place your content here */}
+      <div className="container mx-auto px-6 my-6 flex flex-col lg:flex-row items-start lg:items-center justify-between pb-4">
+        <div className="w-full">
+          <div>
+            <img
+              className="min-w-full object-center max-h-56"
+              src={bannerImage}
+              alt="banner"
+            ></img>
           </div>
+          <div>
+            <div className="my-6 pt-4">
+              <h1 className="font-medium text-2xl md:text-3xl lg:text-3xl">
+                Popular Courses
+              </h1>
+            </div>
+            <div className="h-40 ">
+              <div className="flex justify-center flex-wrap">
+                {cardsData.map((card) => (
+                  <div
+                    key={card.title}
+                    className="w-full sm:w-1/2 md:w-1/3 lg:w-1/6 max-w-sm rounded overflow-hidden shadow-lg p-4"
+                  >
+                    <img
+                      className="w-full h-20 object-cover"
+                      src={card.image}
+                      alt={card.title}
+                    />
+                    <div className="px-1 py-1">
+                      <div className="font-bold text-lg mb-1">{card.title}</div>
+                      <p className="text-gray-700 text-base">
+                        {card.description}
+                      </p>
+                      <div className="text-right text-sm">
+                        <span className="text-gray-700">2023</span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+          <div className="mt-16 container">
+            <div className="flex flex-wrap justify-center -mx-2">
+              <div className="card-container px-2 w-full md:w-1/2 lg:w-1/2 xl:w-1/2">
+                <div className="bg-white rounded-lg shadow-md p-4">
+                  <div className="flex items-center mb-4">
+                    <h3 className="text-lg font-medium">Title</h3>
+                    <div className="bg-gray-300 rounded-full p-2 mr-2">
+                      Icon
+                    </div>
+                  </div>
+                  <p className="text-gray-700 leading-relaxed mb-4">Content</p>
+                  {true && (
+                    <div className="flex justify-end">
+                      <div className="bg-gray-300 rounded-full p-2">
+                        Bottom Icon
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div className="card-container px-2 w-full md:w-1/2 lg:w-1/2 xl:w-1/2 mt-4 md:mt-0 lg:mt-0 xl:mt-0">
+                <div className="bg-white rounded-lg shadow-md p-4">
+                  <div className="flex items-center mb-4">
+                    <h3 className="text-lg font-medium">Title</h3>
+                    <div className="bg-gray-300 rounded-full p-2 mr-2">
+                      Icon
+                    </div>
+                  </div>
+                  <p className="text-gray-700 leading-relaxed mb-4">Content</p>
+                  {true && (
+                    <div className="flex justify-end">
+                      <div className="bg-gray-300 rounded-full p-2">
+                        Bottom Icon
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </>
-  )
+  );
 }
 
-export default Dashboard
+export default Dashboard;

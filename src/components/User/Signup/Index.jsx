@@ -63,7 +63,7 @@ function Index() {
   };
   const handleEmailSubmit = (e) => {
     e.preventDefault();
-    if(password === confirmPassword){
+    if(password === confirmPassword && password.length>=5){
       setValidPassword(false)
       axios({
         method: "post",
@@ -237,7 +237,7 @@ function Index() {
               />
               {isValidPassword && (
                 <p className="text-sm text-red-500 mt-1">
-                  Please do not match.
+                  Please do not match. (Enter atleast 5 characters)
                 </p>
               )}
             </div>

@@ -2,7 +2,7 @@ import React from "react";
 // import { Link } from "react-router-dom";
 
 import Sidebar from "../../components/Admin/Sidebar/index";
-import Dashboard from "../../components/Home/Dashboard";
+import Dashboard from "../../components/Admin/Home/Dashboard";
 
 function Home() {
   return (

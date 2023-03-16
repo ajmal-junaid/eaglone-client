@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { baseUrl } from '../../../utils/constants';
 
 function EditCategoryForm() {
@@ -11,6 +11,7 @@ function EditCategoryForm() {
     const [submitError, setSubmitError] = useState(null);
     const [submitSuccess, setSubmitSuccess] = useState(false);
     const params = useParams();
+    const navigate = useNavigate()
   
     function handleNameChange(event) {
       setName(event.target.value);
@@ -65,6 +66,7 @@ function EditCategoryForm() {
         console.log(response);
         if (response.status >= 200 && response.status < 300) {
           setSubmitSuccess(true);
+          navigate("/admin/categories")
         } else {
           setSubmitError("Failed to submit form");
         }

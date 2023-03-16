@@ -15,6 +15,7 @@ Modal.setAppElement("#root");
 
 function CategoryBody() {
   const [categories, setCategories] = useState([]);
+  const [isDeleted,setIsDeleted]=useState(false)
   const modalIsOpen=useSelector((state)=>state.categoryForm.value)
   const dispatch = useDispatch()
   function openModal() {
@@ -51,11 +52,12 @@ function CategoryBody() {
     }).then((res) => {
       console.log(res.data.message);
       console.log(res.data);
+      setIsDeleted(!isDeleted)
     });
   }
   useEffect(() => {
     getCategories();
-  }, [modalIsOpen,categories]);
+  }, [modalIsOpen,isDeleted]);
   const getCategories = () => {
     axios({
       method: "get",

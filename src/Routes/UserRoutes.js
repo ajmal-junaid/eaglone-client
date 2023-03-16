@@ -10,8 +10,8 @@ function UserRoutes() {
     <Routes>
       <Route path="login" element={<Login />} />
       <Route path='signup' element={<Signup />} />
-      <Route element={<PrivateUser />}>
         <Route path="home" element={<Home />} />
+      <Route element={<PrivateUser />}>
       </Route>
     </Routes>
   )

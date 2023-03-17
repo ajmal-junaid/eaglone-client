@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import Logo from '../../../asset/eaglone-admin.png'
-// import { LogoutIcon } from '@heroicons/react/outline';
-//import Body from '../index'
-
 export default function Sidebar() {
     const [show, setShow] = useState(false);
     const [product, setProduct] = useState(false);

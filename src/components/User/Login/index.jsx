@@ -9,11 +9,11 @@ function Index() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   useEffect(() => {
-    const auth = localStorage.getItem('userToken')
+    const auth = localStorage.getItem("userToken");
     if (auth) {
-      navigate('/user/home')
+      navigate("/user/home");
     }
-  }, [])
+  }, []);
   const handleLogin = (e) => {
     e.preventDefault();
     axios({
@@ -23,10 +23,13 @@ function Index() {
         email,
         password,
       },
+      headers:{
+        "apikey":"$2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi"
+      }
     }).then((res) => {
       if (!res.data.err) {
-        localStorage.setItem("userToken", JSON.stringify(res.data.token))
-        localStorage.setItem("auth", JSON.stringify(res.data.auth))
+        localStorage.setItem("userToken", JSON.stringify(res.data.token));
+        localStorage.setItem("auth", JSON.stringify(res.data.auth));
         navigate("/user/home");
       } else {
         setError(res.data.message);

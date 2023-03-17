@@ -23,6 +23,9 @@ function Index() {
         email,
         password,
       },
+      headers:{
+        "apikey":"$2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi"
+      }
     }).then((res) => {
       if (!res.data.err) {
         localStorage.setItem("adminToken", JSON.stringify(res.data.token))

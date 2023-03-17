@@ -58,7 +58,7 @@ function AddCategoryForm() {
     formData.append("name", name);
     formData.append("description", description);
     formData.append("image", image);
-    if (name.trim() === '' || description.trim() === '') {
+    if (name.trim() === "" || description.trim() === "") {
       setSubmitError("Entered fields are invalid");
     } else {
       try {
@@ -68,6 +68,7 @@ function AddCategoryForm() {
           {
             headers: {
               "Content-Type": "multipart/form-data",
+              "apikey":"$2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
             },
           }
         );

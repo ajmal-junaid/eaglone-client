@@ -47,16 +47,16 @@ function Dashboard() {
           </div>
           <div>
             <div className="my-6 pt-4">
-              <h1 className="font-medium text-2xl md:text-3xl lg:text-3xl">
+              <h1 className="text-2xl md:text-3xl lg:text-3xl font-extrabold font-mono">
                 Popular Courses
               </h1>
             </div>
-            <div className="h-40 ">
+            <div>
               <div className="flex justify-center flex-wrap">
                 {cardsData.map((card) => (
                   <div
                     key={card.title}
-                    className="w-full sm:w-1/2 md:w-1/3 lg:w-1/6 max-w-sm rounded overflow-hidden shadow-lg p-4"
+                    className="w-1/2 md:w-1/3 lg:w-1/6 max-w-sm rounded overflow-hidden shadow-lg p-4"
                   >
                     <img
                       className="w-full h-20 object-cover"
@@ -78,8 +78,8 @@ function Dashboard() {
             </div>
           </div>
           <div className="mt-16 container">
-            <div className="flex flex-wrap justify-center -mx-2">
-              <div className="card-container px-2 w-full md:w-1/2 lg:w-1/2 xl:w-1/2">
+            <div className="flex justify-center flex-wrap -mx-2">
+              <div className="card-container px-2 w-full sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2">
                 <div className="bg-white rounded-lg shadow-md p-4">
                   <div className="flex items-center mb-4">
                     <h3 className="text-lg font-medium">Title</h3>
@@ -97,7 +97,7 @@ function Dashboard() {
                   )}
                 </div>
               </div>
-              <div className="card-container px-2 w-full md:w-1/2 lg:w-1/2 xl:w-1/2 mt-4 md:mt-0 lg:mt-0 xl:mt-0">
+              <div className="card-container px-2 w-full sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2 mt-4 sm:mt-0 md:mt-0 lg:mt-0 xl:mt-0 ">
                 <div className="bg-white rounded-lg shadow-md p-4">
                   <div className="flex items-center mb-4">
                     <h3 className="text-lg font-medium">Title</h3>
@@ -114,6 +114,32 @@ function Dashboard() {
                     </div>
                   )}
                 </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div className="my-6 pt-4">
+              <h1 className="text-2xl md:text-3xl lg:text-3xl font-extrabold font-mono">
+                Categories
+              </h1>
+            </div>
+            <div>
+              <div className="flex justify-center flex-wrap">
+                {cardsData.map((card) => (
+                  <div
+                    key={card.title}
+                    className="w-1/3 md:w-1/6  2xl:w-1/12 max-w-sm rounded overflow-hidden shadow-lg p-4"
+                  >
+                    <img
+                      className="w-full h-20 object-cover"
+                      src={card.image}
+                      alt={card.title}
+                    />
+                    <div className="py-1">
+                      <div className="text-center font-bold text-lg mb-1">{card.title}</div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

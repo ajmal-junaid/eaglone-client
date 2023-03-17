@@ -38,6 +38,7 @@ function EditCourseForm() {
       url: `${baseUrl}admin/categories`,
       headers: {
         "Content-Type": "application/json",
+        "apikey":"$2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi"
       },
     }).then((res) => {
       console.log(res.data);
@@ -48,6 +49,7 @@ function EditCourseForm() {
       url: `${baseUrl}admin/course/${params.id}`,
       headers: {
         "Content-Type": "application/json",
+        "apikey":"$2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi"
       },
     }).then((res) => {
       console.log(res.data);
@@ -77,6 +79,7 @@ function EditCourseForm() {
         {
           headers: {
             "Content-Type": "multipart/form-data",
+            "apikey":"$2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi"
           },
         }
       )

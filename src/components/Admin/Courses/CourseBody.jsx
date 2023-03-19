@@ -1,15 +1,17 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { baseUrl } from "../../../utils/constants";
 import AddCourseForm from "./AddCourseForm";
-
+import sweetAlert from '../../Common/SweetAlert'
 function CourseBody() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [courses, setCourses] = useState([]);
+  const navigate  = useNavigate()
   useEffect(() => {
     getCourses();
+    /* eslint-disable react-hooks/exhaustive-deps */
   }, []);
   const getCourses = () => {
     axios({
@@ -25,12 +27,13 @@ function CourseBody() {
       },
     })
       .then((res) => {
-        console.log(res.data.message, "then");
         setCourses(res.data.data);
-        console.warn(courses);
       })
       .catch((res) => {
         console.log(res.response.data, "catch");
+        localStorage.clear();
+        navigate("/admin/login");
+        sweetAlert("warning",res.response.data.message)
       });
   };
 

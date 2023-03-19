@@ -1,14 +1,56 @@
-import React from 'react'
-import { Link, Outlet } from 'react-router-dom'
-import AddLessonForm from './AddLessonForm'
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Link, Outlet } from "react-router-dom";
+import { baseUrl } from "../../../utils/constants";
+import AddLessonForm from "./AddLessonForm";
+import Modal from "react-modal";
+import {setLessonForm, unSetLessonForm} from '../../../Redux'
+import { useDispatch, useSelector } from "react-redux";
+import sweetAlert from "../../Common/SweetAlert";
 
 function LessonBody() {
+  const [courses, setCourses] = useState([]);
+  const modalIsOpen = useSelector((state) => state.lessonForm.value);
+  const dispatch = useDispatch()
+  useEffect(() => {
+    getCourses();
+  }, []);
+  const getCourses = () => {
+    axios({
+      method: "get",
+      url: `${baseUrl}admin/courses`,
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `bearer ${JSON.parse(
+          localStorage.getItem("adminToken")
+        )}`,
+        apikey:
+          "getCourse $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
+      },
+    })
+      .then((res) => {
+        setCourses(res.data.data);
+      })
+      .catch((res) => {
+        console.log(res.response.data, "catch");
+        sweetAlert("warning",res.response.data.message)
+      });
+  };
+  function openModal() {
+    dispatch(setLessonForm())
+  }
+
+  function closeModal() {
+    dispatch(unSetLessonForm())
+  }
+  const headers = ["No", "LessonId", "Title", "Category", "Author", "Actions"];
+
   return (
     <>
       <div className="my-6 lg:my-12 container px-6 mx-auto flex flex-col lg:flex-row items-start lg:items-center justify-between pb-4 border-b border-gray-300">
         <div>
           <h4 className="text-2xl font-bold leading-tight text-gray-800">
-            Course Management
+            Lesson Management
           </h4>
         </div>
         <div className="mt-6 lg:mt-0">
@@ -16,7 +58,7 @@ function LessonBody() {
             onClick={openModal}
             className="transition duration-150 ease-in-out hover:bg-indigo-600 focus:outline-none border bg-indigo-700 rounded text-white px-8 py-2 text-sm"
           >
-            Add Course
+            Add Lesson
           </button>
         </div>
       </div>
@@ -66,37 +108,38 @@ function LessonBody() {
                   </tr>
                 </thead>
                 <tbody className="text-gray-600 text-sm font-light">
-                  {courses && courses.map((course, index) => (
-                    <tr
-                      key={index}
-                      className="border-b border-gray-200 hover:bg-gray-100"
-                    >
-                      <td className="py-3 px-6 text-left whitespace-nowrap">
-                        {index + 1}
-                      </td>
-                      <td className="py-3 px-6 text-left whitespace-nowrap">
-                        {course.courseId}
-                      </td>
-                      <td className="py-3 px-6 text-left whitespace-nowrap">
-                        {course.title}
-                      </td>
-                      <td className="py-3 px-6 text-left whitespace-nowrap">
-                        {course.category}
-                      </td>
-                      <td className="py-3 px-6 text-left whitespace-nowrap">
-                        {course.premium ? "premium" : "free"}
-                      </td>
+                  {courses &&
+                    courses.map((course, index) => (
+                      <tr
+                        key={index}
+                        className="border-b border-gray-200 hover:bg-gray-100"
+                      >
+                        <td className="py-3 px-6 text-left whitespace-nowrap">
+                          {index + 1}
+                        </td>
+                        <td className="py-3 px-6 text-left whitespace-nowrap">
+                          {course.courseId}
+                        </td>
+                        <td className="py-3 px-6 text-left whitespace-nowrap">
+                          {course.title}
+                        </td>
+                        <td className="py-3 px-6 text-left whitespace-nowrap">
+                          {course.category}
+                        </td>
+                        <td className="py-3 px-6 text-left whitespace-nowrap">
+                          {course.premium ? "premium" : "free"}
+                        </td>
 
-                      <td className="px-6 py-4 md:py-6 md:px-8 text-sm md:text-base font-medium leading-5 text-gray-800 ">
-                        <Link
-                          className="bg-emerald-300 hover:bg-emerald-500 text-gray-800 text-xs py-1 px-3 ml-4 rounded"
-                          to={`update-course/${course._id}`}
-                        >
-                          Edit
-                        </Link>
-                      </td>
-                    </tr>
-                  ))}
+                        <td className="px-6 py-4 md:py-6 md:px-8 text-sm md:text-base font-medium leading-5 text-gray-800 ">
+                          <Link
+                            className="bg-emerald-300 hover:bg-emerald-500 text-gray-800 text-xs py-1 px-3 ml-4 rounded"
+                            to={`update-course/${course._id}`}
+                          >
+                            Edit
+                          </Link>
+                        </td>
+                      </tr>
+                    ))}
                 </tbody>
               </table>
               <Outlet />
@@ -105,7 +148,7 @@ function LessonBody() {
         </div>
       </div>
     </>
-  )
+  );
 }
 
-export default LessonBody
+export default LessonBody;

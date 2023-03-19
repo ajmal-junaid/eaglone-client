@@ -31,6 +31,7 @@ function EditCourseForm() {
   };
   useEffect(() => {
     getDatas();
+    /* eslint-disable react-hooks/exhaustive-deps */
   }, []);
   const getDatas = () => {
     axios({
@@ -38,7 +39,7 @@ function EditCourseForm() {
       url: `${baseUrl}admin/categories`,
       headers: {
         "Content-Type": "application/json",
-        "apikey":"$2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi"
+        "apikey":"category $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi"
       },
     }).then((res) => {
       console.log(res.data);
@@ -49,7 +50,7 @@ function EditCourseForm() {
       url: `${baseUrl}admin/course/${params.id}`,
       headers: {
         "Content-Type": "application/json",
-        "apikey":"$2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi"
+        "apikey":"get $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi"
       },
     }).then((res) => {
       console.log(res.data);
@@ -79,7 +80,7 @@ function EditCourseForm() {
         {
           headers: {
             "Content-Type": "multipart/form-data",
-            "apikey":"$2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi"
+            "apikey":"edit $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi"
           },
         }
       )

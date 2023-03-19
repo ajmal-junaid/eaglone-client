@@ -12,7 +12,8 @@ function Dashboard() {
       url:`${baseUrl}admin/users`,
       headers: {
         'Content-Type': 'application/json',
-        'authorization': `bearer ${JSON.parse(localStorage.getItem('adminToken'))}`
+        'authorization': `bearer ${JSON.parse(localStorage.getItem('adminToken'))}`,
+        'apikey':'userDetails $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi'
       }
     }).then((res)=>{
       console.log(res.data.userData);

@@ -7,23 +7,25 @@ import AddCategoryForm from "./AddCategoryForm";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { useDispatch, useSelector } from "react-redux";
-import {setCategoryForm, unSetCategoryForm} from '../../../Redux/authentication/login'
-
+import {
+  setCategoryForm,
+  unSetCategoryForm,
+} from "../../../Redux/authentication/login";
 
 const MySwal = withReactContent(Swal);
 Modal.setAppElement("#root");
 
 function CategoryBody() {
   const [categories, setCategories] = useState([]);
-  const [isDeleted,setIsDeleted]=useState(false)
-  const modalIsOpen=useSelector((state)=>state.categoryForm.value)
-  const dispatch = useDispatch()
+  const [isDeleted, setIsDeleted] = useState(false);
+  const modalIsOpen = useSelector((state) => state.categoryForm.value);
+  const dispatch = useDispatch();
   function openModal() {
-    dispatch(setCategoryForm())
+    dispatch(setCategoryForm());
   }
 
   function closeModal() {
-    dispatch(unSetCategoryForm())
+    dispatch(unSetCategoryForm());
   }
   function confirmDelete(name) {
     MySwal.fire({
@@ -47,25 +49,28 @@ function CategoryBody() {
       url: `${baseUrl}admin/delete-category/${name}`,
       headers: {
         "Content-Type": "application/json",
-        'authorization': `bearer ${JSON.parse(localStorage.getItem('adminToken'))}`,
-        "apikey":"$2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi"
+        authorization: `bearer ${JSON.parse(
+          localStorage.getItem("adminToken")
+        )}`,
+        apikey: "delet $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
       },
     }).then((res) => {
       console.log(res.data.message);
       console.log(res.data);
-      setIsDeleted(!isDeleted)
+      setIsDeleted(!isDeleted);
     });
   }
   useEffect(() => {
     getCategories();
-  }, [modalIsOpen,isDeleted]);
+  }, [modalIsOpen, isDeleted]);
   const getCategories = () => {
     axios({
       method: "get",
       url: `${baseUrl}admin/categories`,
       headers: {
         "Content-Type": "application/json",
-        "apikey":"$2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi"
+        apikey:
+          "bearer $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
       },
     }).then((res) => {
       console.log(res);
@@ -78,7 +83,7 @@ function CategoryBody() {
       <div className="my-6 lg:my-12 container px-6 mx-auto flex flex-col lg:flex-row items-start lg:items-center justify-between pb-4 border-b border-gray-300">
         <div>
           <h4 className="text-2xl font-bold leading-tight text-gray-800">
-            Category Management<p>{modalIsOpen?"true":"false"}</p>
+            Category Management
           </h4>
         </div>
         <div className="mt-6 lg:mt-0">

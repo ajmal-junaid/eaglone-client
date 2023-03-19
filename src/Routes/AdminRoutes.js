@@ -8,6 +8,7 @@ import CategoryManagement from '../pages/Admin/CategoryManagement'
 import CourseManagement from '../pages/Admin/CourseManagement'
 // import EditCourse from '../pages/Admin/EditCourse'
 import Home from '../pages/Admin/Home'
+import LessonManagement from '../pages/Admin/LessonManagement'
 import Login from '../pages/Admin/Login'
 import UserManagement from '../pages/Admin/UserManagement'
 
@@ -22,6 +23,7 @@ function AdminRoutes() {
                 <Route path='courses' element={<CourseManagement />} />
                 <Route path='courses/update-course/:id' element={<EditCourseForm />} />
                 <Route path='categories/update-category/:id' element={<EditCategoryForm />} />
+                <Route path='lessons' element={<LessonManagement/>}/>
             </Route>
         </Routes>
     )

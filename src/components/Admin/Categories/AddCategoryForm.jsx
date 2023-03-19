@@ -68,7 +68,7 @@ function AddCategoryForm() {
           {
             headers: {
               "Content-Type": "multipart/form-data",
-              "apikey":"$2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
+              "apikey":"bearer $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi"
             },
           }
         );

@@ -36,7 +36,7 @@ function AddCourseForm() {
       url: `${baseUrl}admin/categories`,
       headers: {
         "Content-Type": "application/json",
-        "apikey":"$2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi"
+        "apikey":"bearer $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi"
       },
     }).then((res) => {
       console.log(res.data);
@@ -62,7 +62,7 @@ function AddCourseForm() {
         {
           headers: {
             "Content-Type": "multipart/form-data",
-            "apikey":"$2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi"
+            "apikey":"addCategory $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi"
           },
         }
       );

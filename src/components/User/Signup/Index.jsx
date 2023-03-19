@@ -76,7 +76,7 @@ function Index() {
           active: false,
         },
         headers:{
-          "apikey":"$2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi"
+          "apikey":"signUp $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi"
         }
       }).then((res) => {
         if (res.data.success) {

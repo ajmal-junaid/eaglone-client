@@ -201,6 +201,7 @@ export default function Sidebar() {
                                 <NavLink className="cursor-pointer h-full flex justify-between items-center text-sm tracking-normal border-b-2  p-5" to="/admin/users">Users</NavLink>
                                 <NavLink className="cursor-pointer h-full flex justify-between items-center text-sm tracking-normal border-b-2  p-5" to="/admin/categories">Categories</NavLink>
                                 <NavLink className="cursor-pointer h-full flex justify-between items-center text-sm tracking-normal border-b-2  p-5" to="/admin/courses">Courses</NavLink>
+                                <NavLink className="cursor-pointer h-full flex justify-between items-center text-sm tracking-normal border-b-2  p-5" to="/admin/lessons">Lessons</NavLink>
                                 {/* <NavLink className="cursor-pointer h-full flex justify-between items-center text-sm text-indigo-700 tracking-normal border-b-2 border-indigo-700 p-5" to="/admin/home">Test</NavLink> */}
 
                             </nav>

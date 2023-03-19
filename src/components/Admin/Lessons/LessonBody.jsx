@@ -1,48 +1,8 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import Modal from "react-modal";
-import { Link, Outlet } from "react-router-dom";
-import { baseUrl } from "../../../utils/constants";
-import AddCourseForm from "./AddCourseForm";
+import React from 'react'
+import { Link, Outlet } from 'react-router-dom'
+import AddLessonForm from './AddLessonForm'
 
-function CourseBody() {
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [courses, setCourses] = useState([]);
-  useEffect(() => {
-    getCourses();
-  }, []);
-  const getCourses = () => {
-    axios({
-      method: "get",
-      url: `${baseUrl}admin/courses`,
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `bearer ${JSON.parse(
-          localStorage.getItem("adminToken")
-        )}`,
-        apikey:
-          "getCourse $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
-      },
-    })
-      .then((res) => {
-        console.log(res.data.message, "then");
-        setCourses(res.data.data);
-        console.warn(courses);
-      })
-      .catch((res) => {
-        console.log(res.response.data, "catch");
-      });
-  };
-
-  function openModal() {
-    setModalIsOpen(true);
-  }
-
-  function closeModal() {
-    setModalIsOpen(false);
-  }
-  const headers = ["No", "CourseID", "Title", "Category", "Type", "Actions"];
-
+function LessonBody() {
   return (
     <>
       <div className="my-6 lg:my-12 container px-6 mx-auto flex flex-col lg:flex-row items-start lg:items-center justify-between pb-4 border-b border-gray-300">
@@ -90,7 +50,7 @@ function CourseBody() {
               />
             </svg>
           </button>
-          <AddCourseForm />
+          <AddLessonForm />
         </Modal>
         <div className="w-full rounded">
           <div className="max-w-7xl sm:px-2 ">
@@ -145,7 +105,7 @@ function CourseBody() {
         </div>
       </div>
     </>
-  );
+  )
 }
 
-export default CourseBody;
+export default LessonBody

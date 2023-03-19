@@ -24,6 +24,7 @@ function AdminRoutes() {
                 <Route path='courses/update-course/:id' element={<EditCourseForm />} />
                 <Route path='categories/update-category/:id' element={<EditCategoryForm />} />
                 <Route path='lessons' element={<LessonManagement/>}/>
+                {/* <Route path='lessons/update-lesson/:id' element={}/> */}
             </Route>
         </Routes>
     )

@@ -4,46 +4,51 @@ import { Link, Outlet } from "react-router-dom";
 import { baseUrl } from "../../../utils/constants";
 import AddLessonForm from "./AddLessonForm";
 import Modal from "react-modal";
-import {setLessonForm, unSetLessonForm} from '../../../Redux'
+import { setLessonForm, unSetLessonForm } from "../../../Redux";
 import { useDispatch, useSelector } from "react-redux";
 import sweetAlert from "../../Common/SweetAlert";
 
 function LessonBody() {
-  const [courses, setCourses] = useState([]);
+  const [lessons, setLessons] = useState([]);
   const modalIsOpen = useSelector((state) => state.lessonForm.value);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   useEffect(() => {
-    getCourses();
+    getLessons();
   }, []);
-  const getCourses = () => {
+  const getLessons = () => {
     axios({
       method: "get",
-      url: `${baseUrl}admin/courses`,
+      url: `${baseUrl}admin/lessons`,
       headers: {
         "Content-Type": "application/json",
         authorization: `bearer ${JSON.parse(
           localStorage.getItem("adminToken")
         )}`,
         apikey:
-          "getCourse $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
+          "getlesson $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
       },
     })
       .then((res) => {
-        setCourses(res.data.data);
+        setLessons(res.data.data);
       })
       .catch((res) => {
         console.log(res.response.data, "catch");
-        sweetAlert("warning",res.response.data.message)
+        sweetAlert(
+          "warning",
+          res.response.data.message
+            ? res.response.data.message
+            : "something went wrong"
+        );
       });
   };
   function openModal() {
-    dispatch(setLessonForm())
+    dispatch(setLessonForm());
   }
 
   function closeModal() {
-    dispatch(unSetLessonForm())
+    dispatch(unSetLessonForm());
   }
-  const headers = ["No", "LessonId", "Title", "Category", "Author", "Actions"];
+  const headers = ["No", "LessonId", "Title", "Course", "Tutor", "Actions"];
 
   return (
     <>
@@ -108,8 +113,8 @@ function LessonBody() {
                   </tr>
                 </thead>
                 <tbody className="text-gray-600 text-sm font-light">
-                  {courses &&
-                    courses.map((course, index) => (
+                  {lessons &&
+                    lessons.map((lesson, index) => (
                       <tr
                         key={index}
                         className="border-b border-gray-200 hover:bg-gray-100"
@@ -118,22 +123,22 @@ function LessonBody() {
                           {index + 1}
                         </td>
                         <td className="py-3 px-6 text-left whitespace-nowrap">
-                          {course.courseId}
+                          {lesson.lessonId}
                         </td>
                         <td className="py-3 px-6 text-left whitespace-nowrap">
-                          {course.title}
+                          {lesson.title}
                         </td>
                         <td className="py-3 px-6 text-left whitespace-nowrap">
-                          {course.category}
+                          {lesson.course}
                         </td>
                         <td className="py-3 px-6 text-left whitespace-nowrap">
-                          {course.premium ? "premium" : "free"}
+                          {lesson.tutorName}
                         </td>
 
                         <td className="px-6 py-4 md:py-6 md:px-8 text-sm md:text-base font-medium leading-5 text-gray-800 ">
                           <Link
                             className="bg-emerald-300 hover:bg-emerald-500 text-gray-800 text-xs py-1 px-3 ml-4 rounded"
-                            to={`update-course/${course._id}`}
+                            to={`update-lesson/${lesson._id}`}
                           >
                             Edit
                           </Link>

@@ -1,11 +1,6 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { baseUrl } from "../../../utils/constants";
-import { unSetLessonForm } from "../../../Redux";
-import sweetAlert from "../../Common/SweetAlert";
+import React from "react";
 
-function AddLessonForm() {
+function EditLessonForm() {
   const [title, setTitle] = useState("");
   const [tutor, setTutor] = useState("");
   const [video, setVideo] = useState(null);
@@ -73,8 +68,8 @@ function AddLessonForm() {
 
     const formData = new FormData();
     formData.append("title", title);
-    formData.append("course",course)
-    formData.append("lessonId",lessonId)
+    formData.append("course", course);
+    formData.append("lessonId", lessonId);
     formData.append("tutorName", tutor);
     formData.append("video", video);
     if (lessonId.trim() === "" || tutor.trim() === "") {
@@ -225,4 +220,4 @@ function AddLessonForm() {
   );
 }
 
-export default AddLessonForm;
+export default EditLessonForm;

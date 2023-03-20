@@ -2,6 +2,7 @@ import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 import EditCategoryForm from '../components/Admin/Categories/EditCategoryForm'
 import EditCourseForm from '../components/Admin/Courses/EditCourseForm'
+import EditLessonForm from '../components/Admin/Lessons/EditLessonForm'
 import PrivateAdmin from '../components/Verifications/PrivateAdmin'
 
 import CategoryManagement from '../pages/Admin/CategoryManagement'
@@ -24,7 +25,7 @@ function AdminRoutes() {
                 <Route path='courses/update-course/:id' element={<EditCourseForm />} />
                 <Route path='categories/update-category/:id' element={<EditCategoryForm />} />
                 <Route path='lessons' element={<LessonManagement/>}/>
-                {/* <Route path='lessons/update-lesson/:id' element={}/> */}
+                <Route path='lessons/update-lesson/:id' element={<EditLessonForm/>}/>
             </Route>
         </Routes>
     )

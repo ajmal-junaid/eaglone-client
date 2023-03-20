@@ -1,7 +1,35 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import bannerImage from "../../../asset/banner.jpg";
+import { baseUrl } from "../../../utils/constants";
+import sweetAlert from "../../Common/SweetAlert";
 
 function Dashboard() {
+  const [courses, setCourses] = useState([]);
+  useEffect(() => {
+    getDatas();
+  }, []);
+  const getDatas = () => {
+    axios({
+      method: "get",
+      url: `${baseUrl}courses`,
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `bearer ${JSON.parse(
+          localStorage.getItem("adminToken")
+        )}`,
+        apikey:
+          "getCourse $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
+      },
+    })
+      .then((res) => {
+        setCourses(res.data.data);
+      })
+      .catch((res) => {
+        console.log(res.response.data, "catch");
+        sweetAlert("warning", res.response.data.message);
+      });
+  };
   const cardsData = [
     {
       title: "Card 1",
@@ -53,24 +81,23 @@ function Dashboard() {
             </div>
             <div>
               <div className="flex justify-center flex-wrap">
-                {cardsData.map((card) => (
+                {courses.map((card) => (
                   <div
                     key={card.title}
-                    className="w-1/2 md:w-1/3 lg:w-1/6 max-w-sm rounded overflow-hidden shadow-lg p-4"
+                    className="relative w-1/2 md:w-1/3 lg:w-1/6 max-w-sm rounded overflow-hidden shadow-lg p-4 flex-row"
                   >
                     <img
-                      className="w-full h-20 object-cover"
+                      className="w-full h-36 max-h-fit object-fill p-2"
                       src={card.image}
                       alt={card.title}
                     />
-                    <div className="px-1 py-1">
+
+                    <div className="px-1 py-1 mb-3">
                       <div className="font-bold text-lg mb-1">{card.title}</div>
-                      <p className="text-gray-700 text-base">
-                        {card.description}
-                      </p>
-                      <div className="text-right text-sm">
-                        <span className="text-gray-700">2023</span>
-                      </div>
+                      <p className="text-gray-700 text-base">{card.category}</p>
+                    </div>
+                    <div className="text-right text-sm bottom-2 right-2 absolute">
+                      <span className="text-gray-700">2023</span>
                     </div>
                   </div>
                 ))}
@@ -79,18 +106,22 @@ function Dashboard() {
           </div>
           <div className="mt-16 container">
             <div className="flex justify-center flex-wrap -mx-2">
-              <div className="card-container px-2 w-full sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2">
-                <div className="bg-white rounded-lg shadow-md p-4">
+              <div className="card-container px-2 w-full sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2 ">
+                <div className="bg-white rounded-lg shadow-md p-4 bg-cyan-300">
                   <div className="flex items-center mb-4">
-                    <h3 className="text-lg font-medium">Title</h3>
+                    <div className="w-3/4 text-center p-2 tracking-widest">
+                      <h3 className="relative text-5xl font-medium tracking-widest leading-tight">
+                        Premium Benefits
+                      </h3>
+                    </div>
                     <div className="bg-gray-300 rounded-full p-2 mr-2">
                       Icon
                     </div>
                   </div>
-                  <p className="text-gray-700 leading-relaxed mb-4">Content</p>
+                  {/* <p className="text-gray-700 leading-relaxed mb-4">Content</p> */}
                   {true && (
                     <div className="flex justify-end">
-                      <div className="bg-gray-300 rounded-full p-2">
+                      <div className="bg-gray-100 rounded-full p-2">
                         Bottom Icon
                       </div>
                     </div>
@@ -136,7 +167,9 @@ function Dashboard() {
                       alt={card.title}
                     />
                     <div className="py-1">
-                      <div className="text-center font-bold text-lg mb-1">{card.title}</div>
+                      <div className="text-center font-bold text-lg mb-1">
+                        {card.title}
+                      </div>
                     </div>
                   </div>
                 ))}

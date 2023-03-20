@@ -1,7 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { baseUrl } from "../../../utils/constants";
+import sweetAlert from "../../Common/SweetAlert";
 
 function EditCourseForm() {
   const [id, setId] = useState("");
@@ -14,6 +15,7 @@ function EditCourseForm() {
   const [submitError, setSubmitError] = useState(null);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const params = useParams();
+  const navigate = useNavigate();
 
   function handleTitleChange(event) {
     setTitle(event.target.value);
@@ -39,7 +41,8 @@ function EditCourseForm() {
       url: `${baseUrl}admin/categories`,
       headers: {
         "Content-Type": "application/json",
-        "apikey":"category $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi"
+        apikey:
+          "category $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
       },
     }).then((res) => {
       console.log(res.data);
@@ -50,7 +53,8 @@ function EditCourseForm() {
       url: `${baseUrl}admin/course/${params.id}`,
       headers: {
         "Content-Type": "application/json",
-        "apikey":"get $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi"
+        apikey:
+          "get $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
       },
     }).then((res) => {
       console.log(res.data);
@@ -80,13 +84,16 @@ function EditCourseForm() {
         {
           headers: {
             "Content-Type": "multipart/form-data",
-            "apikey":"edit $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi"
+            apikey:
+              "edit $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
           },
         }
-      )
+      );
       console.log(response);
       if (response.status >= 200 && response.status < 300) {
         setSubmitSuccess(true);
+        navigate("/admin/courses");
+        sweetAlert("success", response.data.message);
       } else {
         setSubmitError("Failed to submit form");
       }

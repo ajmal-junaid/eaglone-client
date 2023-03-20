@@ -14,7 +14,7 @@ function LessonBody() {
   const dispatch = useDispatch();
   useEffect(() => {
     getLessons();
-  }, []);
+  }, [modalIsOpen]);
   const getLessons = () => {
     axios({
       method: "get",
@@ -41,13 +41,13 @@ function LessonBody() {
         );
       });
   };
-  function openModal() {
+  const openModal = () => {
     dispatch(setLessonForm());
-  }
+  };
 
-  function closeModal() {
+  const closeModal = () => {
     dispatch(unSetLessonForm());
-  }
+  };
   const headers = ["No", "LessonId", "Title", "Course", "Tutor", "Actions"];
 
   return (

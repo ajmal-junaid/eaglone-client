@@ -1,18 +1,26 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { baseUrl } from "../../../utils/constants";
+import { unSetCourseForm } from "../../../Redux";
+import sweetAlert from "../../Common/SweetAlert";
 
 function AddCourseForm() {
   const [id, setId] = useState("");
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
+  const [description,setDescription] = useState("")
   const [options, setOptions] = useState([]);
   const [premium, setPremium] = useState(false);
   const [image, setImage] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState(null);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const dispatch = useDispatch()
 
+  function handleDescriptionChange(event) {
+    setDescription(event.target.value);
+  }
   function handleTitleChange(event) {
     setTitle(event.target.value);
   }
@@ -53,6 +61,7 @@ function AddCourseForm() {
     formData.append("courseId", id);
     formData.append("title", title);
     formData.append("category", category);
+    formData.append("description",description)
     formData.append("image", image);
     formData.append("premium",premium)
     try {
@@ -69,6 +78,8 @@ function AddCourseForm() {
 
       console.log(response.data);
       if (response.status >= 200 && response.status < 300) {
+        sweetAlert("success",response.data.message)
+        dispatch(unSetCourseForm())
         setSubmitSuccess(true);
       } else {
         setSubmitError("Failed to submit form");
@@ -100,7 +111,6 @@ function AddCourseForm() {
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="name"
             type="text"
-            placeholder="Enter Course Name"
             value={id}
             onChange={(e) => setId(e.target.value)}
           />
@@ -113,7 +123,6 @@ function AddCourseForm() {
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="title"
             type="text"
-            placeholder="Enter Title of Course"
             value={title}
             onChange={handleTitleChange}
           />
@@ -139,6 +148,17 @@ function AddCourseForm() {
               </option>
             ))}
           </select>
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700 font-bold mb-2" htmlFor="description">
+            Description
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            type="text"
+            value={description}
+            onChange={handleDescriptionChange}
+          />
         </div>
         <div className="mb-4">
           <label className="block text-gray-700 font-bold mb-2" htmlFor="image">

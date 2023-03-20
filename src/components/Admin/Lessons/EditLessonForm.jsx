@@ -1,4 +1,8 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import sweetAlert from "../../Common/SweetAlert";
+import { baseUrl } from "../../../utils/constants";
+import { useNavigate, useParams } from "react-router-dom";
 
 function EditLessonForm() {
   const [title, setTitle] = useState("");
@@ -11,17 +15,18 @@ function EditLessonForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState(null);
   const [submitSuccess, setSubmitSuccess] = useState(false);
-  const dispatch = useDispatch();
+  const params = useParams();
+  const navigate = useNavigate()
 
   const sweetAlertt = (icon = "success", text) => {
     sweetAlert(icon, text);
     setSubmitSuccess(false);
   };
   useEffect(() => {
-    getCourses();
+    getDatas();
     /* eslint-disable react-hooks/exhaustive-deps */
   }, []);
-  const getCourses = () => {
+  const getDatas = () => {
     axios({
       method: "get",
       url: `${baseUrl}admin/courses`,
@@ -36,6 +41,22 @@ function EditLessonForm() {
     }).then((res) => {
       console.log(res.data);
       setOptions(res.data.data);
+    });
+    console.log(params.id);
+    axios({
+      method: "get",
+      url: `${baseUrl}admin/lesson/${params.id}`,
+      headers: {
+        "Content-Type": "application/json",
+        apikey:
+          "getlesson $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
+      },
+    }).then((res) => {
+      console.log(res.data);
+      setTitle(res.data.data.title);
+      setTutor(res.data.data.tutorName);
+      setLessonId(res.data.data.lessonId);
+      setCourse(res.data.data.course);
     });
   };
   const handleLessonIdChange = (event) => {
@@ -76,8 +97,8 @@ function EditLessonForm() {
       setSubmitError("Entered fields are invalid");
     } else {
       try {
-        const response = await axios.post(
-          `${baseUrl}admin/add-lesson`,
+        const response = await axios.put(
+          `${baseUrl}admin/update-lesson/${params.id}`,
           formData,
           {
             headers: {
@@ -97,8 +118,9 @@ function EditLessonForm() {
             sweetAlertt("warning", response.data.message);
             setResponse(response.data.message);
           } else {
+            navigate("/admin/lessons")
             sweetAlertt("success", response.data.message);
-            dispatch(unSetLessonForm());
+            
           }
 
           setSubmitSuccess(false);
@@ -114,10 +136,10 @@ function EditLessonForm() {
   };
   return (
     <>
-      <div className="flex justify-between items-center border-b-2 pb-2 mb-4">
+      <div className="flex justify-between items-center border-b-2 pb-2 mb-4 mt-10">
         <div className="text-center w-full">
           <h2 className="text-lg font-bold text-gray-800 uppercase tracking-wider mb-1">
-            Add Lesson
+            Edit Lesson
           </h2>
         </div>
       </div>
@@ -138,7 +160,7 @@ function EditLessonForm() {
             type="text"
             value={lessonId}
             onChange={handleLessonIdChange}
-            required
+            disabled
           />
         </div>
         <div className="mb-4">
@@ -201,7 +223,6 @@ function EditLessonForm() {
             name="video"
             accept="video/*"
             onChange={handleVideoChange}
-            required
           />
         </div>
         <div className="flex justify-center">

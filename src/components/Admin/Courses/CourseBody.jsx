@@ -5,14 +5,17 @@ import { Link, Outlet, useNavigate } from "react-router-dom";
 import { baseUrl } from "../../../utils/constants";
 import AddCourseForm from "./AddCourseForm";
 import sweetAlert from '../../Common/SweetAlert'
+import { useDispatch, useSelector } from "react-redux";
+import { setCourseForm, unSetCourseForm } from "../../../Redux";
 function CourseBody() {
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const modalIsOpen = useSelector((state) => state.courseForm.value);
   const [courses, setCourses] = useState([]);
   const navigate  = useNavigate()
+  const dispatch = useDispatch()
   useEffect(() => {
     getCourses();
     /* eslint-disable react-hooks/exhaustive-deps */
-  }, []);
+  }, [modalIsOpen]);
   const getCourses = () => {
     axios({
       method: "get",
@@ -38,11 +41,11 @@ function CourseBody() {
   };
 
   function openModal() {
-    setModalIsOpen(true);
+    dispatch(setCourseForm())
   }
 
   function closeModal() {
-    setModalIsOpen(false);
+    dispatch(unSetCourseForm())
   }
   const headers = ["No", "CourseID", "Title", "Category", "Type", "Actions"];
 

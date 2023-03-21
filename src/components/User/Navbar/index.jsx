@@ -22,24 +22,24 @@ export default function Example() {
         </div>
 
         <Popover.Group className="hidden lg:flex lg:gap-x-12">
-          <Link
-            to="/user/categories"
+          <NavLink
+            to="/user/home"
             className="text-sm font-semibold leading-6 text-gray-900"
           >
-            Categories
-          </Link>
+            Home
+          </NavLink>
           <NavLink
             to="/user/categories"
             className="text-sm font-semibold leading-6 text-gray-900"
           >
             Categories
           </NavLink>
-          <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
-            Marketplace
-          </a>
-          <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
-            Company
-          </a>
+          <NavLink
+            to="/user/courses"
+            className="text-sm font-semibold leading-6 text-gray-900"
+          >
+            Courses
+          </NavLink>
         </Popover.Group>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           <NavLink

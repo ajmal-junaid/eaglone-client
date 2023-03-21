@@ -240,7 +240,7 @@ function Index() {
               />
               {isValidPassword && (
                 <p className="text-sm text-red-500 mt-1">
-                  Please do not match. (Enter atleast 5 characters)
+                  Password Must be Same as Password. (Enter atleast 5 characters)
                 </p>
               )}
             </div>

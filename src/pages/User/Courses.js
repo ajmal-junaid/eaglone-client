@@ -1,8 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import sweetAlert from '../../components/Common/SweetAlert';
-
-import Navbar from '../../components/User/Navbar'
 import { baseUrl } from '../../utils/constants';
 
 function Courses() {
@@ -31,8 +29,7 @@ function Courses() {
 
     return (
         <div>
-            <Navbar />
-            a
+            
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-6">

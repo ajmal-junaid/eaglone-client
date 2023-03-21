@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import categoryFormReducer from './authentication/login';
+import categoryFormReducer from './addCategory/addCategory';
 import lessonFormReducer from './addLesson/addLesson';
 import courseFormReducer from './addCourse/addCourse'
 export default configureStore({

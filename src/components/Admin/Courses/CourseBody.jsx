@@ -4,14 +4,14 @@ import Modal from "react-modal";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { baseUrl } from "../../../utils/constants";
 import AddCourseForm from "./AddCourseForm";
-import sweetAlert from '../../Common/SweetAlert'
+import sweetAlert from "../../Common/SweetAlert";
 import { useDispatch, useSelector } from "react-redux";
 import { setCourseForm, unSetCourseForm } from "../../../Redux";
 function CourseBody() {
   const modalIsOpen = useSelector((state) => state.courseForm.value);
   const [courses, setCourses] = useState([]);
-  const navigate  = useNavigate()
-  const dispatch = useDispatch()
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   useEffect(() => {
     getCourses();
     /* eslint-disable react-hooks/exhaustive-deps */
@@ -33,19 +33,22 @@ function CourseBody() {
         setCourses(res.data.data);
       })
       .catch((res) => {
+        if(res.response.status >= 401 && res.response.status <=403){
+          localStorage.removeItem('adminToken');
+          navigate("/admin");
+        }
         console.log(res.response.data, "catch");
-        localStorage.clear();
-        navigate("/admin/login");
-        sweetAlert("warning",res.response.data.message)
+   
+        sweetAlert("warning", res.response.data.message);
       });
   };
 
   function openModal() {
-    dispatch(setCourseForm())
+    dispatch(setCourseForm());
   }
 
   function closeModal() {
-    dispatch(unSetCourseForm())
+    dispatch(unSetCourseForm());
   }
   const headers = ["No", "CourseID", "Title", "Category", "Type", "Actions"];
 
@@ -112,37 +115,38 @@ function CourseBody() {
                   </tr>
                 </thead>
                 <tbody className="text-gray-600 text-sm font-light">
-                  {courses && courses.map((course, index) => (
-                    <tr
-                      key={index}
-                      className="border-b border-gray-200 hover:bg-gray-100"
-                    >
-                      <td className="py-3 px-6 text-left whitespace-nowrap">
-                        {index + 1}
-                      </td>
-                      <td className="py-3 px-6 text-left whitespace-nowrap">
-                        {course.courseId}
-                      </td>
-                      <td className="py-3 px-6 text-left whitespace-nowrap">
-                        {course.title}
-                      </td>
-                      <td className="py-3 px-6 text-left whitespace-nowrap">
-                        {course.category}
-                      </td>
-                      <td className="py-3 px-6 text-left whitespace-nowrap">
-                        {course.premium ? "premium" : "free"}
-                      </td>
+                  {courses &&
+                    courses.map((course, index) => (
+                      <tr
+                        key={index}
+                        className="border-b border-gray-200 hover:bg-gray-100"
+                      >
+                        <td className="py-3 px-6 text-left whitespace-nowrap">
+                          {index + 1}
+                        </td>
+                        <td className="py-3 px-6 text-left whitespace-nowrap">
+                          {course.courseId}
+                        </td>
+                        <td className="py-3 px-6 text-left whitespace-nowrap">
+                          {course.title}
+                        </td>
+                        <td className="py-3 px-6 text-left whitespace-nowrap">
+                          {course.category}
+                        </td>
+                        <td className="py-3 px-6 text-left whitespace-nowrap">
+                          {course.premium ? "premium" : "free"}
+                        </td>
 
-                      <td className="px-6 py-4 md:py-6 md:px-8 text-sm md:text-base font-medium leading-5 text-gray-800 ">
-                        <Link
-                          className="bg-emerald-300 hover:bg-emerald-500 text-gray-800 text-xs py-1 px-3 ml-4 rounded"
-                          to={`update-course/${course._id}`}
-                        >
-                          Edit
-                        </Link>
-                      </td>
-                    </tr>
-                  ))}
+                        <td className="px-6 py-4 md:py-6 md:px-8 text-sm md:text-base font-medium leading-5 text-gray-800 ">
+                          <Link
+                            className="bg-emerald-300 hover:bg-emerald-500 text-gray-800 text-xs py-1 px-3 ml-4 rounded"
+                            to={`update-course/${course._id}`}
+                          >
+                            Edit
+                          </Link>
+                        </td>
+                      </tr>
+                    ))}
                 </tbody>
               </table>
               <Outlet />

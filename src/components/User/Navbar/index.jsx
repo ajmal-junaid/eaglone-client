@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { Dialog, Popover } from "@headlessui/react";
 import Logo from "../../../asset/eaglone-logo.png";
@@ -7,11 +7,17 @@ import { Link, NavLink } from "react-router-dom";
 
 export default function Example() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  useEffect(() => {
+    const auth = localStorage.getItem("userToken");
+    if (auth) {
+      console.log(auth, "testt daa");
+    }
+  }, []);
 
   return (
-    <header className="bg-white border-b-2">
+    <header className=" fixed top-0 left-0 w-full bg-white border-b-2 z-10">
       <nav
-        className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
+        className="mx-auto flex max-w-7xl items-center justify-between p-4 lg:px-8"
         aria-label="Global"
       >
         <div className="flex lg:flex-1">

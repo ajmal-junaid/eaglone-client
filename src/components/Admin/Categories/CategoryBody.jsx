@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   setCategoryForm,
   unSetCategoryForm,
-} from "../../../Redux/authentication/login";
+} from "../../../Redux";
 
 const MySwal = withReactContent(Swal);
 Modal.setAppElement("#root");

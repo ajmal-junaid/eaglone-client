@@ -29,12 +29,11 @@ function Index() {
     }).then((res) => {
       if (!res.data.err) {
         localStorage.setItem("adminToken", JSON.stringify(res.data.token))
-        localStorage.setItem("admAuth", JSON.stringify(res.data.auth))
+        localStorage.setItem("admAuth", true)
         navigate("/admin/home");
       } else {
         setError(res.data.message);
       }
-      console.log(res.data, "REact daaaaaaaaaaaaaa");
     });
   };
   return (

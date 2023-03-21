@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { baseUrl } from "../../../utils/constants";
 import { useDispatch } from "react-redux";
-import { unSetCategoryForm } from "../../../Redux/authentication/login";
+import { unSetCategoryForm } from "../../../Redux";
 import Swal from "sweetalert2";
 function AddCategoryForm() {
   const [name, setName] = useState("");

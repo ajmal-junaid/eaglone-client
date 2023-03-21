@@ -51,7 +51,7 @@ function Dashboard() {
 
   return (
     <>
-      <div className="container mx-auto px-6 my-6 flex flex-col lg:flex-row items-start lg:items-center justify-between pb-4">
+      <div className="container mx-auto px-6 py-24 flex flex-col lg:flex-row items-start lg:items-center justify-between">
         <div className="w-full">
           <div>
             <img

@@ -23,23 +23,23 @@ function Index() {
         email,
         password,
       },
-      headers:{
-        "apikey":"login $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi"
-      }
+      headers: {
+        apikey:
+          "login $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
+      },
     }).then((res) => {
       if (!res.data.err) {
         localStorage.setItem("userToken", JSON.stringify(res.data.token));
-        localStorage.setItem("auth", JSON.stringify(res.data.auth));
+        localStorage.setItem("auth", true);
         navigate("/user/home");
       } else {
         setError(res.data.message);
       }
-      console.log(res.data, "REact daaaaaaaaaaaaaa");
     });
   };
   return (
-    <div className="relative flex flex-col justify-center min-h-screen overflow-hidden border-2">
-      <div className="w-full p-6 m-auto mt-24 bg-white rounded-md shadow-md lg:max-w-xl border-2">
+    <div className="relative flex flex-col justify-center overflow-hidden ">
+      <div className="w-full p-6 m-auto mt-2 bg-white rounded-md shadow-md lg:max-w-xl border-2">
         <h1 className="text-3xl font-bold text-center text-teal-300 font-outline-4">
           Log in
         </h1>

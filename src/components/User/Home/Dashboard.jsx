@@ -40,7 +40,6 @@ function Dashboard() {
       },
     })
       .then((res) => {
-        console.log(res);
         setCategories(res.data.data);
       })
       .catch((res) => {
@@ -197,7 +196,6 @@ function Dashboard() {
               </h1>
             </div>
             <div>
-              {console.log(categories)}
               <div className="flex justify-center flex-wrap ">
                 {categories.map((card) => (
                   <div

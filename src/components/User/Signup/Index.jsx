@@ -13,12 +13,16 @@ function Index() {
   const [isValidMobile, setIsValidMobile] = useState(true);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [isValidPassword,setValidPassword] = useState(true)
+  const [isValidPassword, setValidPassword] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [otpSent, setOtpSent] = useState(false);
   const [otp, setOtp] = useState("");
   const navigate = useNavigate();
+  const handlePasswordChange = () => {
+    
+    setValidPassword(password === confirmPassword);
+  };
   useEffect(() => {
     const auth = localStorage.getItem("userToken");
     if (auth) {
@@ -37,12 +41,12 @@ function Index() {
     const pattern = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
     setIsValidName(input.length >= 3 && pattern.test(input));
   };
-  const handleMobileChange=e=>{
+  const handleMobileChange = (e) => {
     const input = e.target.value;
     setMobile(input);
     const pattern = /^[1-9]\d{9}$/;
     setIsValidMobile(pattern.test(input));
-  }
+  };
   const toggleShowPassword = () => setShowPassword(!showPassword);
   const handleOtpSubmit = (e) => {
     e.preventDefault();
@@ -63,8 +67,8 @@ function Index() {
   };
   const handleEmailSubmit = (e) => {
     e.preventDefault();
-    if(password === confirmPassword && password.length>=5){
-      setValidPassword(false)
+    if (password === confirmPassword && password.length >= 5) {
+      setValidPassword(false);
       axios({
         method: "post",
         url: `${baseUrl}user-signup`,
@@ -75,9 +79,10 @@ function Index() {
           password,
           active: false,
         },
-        headers:{
-          "apikey":"signUp $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi"
-        }
+        headers: {
+          apikey:
+            "signUp $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
+        },
       }).then((res) => {
         if (res.data.success) {
           setOtpSent(true);
@@ -86,12 +91,12 @@ function Index() {
           setError(res.data.message);
         }
       });
-    }else{
-      setValidPassword(true)
+    } else {
+      setValidPassword(true);
     }
   };
   return (
-    <div className="relative flex flex-col justify-center min-h-screen overflow-hidden border-2">
+    <div className="relative flex flex-col justify-center min-h-screen overflow-hidden">
       <div className="w-full p-6 m-auto mt-24 bg-white rounded-md shadow-md lg:max-w-xl border-2">
         <h1 className="text-3xl font-bold text-center text-teal-300 font-outline-4">
           Sign Up
@@ -175,56 +180,55 @@ function Index() {
             </div>
 
             <div className="mb-2">
-      <label className="block text-sm font-semibold text-gray-800">
-        Password
-      </label>
-      <div className="relative">
-        <input
-          type={showPassword ? "text" : "password"}
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-md focus:border-teal-400 focus:ring-teal-300 focus:outline-none focus:ring focus:ring-opacity-40"
-        />
-        <button
-          type="button"
-          onClick={toggleShowPassword}
-          className="absolute inset-y-0 right-0 px-3 py-2 text-gray-600"
-        >
-         {showPassword ? (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 16 16"
-    width="16"
-    height="16"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className="feather feather-eye-off"
-  >
-    <path d="M6 8a2 2 0 1 0 4 0 2 2 0 0 0-4 0zM1 1L15 15"></path>
-  </svg>
-) : (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
-    width="14"
-    height="14"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M20 6L9 17l-5-5"></path>
-  </svg>
-)}
-
-
-        </button>
-      </div>
-    </div>
+              <label className="block text-sm font-semibold text-gray-800">
+                Password
+              </label>
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-md focus:border-teal-400 focus:ring-teal-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                  onMouseLeave={handlePasswordChange}                
+                />
+                <button
+                  type="button"
+                  onClick={toggleShowPassword}
+                  className="absolute inset-y-0 right-0 px-3 py-2 text-gray-600"
+                >
+                  {showPassword ? (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 16 16"
+                      width="16"
+                      height="16"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="feather feather-eye-off"
+                    >
+                      <path d="M6 8a2 2 0 1 0 4 0 2 2 0 0 0-4 0zM1 1L15 15"></path>
+                    </svg>
+                  ) : (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      width="14"
+                      height="14"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M20 6L9 17l-5-5"></path>
+                    </svg>
+                  )}
+                </button>
+              </div>
+            </div>
             <div className="mb-2">
               <label className="block text-sm font-semibold text-gray-800">
                 Confirm Password
@@ -232,15 +236,16 @@ function Index() {
               <input
                 type="password"
                 value={confirmPassword}
-                onChange={(e) => {
-                  setConfirmPassword(e.target.value)
-                setValidPassword(password===confirmPassword)
-                }}
+                onChange={(e)=>setConfirmPassword(e.target.value)}
+                onMouseLeave={handlePasswordChange}
                 className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-md focus:border-teal-400 focus:ring-teal-300 focus:outline-none focus:ring focus:ring-opacity-40"
               />
-              {isValidPassword && (
+              {isValidPassword ? (
+                ""
+              ) : (
                 <p className="text-sm text-red-500 mt-1">
-                  Password Must be Same as Password. (Enter atleast 5 characters)
+                  Password Must be Same as Password. (Enter atleast 5
+                  characters)
                 </p>
               )}
             </div>

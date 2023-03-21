@@ -1,11 +1,14 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux';
 import sweetAlert from '../../components/Common/SweetAlert';
 import { baseUrl } from '../../utils/constants';
 
 function Courses() {
     const [courses, setCourses] = useState([])
+    const userData = useSelector((state) => state.userData.value);
     useEffect(() => {
+        console.log(userData,"iam from course user")
         axios({
             method: "get",
             url: `${baseUrl}courses`,

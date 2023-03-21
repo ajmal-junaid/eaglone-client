@@ -1,13 +1,17 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { baseUrl } from "../../../utils/constants";
+import jwt_decode from 'jwt-decode';
+import { setUserData } from "../../../Redux";
 
 function Index() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch()
   useEffect(() => {
     const auth = localStorage.getItem("userToken");
     if (auth) {
@@ -31,6 +35,16 @@ function Index() {
       if (!res.data.err) {
         localStorage.setItem("userToken", JSON.stringify(res.data.token));
         localStorage.setItem("auth", true);
+        const user = jwt_decode(res.data.token);
+        dispatch(
+          setUserData({
+            userData: {
+              name: user.name,
+              email: user.email,
+              mobile: user.mobile,
+            },
+          })
+        );
         navigate("/user/home");
       } else {
         setError(res.data.message);
@@ -38,7 +52,7 @@ function Index() {
     });
   };
   return (
-    <div className="relative flex flex-col justify-center overflow-hidden ">
+    <div className="relative flex flex-col justify-center overflow-hidden mt-20 ">
       <div className="w-full p-6 m-auto mt-2 bg-white rounded-md shadow-md lg:max-w-xl border-2">
         <h1 className="text-3xl font-bold text-center text-teal-300 font-outline-4">
           Log in

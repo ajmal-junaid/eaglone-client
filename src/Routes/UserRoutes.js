@@ -16,8 +16,8 @@ function UserRoutes() {
       <div className='container mx-auto mt-26 max-h-screen overflow-y-scroll pb-26' style={{
         overflowY: "scroll",
         scrollbarWidth: "none",
-        "-ms-overflow-style": "none",
-        "&::-webkit-scrollbar": { display: "none" },
+        msOverflowStyle: "none",
+        WebkitScrollbar: { display: "none" },
       }}>
         <Routes>
           <Route path="login" element={<Login />} />

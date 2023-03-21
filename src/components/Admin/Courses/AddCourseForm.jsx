@@ -9,14 +9,13 @@ function AddCourseForm() {
   const [id, setId] = useState("");
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
-  const [description,setDescription] = useState("")
+  const [description, setDescription] = useState("");
   const [options, setOptions] = useState([]);
   const [premium, setPremium] = useState(false);
   const [image, setImage] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitError, setSubmitError] = useState(null);
   const [submitSuccess, setSubmitSuccess] = useState(false);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   function handleDescriptionChange(event) {
     setDescription(event.target.value);
@@ -44,7 +43,8 @@ function AddCourseForm() {
       url: `${baseUrl}admin/categories`,
       headers: {
         "Content-Type": "application/json",
-        "apikey":"bearer $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi"
+        apikey:
+          "bearer $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
       },
     }).then((res) => {
       console.log(res.data);
@@ -55,15 +55,14 @@ function AddCourseForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsSubmitting(true);
-    setSubmitError(null);
     setSubmitSuccess(false);
     const formData = new FormData();
     formData.append("courseId", id);
     formData.append("title", title);
     formData.append("category", category);
-    formData.append("description",description)
+    formData.append("description", description);
     formData.append("image", image);
-    formData.append("premium",premium)
+    formData.append("premium", premium);
     try {
       const response = await axios.post(
         `${baseUrl}admin/add-course`,
@@ -71,22 +70,22 @@ function AddCourseForm() {
         {
           headers: {
             "Content-Type": "multipart/form-data",
-            "apikey":"addCategory $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi"
+            apikey:
+              "addCategory $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
           },
         }
       );
 
       console.log(response.data);
       if (response.status >= 200 && response.status < 300) {
-        sweetAlert("success",response.data.message)
-        dispatch(unSetCourseForm())
+        sweetAlert("success", response.data.message);
+        dispatch(unSetCourseForm());
         setSubmitSuccess(true);
       } else {
-        setSubmitError("Failed to submit form");
+        sweetAlert("error", "Failed to submit form");
       }
     } catch (error) {
-      console.error(error);
-      setSubmitError(error.message);
+      sweetAlert("error", error.response.data.message);
     }
     setIsSubmitting(false);
   };
@@ -142,7 +141,6 @@ function AddCourseForm() {
           >
             <option value="">Select a category</option>
             {options.map((option) => (
-              
               <option key={option.name} value={option.name}>
                 {option.name}
               </option>
@@ -150,7 +148,10 @@ function AddCourseForm() {
           </select>
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 font-bold mb-2" htmlFor="description">
+          <label
+            className="block text-gray-700 font-bold mb-2"
+            htmlFor="description"
+          >
             Description
           </label>
           <input
@@ -202,7 +203,7 @@ function AddCourseForm() {
           </div>
         </div>
         <div className="flex justify-center">
-          {submitError && <div>Error: {submitError}</div>}
+          
           {submitSuccess && <div>Form submitted successfully!</div>}
           <button
             type="submit"

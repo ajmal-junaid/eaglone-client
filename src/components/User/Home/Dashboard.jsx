@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import bannerImage from "../../../asset/banner.jpg";
 import { baseUrl } from "../../../utils/constants";
+import Loading from "../../Common/Loading";
 import sweetAlert from "../../Common/SweetAlert";
 
 function Dashboard() {
@@ -51,13 +51,9 @@ function Dashboard() {
   return (
     <>
       <div className="container mx-auto px-6 py-24 flex flex-col lg:flex-row items-start lg:items-center justify-between">
+            <Loading />
         <div className="w-full">
           <div>
-            <img
-              className="min-w-full object-center max-h-56"
-              src={bannerImage}
-              alt="banner"
-            ></img>
           </div>
           <div>
             <div className="my-6 pt-4">

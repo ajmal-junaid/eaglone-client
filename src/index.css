@@ -9,3 +9,16 @@
 .swal2-backdrop {
   background-color: transparent !important;
 }
+
+@keyframes fill-up {
+  0% {
+    stroke-dashoffset: 200;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.animate-spin-slow {
+  animation: fill-up 2s linear infinite;
+}

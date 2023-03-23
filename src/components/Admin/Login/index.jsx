@@ -2,11 +2,14 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { baseUrl } from "../../../utils/constants";
+import { setAdmin } from "../../../Redux";
+import { useDispatch } from "react-redux";
 
 function Index() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const dispatch = useDispatch()
   const navigate = useNavigate();
   useEffect(() => {
     const auth = localStorage.getItem('adminToken')
@@ -30,6 +33,7 @@ function Index() {
       if (!res.data.err) {
         localStorage.setItem("adminToken", JSON.stringify(res.data.token))
         localStorage.setItem("admAuth", true)
+        dispatch(setAdmin())
         navigate("/admin/home");
       } else {
         setError(res.data.message);

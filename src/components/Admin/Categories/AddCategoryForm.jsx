@@ -4,6 +4,8 @@ import { baseUrl } from "../../../utils/constants";
 import { useDispatch } from "react-redux";
 import { unSetCategoryForm } from "../../../Redux";
 import Swal from "sweetalert2";
+import Traditional from "../../Common/Alerts/Traditional";
+
 function AddCategoryForm() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -34,14 +36,17 @@ function AddCategoryForm() {
   };
 
   function handleNameChange(event) {
+    setSubmitError(null);
     setName(event.target.value);
   }
 
   function handleDescriptionChange(event) {
+    setSubmitError(null);
     setDescription(event.target.value);
   }
 
   const handleImageChange = (event) => {
+    setSubmitError(null);
     setImage(event.target.files[0]);
   };
 
@@ -68,7 +73,8 @@ function AddCategoryForm() {
           {
             headers: {
               "Content-Type": "multipart/form-data",
-              "apikey":"bearer $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi"
+              apikey:
+                "bearer $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
             },
           }
         );
@@ -99,6 +105,7 @@ function AddCategoryForm() {
     <>
       <div className="flex justify-between items-center border-b-2 pb-2 mb-4">
         <div className="text-center w-full">
+          {submitError ? <Traditional err={submitError} /> : ""}
           <h2 className="text-lg font-bold text-gray-800 uppercase tracking-wider mb-1">
             Add Category
           </h2>
@@ -153,7 +160,6 @@ function AddCategoryForm() {
           />
         </div>
         <div className="flex justify-center">
-          {submitError && <div>Error: {submitError}</div>}
           {submitSuccess ? sweetAlert("warning", response) : ""}
 
           <button

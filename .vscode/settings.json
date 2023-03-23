@@ -1,0 +1,4 @@
+{
+    "genieai.openai.model": "gpt-4",
+    "genieai.openai.maxTokens": 4000
+}

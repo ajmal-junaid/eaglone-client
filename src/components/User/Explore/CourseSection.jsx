@@ -1,6 +1,5 @@
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import LoadingSpinner from "./LoadingSpinner";
 
 function CourseSection() {
   //   const list = {
@@ -55,7 +54,6 @@ function CourseSection() {
   ];
   return (
     <>
-    <LoadingSpinner/>
       <AnimatePresence>
         <motion.ul
           initial={{ opacity: 0 }}

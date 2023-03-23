@@ -1,9 +1,14 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import bannerImage from "../../../asset/banner.jpg";
 import { baseUrl } from "../../../utils/constants";
 import sweetAlert from "../../Common/SweetAlert";
+import Loading from "../../Common/Loading";
+import LoadingBar from "../../Common/Loading";
 
 function Dashboard() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [isCategoryLoading,setCatagoryLoading] = useState(true);
   const [courses, setCourses] = useState([]);
   const [categories, setCategories] = useState([]);
   useEffect(() => {
@@ -24,6 +29,7 @@ function Dashboard() {
     })
       .then((res) => {
         setCourses(res.data.data);
+        setIsLoading(false);
       })
       .catch((res) => {
         console.log(res.response.data, "catch");
@@ -39,6 +45,7 @@ function Dashboard() {
       },
     })
       .then((res) => {
+        setCatagoryLoading(false)
         setCategories(res.data.data);
       })
       .catch((res) => {
@@ -50,9 +57,13 @@ function Dashboard() {
   return (
     <>
       <div className="container mx-auto px-6 py-24 flex flex-col lg:flex-row items-start lg:items-center justify-between">
-            
         <div className="w-full">
           <div>
+            <img
+              className="min-w-full object-center max-h-56"
+              src={bannerImage}
+              alt="banner"
+            ></img>
           </div>
           <div>
             <div className="my-6 pt-4">
@@ -61,30 +72,36 @@ function Dashboard() {
               </h1>
             </div>
             <div>
-              <div className="flex justify-center flex-wrap">
-                {courses.map((card) => (
-                  <div
-                    key={card.title}
-                    className="relative w-1/2 md:w-1/3 lg:w-1/6 max-w-sm rounded overflow-hidden shadow-lg p-4 flex-row"
-                  >
-                    <img
-                      className="w-full h-36 max-h-fit object-fill p-5"
-                      src={card.image}
-                      alt={card.title}
-                    />
+              {isLoading ? (
+                <Loading />
+              ) : (
+                <div className="flex justify-center flex-wrap">
+                  {courses.map((card) => (
+                    <div
+                      key={card.title}
+                      className="relative w-1/2 md:w-1/3 lg:w-1/6 max-w-sm rounded overflow-hidden shadow-lg p-4 flex-row"
+                    >
+                      <img
+                        className="w-full h-36 max-h-fit object-fill p-5"
+                        src={card.image}
+                        alt={card.title}
+                      />
 
-                    <div className="px-1 py-1 mb-3">
-                      <div className="font-bold text-sm mb-1">{card.title}</div>
-                      <p className="text-gray-700 text-sm">{card.category}</p>
+                      <div className="px-1 py-1 mb-3">
+                        <div className="font-bold text-sm mb-1">
+                          {card.title}
+                        </div>
+                        <p className="text-gray-700 text-sm">{card.category}</p>
+                      </div>
+                      <div className="text-right text-sm bottom-2 right-2 absolute">
+                        <span className="text-gray-700">
+                          {card.rating ? "⭐" : "⭐"}
+                        </span>
+                      </div>
                     </div>
-                    <div className="text-right text-sm bottom-2 right-2 absolute">
-                      <span className="text-gray-700">
-                        {card.rating ? "⭐" : "⭐"}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
           <div className="mt-11 container">
@@ -191,7 +208,7 @@ function Dashboard() {
               </h1>
             </div>
             <div>
-              <div className="flex justify-center flex-wrap ">
+              {isCategoryLoading ? <LoadingBar/>:<div className="flex justify-center flex-wrap ">
                 {categories.map((card) => (
                   <div
                     key={card.name}
@@ -209,7 +226,7 @@ function Dashboard() {
                     </div>
                   </div>
                 ))}
-              </div>
+              </div>}
             </div>
           </div>
         </div>

@@ -33,12 +33,12 @@ function CourseBody() {
         setCourses(res.data.data);
       })
       .catch((res) => {
-        if(res.response.status >= 401 && res.response.status <=403){
-          localStorage.removeItem('adminToken');
+        if (res.response.status >= 401 && res.response.status <= 403) {
+          localStorage.removeItem("adminToken");
           navigate("/admin");
         }
         console.log(res.response.data, "catch");
-   
+
         sweetAlert("warning", res.response.data.message);
       });
   };
@@ -76,7 +76,7 @@ function CourseBody() {
           style={{
             content: {
               width: "100%",
-              maxWidth: "900px",
+              maxWidth: "800px",
               height: "auto",
               margin: "auto",
               position: "relative",

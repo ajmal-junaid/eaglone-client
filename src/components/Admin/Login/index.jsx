@@ -9,14 +9,14 @@ function Index() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   useEffect(() => {
-    const auth = localStorage.getItem('adminToken')
+    const auth = localStorage.getItem("adminToken");
     if (auth) {
-      navigate('/user/home')
+      navigate("/user/home");
     }
-  }, [])
+  }, []);
   const handleLogin = (e) => {
     e.preventDefault();
     axios({
@@ -26,19 +26,24 @@ function Index() {
         email,
         password,
       },
-      headers:{
-        "apikey":"login $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
+      headers: {
+        apikey:
+          "login $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
       },
-    }).then((res) => {
-      if (!res.data.err) {
-        localStorage.setItem("adminToken", JSON.stringify(res.data.token))
-        localStorage.setItem("admAuth", true)
-        dispatch(setAdmin())
-        navigate("/admin/home");
-      } else {
-        setError(res.data.message);
-      }
-    });
+    })
+      .then((res) => {
+        if (!res.data.err) {
+          localStorage.setItem("adminToken", JSON.stringify(res.data.token));
+          localStorage.setItem("admAuth", true);
+          dispatch(setAdmin());
+          navigate("/admin/home");
+        } else {
+          setError(res.data.message);
+        }
+      })
+      .catch((res) => {
+        setError(res.response.data.message);
+      });
   };
   return (
     <div className="relative flex flex-col justify-center min-h-screen overflow-hidden border-2">

@@ -1,13 +1,11 @@
 import React from 'react'
-import { CategorySection, CourseSection } from '../../components/User/Explore'
+import Explore from '../../components/User/Explore/Explore'
+
 function Categories() {
   return (
-    <div className=''>
-      <div className='flex '>
-        <CategorySection />
-        <CourseSection />
-      </div>
-    </div>
+    <>
+      <Explore />
+    </>
   )
 }
 

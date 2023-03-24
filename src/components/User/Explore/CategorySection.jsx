@@ -4,10 +4,13 @@ import axios from "axios";
 import { baseUrl } from "../../../utils/constants";
 import sweetAlert from "../../Common/SweetAlert";
 import { Tooltip } from "react-tippy";
+import Spinner from "../../Common/Spinner";
 
 function CategorySection({ setCurrent }) {
   const [categories, setCategories] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
+    setIsLoading(true);
     getDatas();
   }, []);
   const getDatas = () => {
@@ -22,6 +25,7 @@ function CategorySection({ setCurrent }) {
     })
       .then((res) => {
         //setCatagoryLoading(false)
+        setIsLoading(false);
         setCategories(res.data.data);
       })
       .catch((res) => {
@@ -40,7 +44,7 @@ function CategorySection({ setCurrent }) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="container overflow-y-auto  flex flex-col h-screen pt-16 pb-10 w-1/4 px-4 text-center"
+          className="container overflow-y-auto  flex flex-col h-screen pt-16 pb-10 w-1/4 px-4 text-center -z-10"
           style={{
             overflowY: "scroll",
             scrollbarWidth: "none",
@@ -54,27 +58,31 @@ function CategorySection({ setCurrent }) {
             </h1>
           </li>
 
-          {categories.map((data) => (
-            <li
-              key={data.name}
-              className="cursor-pointer pt-6 flex flex-col m-2 justify-self-center"
-              onClick={() => handleCurrent(data.name)}
-            >
-              <Tooltip
-                title={data.name}
-                position="right"
-                className="bg-inherit"
+          {isLoading ? (
+            <Spinner />
+          ) : (
+            categories.map((data) => (
+              <li
+                key={data.name}
+                className="cursor-pointer pt-6 flex flex-col m-2 justify-self-center"
+                onClick={() => handleCurrent(data.name)}
               >
-                <img
-                  className="-mt-1 md:mx-0 opacity-95 px-0 lg:px-20"
-                  src={data.image}
-                />
-              </Tooltip>
-              <span className="hidden sm:inline font-serif mt-3 font-semibold">
-                {data.name}
-              </span>
-            </li>
-          ))}
+                <Tooltip
+                  title={data.name}
+                  position="right"
+                  className="bg-inherit"
+                >
+                  <img
+                    className="-mt-1 md:mx-0 opacity-95 px-0 lg:px-20"
+                    src={data.image}
+                  />
+                </Tooltip>
+                <span className="hidden sm:inline font-serif mt-3 font-semibold">
+                  {data.name}
+                </span>
+              </li>
+            ))
+          )}
         </motion.ul>
       </AnimatePresence>
     </>

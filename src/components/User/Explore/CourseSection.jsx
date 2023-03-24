@@ -3,10 +3,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
 import { baseUrl } from "../../../utils/constants";
 import sweetAlert from "../../Common/SweetAlert";
+import Spinner from "../../Common/Spinner";
 
 function CourseSection({ current }) {
   const [courses, setCourses] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
+    setIsLoading(true);
     getDatas();
   }, [current]);
 
@@ -23,6 +26,7 @@ function CourseSection({ current }) {
       })
         .then((res) => {
           setCourses(res.data.data);
+          setIsLoading(false);
         })
         .catch((err) => {
           console.log(err.response, "catch");
@@ -43,8 +47,10 @@ function CourseSection({ current }) {
       })
         .then((res) => {
           setCourses(res.data.data);
+          setIsLoading(false);
         })
         .catch((res) => {
+          setIsLoading(false);
           console.log(res, "catch");
           sweetAlert("warning", res.response.data.message);
         });
@@ -74,7 +80,7 @@ function CourseSection({ current }) {
               Courses
             </h1>
           </li>
-          {courses.map((data) => (
+          {isLoading ? <Spinner/> : courses.map((data) => (
             <li
               key={data._id}
               className="flex flex-row m-2 h-24 container border border-black"

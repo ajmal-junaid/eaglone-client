@@ -4,7 +4,7 @@ import axios from "axios";
 import { baseUrl } from "../../../utils/constants";
 import sweetAlert from "../../Common/SweetAlert";
 import { Tooltip } from "react-tippy";
-import Spinner from "../../Common/Spinner";
+//import Spinner from "../../Common/Spinner";
 
 function CategorySection({ setCurrent }) {
   const [categories, setCategories] = useState([]);
@@ -54,14 +54,12 @@ function CategorySection({ setCurrent }) {
         >
           <li className="hidden sm:inline translate-y-px text-center text-xl pb-0">
             <h1 className="font-bold  mt-5 border text-2xl border-b-gray-900">
-              Categories
+              Categories{isLoading}
             </h1>
           </li>
 
-          {isLoading ? (
-            <Spinner />
-          ) : (
-            categories.map((data) => (
+         
+            {categories.map((data) => (
               <li
                 key={data.name}
                 className="cursor-pointer pt-6 flex flex-col m-2 justify-self-center"
@@ -82,7 +80,7 @@ function CategorySection({ setCurrent }) {
                 </span>
               </li>
             ))
-          )}
+            }
         </motion.ul>
       </AnimatePresence>
     </>

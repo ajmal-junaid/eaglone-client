@@ -10,16 +10,26 @@ function EditCourseForm() {
   const [category, setCategory] = useState("");
   const [options, setOptions] = useState([]);
   const [premium, setPremium] = useState(false);
+  const [price, setPrice] = useState(0);
   const [image, setImage] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState(null);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [percentage, setPercentage] = useState(null);
   const params = useParams();
   const navigate = useNavigate();
 
   function handleTitleChange(event) {
     setTitle(event.target.value);
   }
+
+  const handlePercentageChange = (event) => {
+    setPercentage(event.target.value);
+  };
+
+  const handlePriceChange = (event) => {
+    setPrice(event.target.value);
+  };
 
   const handleCategoryChange = (event) => {
     setCategory(event.target.value);
@@ -61,7 +71,6 @@ function EditCourseForm() {
       setTitle(res.data.data.title);
       setCategory(res.data.data.category);
       setId(res.data.data.courseId);
-      // setImage(res.data.data.image)
       setPremium(res.data.data.premium);
     });
   };
@@ -77,6 +86,8 @@ function EditCourseForm() {
     formData.append("category", category);
     formData?.append("image", image);
     formData.append("premium", premium);
+    formData.append("price", price);
+    formData.append("percentage", percentage);
     try {
       const response = await axios.put(
         `${baseUrl}admin/update-course/${params.id}`,
@@ -205,6 +216,49 @@ function EditCourseForm() {
             <span className="text-xs ml-2">{premium ? "On" : "Off"}</span>
           </div>
         </div>
+        {premium && (
+          <div className="mb-4 flex content-between">
+            <div className="">
+              <label
+                className="block text-gray-700 font-bold mb-2"
+                htmlFor="Actual Price"
+              >
+                Price
+              </label>
+              <input
+                className="shadow appearance-none border rounded py-2 pl-1 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                type="text"
+                pattern="\d*"
+                inputMode="numeric"
+                value={price}
+                onChange={handlePriceChange}
+              />
+            </div>
+            <div className="ml-3">
+              <label
+                className="block text-gray-700 font-bold mb-2"
+                htmlFor="discount"
+              >
+                Discount Percentage ( in % )
+              </label>
+              <input
+                className="shadow appearance-none border rounded py-2 text-gray-700 leading-tight focus:outline-none focus:shadow"
+                type="text"
+                pattern="\d*"
+                inputMode="numeric"
+                min="0"
+                max="100"
+                value={percentage}
+                onChange={handlePercentageChange}
+                onInput={(e) => {
+                  if (e.target.value > 100) {
+                    e.target.value = 100;
+                  }
+                }}
+              />
+            </div>
+          </div>
+        )}
         <div className="flex justify-center">
           {submitError && <div>Error: {submitError}</div>}
           {submitSuccess && <div>Form submitted successfully!</div>}

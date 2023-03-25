@@ -6,7 +6,10 @@ import Body from "./Components/Body";
 
 function CourseDetails({ id }) {
   const [course, setCourse] = useState({});
+  const [lessons, setLessons] = useState([]);
+  const [category, setCategory] = useState({});
   const getData = (courseId) => {
+    console.log(courseId, "iddd");
     axios({
       method: "get",
       url: `${baseUrl}course/${courseId}`,
@@ -21,12 +24,50 @@ function CourseDetails({ id }) {
     })
       .then((res) => {
         setCourse(res.data.data);
-        console.log(course, "cooo");
+        axios({
+          method: "get",
+          url: `${baseUrl}category-details/${res.data.data.category}`,
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `bearer ${JSON.parse(
+              localStorage.getItem("adminToken")
+            )}`,
+            apikey:
+              "getCourse $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
+          },
+        })
+          .then((res) => {
+            setCategory(res.data.data);
+          })
+          .catch((res) => {
+            console.log(res, "catch");
+            sweetAlert("warning", res.response.data.message);
+          });
         //setIsLoading(false);
       })
       .catch((res) => {
         console.log(res, "catch");
-        sweetAlert("warning", "res.response.data.message");
+        sweetAlert("warning", res.response.data.message);
+      });
+    axios({
+      method: "get",
+      url: `${baseUrl}get-lessons-course/${courseId}`,
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `bearer ${JSON.parse(
+          localStorage.getItem("adminToken")
+        )}`,
+        apikey:
+          "getCourse $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
+      },
+    })
+      .then((res) => {
+        setLessons(res.data.data);
+        //setIsLoading(false);
+      })
+      .catch((res) => {
+        console.log(res, "catch");
+        sweetAlert("warning", res.response.data.message);
       });
   };
   useEffect(() => {
@@ -35,7 +76,7 @@ function CourseDetails({ id }) {
   return (
     <div>
       <div className="bg-gray-100 py-10">
-        <Body course={course} />
+        <Body course={course} lessons={lessons} category={category} />
       </div>
     </div>
   );

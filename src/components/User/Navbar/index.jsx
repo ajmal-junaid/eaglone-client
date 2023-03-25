@@ -398,8 +398,15 @@ export default function Example() {
                   ""
                 )}
                 <p className="text-gray-800 text-sm ml-2 bg-slate-100   ">
-                  <button className="text-sm font-semibold leading-6 text-gray-900 ">
+                  <button className="text-sm font-semibold leading-6 text-gray-900 "></button>
+                  <button
+                    type="button"
+                    className="inline-flex  items-center px-4 py-2 text-sm font-medium text-center text-white bg-indigo-400 rounded-lg hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-600"
+                  >
                     {userData.name.toUpperCase()}
+                    <span className="inline-flex items-center justify-center w-4 h-4 ml-2 text-xs font-semibold text-blue-800 bg-blue-200 rounded-full">
+                      2
+                    </span>
                   </button>
                 </p>
               </div>

@@ -38,10 +38,14 @@ function AddLessonForm() {
           localStorage.getItem("adminToken")
         )}`,
       },
-    }).then((res) => {
-      console.log(res.data);
-      setOptions(res.data.data);
-    });
+    })
+      .then((res) => {
+        console.log(res.data, "waht happend");
+        setOptions(res.data.data);
+      })
+      .catch((error) => {
+        console.log(error.response, "catch from courses");
+      });
   };
   const handleLessonIdChange = (event) => {
     setLessonId(event.target.value);
@@ -73,8 +77,8 @@ function AddLessonForm() {
 
     const formData = new FormData();
     formData.append("title", title);
-    formData.append("course",course)
-    formData.append("lessonId",lessonId)
+    formData.append("course", course);
+    formData.append("lessonId", lessonId);
     formData.append("tutorName", tutor);
     formData.append("video", video);
     if (lessonId.trim() === "" || tutor.trim() === "") {
@@ -111,7 +115,7 @@ function AddLessonForm() {
           setSubmitError("Failed to submit form");
         }
       } catch (error) {
-        console.error(error.response);
+        console.error(error, "catchhh");
         setSubmitError(error.response.data.message);
       }
     }
@@ -157,6 +161,7 @@ function AddLessonForm() {
             type="text"
             value={title}
             onChange={handleTitleChange}
+            required
           />
         </div>
         <div className="mb-4">
@@ -190,7 +195,7 @@ function AddLessonForm() {
             {options &&
               options.map((option) => (
                 <option key={option.courseId} value={option.courseId}>
-                  {option.courseId}
+                  {option.title}
                 </option>
               ))}
           </select>

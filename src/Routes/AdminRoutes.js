@@ -11,11 +11,13 @@ import Home from '../pages/Admin/Home'
 import LessonManagement from '../pages/Admin/LessonManagement'
 import Login from '../pages/Admin/Login'
 import UserManagement from '../pages/Admin/UserManagement'
+import axios from 'axios'
 
 function AdminRoutes() {
-    return (
-        <div>
-      <Navbar/>
+  axios.defaults.headers.common['apikey'] = 'invalid $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi';
+  return (
+    <div>
+      <Navbar />
       <div className='container mx-auto mt-26 max-h-screen overflow-y-scroll pb-26' style={{
         overflowY: "scroll",
         scrollbarWidth: "none",
@@ -23,21 +25,21 @@ function AdminRoutes() {
         WebkitScrollbar: { display: "none" },
       }}>
         <Routes>
-            <Route path="/" element={<Login />} />
-            <Route element={<PrivateAdmin />}>
-                <Route path="home" element={<Home />} />
-                <Route path='users' element={<UserManagement />} />
-                <Route path='categories' element={<CategoryManagement />} />
-                <Route path='courses' element={<CourseManagement />} />
-                <Route path='courses/update-course/:id' element={<EditCourseForm />} />
-                <Route path='categories/update-category/:id' element={<EditCategoryForm />} />
-                <Route path='lessons' element={<LessonManagement/>}/>
-                <Route path='lessons/update-lesson/:id' element={<EditLessonForm/>}/>
-            </Route>
+          <Route path="/" element={<Login />} />
+          <Route element={<PrivateAdmin />}>
+            <Route path="home" element={<Home />} />
+            <Route path='users' element={<UserManagement />} />
+            <Route path='categories' element={<CategoryManagement />} />
+            <Route path='courses' element={<CourseManagement />} />
+            <Route path='courses/update-course/:id' element={<EditCourseForm />} />
+            <Route path='categories/update-category/:id' element={<EditCategoryForm />} />
+            <Route path='lessons' element={<LessonManagement />} />
+            <Route path='lessons/update-lesson/:id' element={<EditLessonForm />} />
+          </Route>
         </Routes>
-        </div>
-        </div>
-    )
+      </div>
+    </div>
+  )
 }
 
 export default AdminRoutes

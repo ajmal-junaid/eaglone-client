@@ -16,7 +16,7 @@ function EditLessonForm() {
   const [submitError, setSubmitError] = useState(null);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const params = useParams();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const sweetAlertt = (icon = "success", text) => {
     sweetAlert(icon, text);
@@ -118,9 +118,8 @@ function EditLessonForm() {
             sweetAlertt("warning", response.data.message);
             setResponse(response.data.message);
           } else {
-            navigate("/admin/lessons")
+            navigate("/admin/lessons");
             sweetAlertt("success", response.data.message);
-            
           }
 
           setSubmitSuccess(false);
@@ -186,7 +185,6 @@ function EditLessonForm() {
             name="tutor"
             value={tutor}
             onChange={handleTutorChange}
-            required
           />
         </div>
         <div className="mb-4">
@@ -201,13 +199,12 @@ function EditLessonForm() {
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             value={course}
             onChange={handleCourseChange}
-            required
           >
             <option value="">Select a Course</option>
             {options &&
               options.map((option) => (
                 <option key={option.courseId} value={option.courseId}>
-                  {option.courseId}
+                  {option.title}
                 </option>
               ))}
           </select>

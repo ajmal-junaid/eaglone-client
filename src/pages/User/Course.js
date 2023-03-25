@@ -5,8 +5,8 @@ import CourseDetails from '../../components/User/CourseDetails/CourseDetails'
 function Course() {
   const params = useParams()
   return (
-    <div className='pt-16 pb-8'>
-      <CourseDetails id={params.id}/>
+    <div className='pt-16 pb-4'>
+      <CourseDetails id={params.id} />
     </div>
   )
 }

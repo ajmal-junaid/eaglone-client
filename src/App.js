@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-// import Home from './pages/User/Home'
 import NotFound from './pages/NotFound';
 import UserRoutes from './Routes/UserRoutes'
 import AdminRoutes from './Routes/AdminRoutes';

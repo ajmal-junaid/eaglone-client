@@ -8,6 +8,8 @@ import Login from '../pages/User/Login'
 import Signup from '../pages/User/Signup'
 import Navbar from '../components/User/Navbar'
 import Footer from '../components/User/Footer/Footer'
+import Course from '../pages/User/Course';
+import Cart from '../pages/User/Cart';
 
 function UserRoutes() {
   return (
@@ -25,7 +27,9 @@ function UserRoutes() {
           <Route path="home" element={<Home />} />
           <Route path='explore' element={<Categories />} />
           <Route path='courses' element={<Courses />} />
+          <Route path='course/:id' element={<Course/>}/>
           <Route element={<PrivateUser />}>
+            <Route path='cart/:id' element={<Cart />} />
           </Route>
         </Routes>
       </div>

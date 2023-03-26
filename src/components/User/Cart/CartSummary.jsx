@@ -16,7 +16,7 @@ function CartSummary(props) {
         <h2 className="text-2xl font-bold mb-4 text-center text-gray-800">
           Order Summary
         </h2>
-        <div className="container mx-auto">
+        <div className="container mx-auto max-h-56 overflow-auto">
           <ul className="space-y-2 pt-2 text-gray-700">
             {props.cart &&
               props.cart.map((item) => {
@@ -42,7 +42,9 @@ function CartSummary(props) {
           <span className="font-medium">${totalPrice}.00</span>
         </div>
         <div className="flex justify-between mb-4 text-green-500">
-          <span className="font-medium">Discount ({percentage}%)</span>
+          <span className="font-medium">
+            Discount ({percentage.toFixed(2)}%)
+          </span>
           <span className="font-medium">-${discount}.00</span>
         </div>
         <hr className="my-2 border-none bg-gray-300 h-px" />

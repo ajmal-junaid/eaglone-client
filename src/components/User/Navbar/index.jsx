@@ -16,16 +16,18 @@ export default function Example() {
   const userData = useSelector((state) => state.userData.value);
   const dispatch = useDispatch();
   const [profile, setProfile] = useState(false);
-  // const goToCart = () => {
-  //   navigate('/user/cart')
-  // };
   useEffect(() => {
     const token = localStorage.getItem("userToken");
     if (token) {
       const user = jwt_decode(token);
       dispatch(
         setUserData({
-          userData: { name: user.name, email: user.email, mobile: user.mobile },
+          userData: {
+            name: user.name,
+            email: user.email,
+            mobile: user.mobile,
+            _id: user._id,
+          },
         })
       );
     }
@@ -36,7 +38,7 @@ export default function Example() {
     localStorage.removeItem("auth");
     dispatch(
       setUserData({
-        userData: { name: null, email: null, mobile: null },
+        userData: { name: null, email: null, mobile: null,_id:null },
       })
     );
     navigate("/");
@@ -355,7 +357,7 @@ export default function Example() {
                       </div>
                     </li>
                     <NavLink
-                      to='/user/cart'
+                      to={`/user/cart/${userData._id}`}
                       className="cursor-pointer text-gray-600 text-sm leading-3 tracking-normal mt-2 py-2 hover:text-indigo-700 focus:text-indigo-700 focus:outline-none flex items-center"
                     >
                       <FaShoppingCart className="mr-1 h-4 w-4 text-black-500" />

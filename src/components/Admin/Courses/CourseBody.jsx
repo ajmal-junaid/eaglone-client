@@ -38,7 +38,6 @@ function CourseBody() {
           navigate("/admin");
         }
         console.log(res.response.data, "catch");
-
         sweetAlert("warning", res.response.data.message);
       });
   };

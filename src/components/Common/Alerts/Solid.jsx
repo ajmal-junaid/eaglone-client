@@ -6,6 +6,7 @@ function Solid(props) {
   useEffect(() => {
     const timeout = setTimeout(() => {
       setIsVisible(false);
+      props.setErr(false);
     }, 10000);
 
     return () => clearTimeout(timeout);
@@ -14,7 +15,7 @@ function Solid(props) {
     <>
     {isVisible &&(
       <div
-        className="flex items-center bg-blue-500 text-white text-sm font-bold px-4 py-3"
+        className="fixed right-5 top-5 z-50 flex items-center bg-blue-500 text-white text-sm font-bold px-4 py-3"
         role="alert"
       >
         <svg

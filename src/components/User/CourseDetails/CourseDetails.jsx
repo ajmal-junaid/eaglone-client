@@ -55,7 +55,7 @@ function CourseDetails({ id }) {
       headers: {
         "Content-Type": "application/json",
         authorization: `bearer ${JSON.parse(
-          localStorage.getItem("adminToken")
+          localStorage.getItem("userToken")
         )}`,
         apikey:
           "getCourse $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",

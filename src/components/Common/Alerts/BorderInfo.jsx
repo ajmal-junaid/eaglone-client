@@ -5,6 +5,7 @@ function BorderInfo(props) {
   useEffect(() => {
     const timeout = setTimeout(() => {
       setIsVisible(false);
+      props.setErr(false);
     }, 10000);
 
     return () => clearTimeout(timeout);
@@ -13,7 +14,7 @@ function BorderInfo(props) {
     <>
       {isVisible && (
         <div
-          className="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md"
+          className="fixed right-5 top-5 z-50 bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md "
           role="alert"
         >
           <div className="flex">

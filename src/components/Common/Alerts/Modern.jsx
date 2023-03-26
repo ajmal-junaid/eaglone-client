@@ -6,34 +6,27 @@ function Modern(props) {
   useEffect(() => {
     const timeout = setTimeout(() => {
       setIsVisible(false);
-    }, 10000);
+      props.setErr(!isVisible);
+    }, 5000);
 
     return () => clearTimeout(timeout);
   }, []);
   return (
     <>
-    {isVisible && (
-      <div className="bg-indigo-900 text-center py-4 lg:px-4">
-        <div
-          className="p-2 bg-indigo-800 items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex"
-          role="alert"
-        >
-          <span className="flex rounded-full bg-indigo-500 uppercase px-2 py-1 text-xs font-bold mr-3">
-            New
-          </span>
-          <span className="font-semibold mr-2 text-left flex-auto">
-            {props.err}
-          </span>
-          <svg
-            className="fill-current opacity-75 h-4 w-4"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-          >
-            <path d="M12.95 10.707l.707-.707L8 4.343 6.586 5.757 10.828 10l-4.242 4.243L8 15.657l4.95-4.95z" />
-          </svg>
+      {isVisible && (
+        <div className="fixed right-5 top-5 z-50 bg-green-500 text-white px-4 py-2 rounded-full shadow-lg">
+          <div className="flex items-center justify-center">
+            <svg
+              className="fill-current w-6 h-6 mr-2"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+            >
+              <path d="M10 0a10 10 0 1 0 10 10A10 10 0 0 0 10 0zm4.293 7.707l-4.6 4.6-2.293-2.293a1 1 0 1 0-1.414 1.414l3 3a1 1 0 0 0 1.414 0l5-5a1 1 0 1 0-1.414-1.414z" />
+            </svg>
+            <p className="text-sm font-semibold">Success! {props.err}.</p>
+          </div>
         </div>
-      </div>
-    )}
+      )}
     </>
   );
 }

@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { baseUrl } from "../../../utils/constants";
 import Pagination from "../../Common/Pagination";
 import sweetAlert from "../../Common/SweetAlert";
@@ -13,7 +12,6 @@ function AllCouses() {
   const [courses, setCourses] = useState([]);
   const [pageNo, setPageNo] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const userData = useSelector((state) => state.userData.value);
   const getData = () => {
     setIsLoading(true);
     axios({
@@ -41,7 +39,6 @@ function AllCouses() {
       });
   };
   useEffect(() => {
-    console.log(userData, "iam from course user");
     getData();
   }, [pageNo]);
 

@@ -6,6 +6,7 @@ function Traditional(props) {
   useEffect(() => {
     const timeout = setTimeout(() => {
       setIsVisible(false);
+      props.setErr(false);
     }, 10000);
 
     return () => clearTimeout(timeout);
@@ -15,7 +16,7 @@ function Traditional(props) {
     <>
       {isVisible &&(
         <div
-          className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+          className="fixed right-5 top-5 z-50 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded pr-12"
           role="alert"
         >
           <strong className="font-bold">{props.err}!</strong>

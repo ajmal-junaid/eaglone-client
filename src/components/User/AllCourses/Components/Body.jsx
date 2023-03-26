@@ -14,7 +14,7 @@ function Body({ courses }) {
         courses.map((course) => (
           <a
             onClick={() => handleClick(course.courseId)}
-            key={course.id}
+            key={course._id}
             className="flex cursor-pointer flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-400 dark:bg-slate-300-100 dark:hover:bg-gray-200"
           >
             <img
@@ -34,9 +34,9 @@ function Body({ courses }) {
               </p>
               <div className="flex"></div>
               <div className="justify-self-end flex">
-                <p className="flex mb-3 font-normal text-gray-700 dark:text-gray-400">
+                <span className="flex mb-3 font-normal text-gray-700 dark:text-gray-400">
                   <Rating rating={course.rating} />
-                </p>
+                </span>
                 {course.price > 0 ? (
                   <button className="ml-auto self-end mt-auto inline-block px-5 py-1 font-medium text-white transition duration-500 ease-in-out transform bg-gray-400 border border-emerald-200 rounded-lg hover:bg-emerald-400 focus:outline-none focus:shadow-outline-blue">
                     Add to Cart {course.Ourprice}

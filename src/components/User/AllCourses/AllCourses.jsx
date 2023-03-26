@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -10,12 +11,14 @@ import Loading from "../../Common/Spinner";
 function AllCouses() {
   const [isLoading, setIsLoading] = useState(true);
   const [courses, setCourses] = useState([]);
+  const [pageNo, setPageNo] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const userData = useSelector((state) => state.userData.value);
   const getData = () => {
     setIsLoading(true);
     axios({
       method: "get",
-      url: `${baseUrl}courses`,
+      url: `${baseUrl}courses?page=${pageNo}`,
       headers: {
         "Content-Type": "application/json",
         authorization: `bearer ${JSON.parse(
@@ -26,10 +29,13 @@ function AllCouses() {
       },
     })
       .then((res) => {
+        setPageNo(res.data.currentPage);
+        setTotalPages(res.data.totalPages);
         setCourses(res.data.data);
         setIsLoading(false);
       })
       .catch((res) => {
+        setIsLoading(false);
         console.log(res.response.data, "catch");
         sweetAlert("warning", res.response.data.message);
       });
@@ -37,14 +43,16 @@ function AllCouses() {
   useEffect(() => {
     console.log(userData, "iam from course user");
     getData();
-  }, []);
+  }, [pageNo]);
 
   return (
-    <div>
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        {isLoading ? <Loading /> : <Body courses={courses} />}
-        <Pagination />
-      </div>
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      {isLoading ? <Loading /> : <Body courses={courses} />}
+      <Pagination
+        pageNo={parseInt(pageNo)}
+        setPageNo={setPageNo}
+        totalPages={parseInt(totalPages)}
+      />
     </div>
   );
 }

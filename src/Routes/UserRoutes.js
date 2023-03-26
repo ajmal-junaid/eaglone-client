@@ -29,7 +29,7 @@ function UserRoutes() {
           <Route path='courses' element={<Courses />} />
           <Route path='course/:id' element={<Course/>}/>
           <Route element={<PrivateUser />}>
-            <Route path='cart/:id' element={<Cart />} />
+            <Route path='cart' element={<Cart />} />
           </Route>
         </Routes>
       </div>

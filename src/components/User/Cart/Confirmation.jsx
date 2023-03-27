@@ -1,22 +1,51 @@
+import axios from "axios";
 import React, { useState } from "react";
+import { baseUrl } from "../../../utils/constants";
 
 function Confirmation(props) {
   const [couponCode, setCouponCode] = useState("");
   const [couponApplied, setCouponApplied] = useState(false);
-  const totalPrice = props.cart.reduce((acc, item) => acc + item.price, 0);
-  const discountedPrice = props.cart.reduce(
-    (acc, item) => acc + item.ourPrice,
-    0
+  const [couponDiscount, setCouponDiscount] = useState(null);
+  const [discountedPrice, setDiscountedPrice] = useState(
+    props.cart.reduce((acc, item) => acc + item.ourPrice, 0)
   );
-  const discount = totalPrice - discountedPrice;
-  const percentage =
-    props.cart.reduce((acc, item) => acc + item.percentage, 0) /
-    props.cart.length;
+  const totalPrice = props.cart.reduce((acc, item) => acc + item.ourPrice, 0);
+
   const handleApplyCoupon = (e) => {
     e.preventDefault();
-    setCouponApplied(true);
-    console.log(couponApplied, couponCode);
-    // Your coupon validation logic goes here
+    axios({
+      method: "post",
+      url: `${baseUrl}apply-coupon`,
+      data: {
+        code: couponCode,
+        totalAmount: totalPrice,
+      },
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `bearer ${JSON.parse(
+          localStorage.getItem("userToken")
+        )}`,
+        apikey:
+          "getCourse $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
+      },
+    })
+      .then((res) => {
+        setCouponApplied(true);
+        setCouponDiscount(res.data.data);
+        if (!couponApplied) {
+          setDiscountedPrice(discountedPrice - res.data.data);
+        }
+      })
+      .catch((res) => {
+        setCouponApplied(false);
+        if (couponApplied) {
+          setDiscountedPrice(discountedPrice + couponDiscount);
+        }
+        console.log(res.response.data, "catch");
+      });
+  };
+  const handlePurchase = () => {
+    console.log("succ");
   };
   return (
     <>
@@ -34,7 +63,7 @@ function Confirmation(props) {
                     return (
                       <li key={item._id} className="flex justify-between">
                         <span className="font-medium">{item.title}</span>
-                        <span className="font-medium">${item.price}.00</span>
+                        <span className="font-medium">${item.ourPrice}.00</span>
                       </li>
                     );
                   })}
@@ -54,7 +83,7 @@ function Confirmation(props) {
                 <input
                   className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
                   type="text"
-                  placeholder="Enter coupon code"
+                  placeholder="Enter coupon code ( If any )"
                   aria-label="Coupon code"
                   value={couponCode}
                   onChange={(e) => setCouponCode(e.target.value)}
@@ -71,23 +100,32 @@ function Confirmation(props) {
         </div>
         <div className="flex-row bg-gray-100 p-4 mt-3 border-t-2 border-blue-500">
           <div className="flex justify-between mb-4 text-gray-700">
-            <span className="font-medium">Total</span>
-            <span className="font-medium">${totalPrice}.00</span>
+            {couponApplied && <span className="font-medium">Total</span>}
+            {couponApplied && (
+              <span className="font-medium">${totalPrice}.00</span>
+            )}
           </div>
-          <div className="flex justify-between mb-4 text-green-500">
-            <span className="font-medium">
-              Discount ({percentage.toFixed(2)}%)
-            </span>
-            <span className="font-medium">-${discount}.00</span>
-          </div>
+          {couponApplied ? (
+            <div className="flex justify-between mb-4 text-green-500">
+              <span className="font-medium">Coupon Discount</span>
+              <span className="font-medium">-${couponDiscount}.00</span>
+            </div>
+          ) : (
+            ""
+          )}
           <hr className="my-2 border-none bg-gray-300 h-px" />
           <div className="flex justify-between font-semibold text-gray-700">
             <span className="text-lg font-bold">Grand Total</span>
             <span className="text-lg font-bold">${discountedPrice}.00</span>
           </div>
         </div>
-        <div className="flex-row bg-gray-100 p-4 mt-3 border-t-1 border-blue-500 text-center">
-          Proceed To pay
+        <div className="flex flex-row justify-center items-center bg-gray-100 py-4 px-6 mt-3 border-t-2 border-blue-500 rounded-md shadow-md">
+          <button
+            onClick={handlePurchase}
+            className="text-white font-bold py-2 px-4 rounded-md bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-indigo-500 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          >
+            Proceed to Pay
+          </button>
         </div>
       </div>
     </>

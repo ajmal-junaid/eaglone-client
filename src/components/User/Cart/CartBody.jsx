@@ -17,8 +17,8 @@ const CartBody = () => {
   const [error, setError] = useState(false);
   const [message, setMessage] = useState("");
   const [delet, setDelete] = useState("");
-  const [isOpen, setIsOpen] = useState(false);
   const [courseId, setCourseId] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   useEffect(() => {
     getData();

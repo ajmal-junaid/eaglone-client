@@ -7,10 +7,7 @@ import AddCategoryForm from "./AddCategoryForm";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  setCategoryForm,
-  unSetCategoryForm,
-} from "../../../Redux";
+import { setCategoryForm, unSetCategoryForm } from "../../../Redux";
 
 const MySwal = withReactContent(Swal);
 Modal.setAppElement("#root");
@@ -52,7 +49,8 @@ function CategoryBody() {
         authorization: `bearer ${JSON.parse(
           localStorage.getItem("adminToken")
         )}`,
-        apikey: "delet $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
+        apikey:
+          "delet $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
       },
     }).then((res) => {
       console.log(res.data.message);
@@ -80,7 +78,7 @@ function CategoryBody() {
   const headers = ["No", "Name", "Descriptions", "Actions"];
   return (
     <>
-      <div className="my-6 lg:my-12 container px-6 mx-auto flex flex-col lg:flex-row items-start lg:items-center justify-between pb-4 border-b border-gray-300">
+      <div className="my-6 lg:my-12 container px-6 mx-auto flex flex-col lg:flex-row items-start lg:items-center justify-between pb-4 border-b border-gray-300 ">
         <div>
           <h4 className="text-2xl font-bold leading-tight text-gray-800">
             Category Management
@@ -129,8 +127,8 @@ function CategoryBody() {
         </Modal>
         <div className="w-full rounded">
           <div className="max-w-7xl sm:px-2 ">
-            <div className="bg-white shadow-md rounded my-6 overflow-x-auto">
-              <table className="min-w-max w-full table-auto">
+            <div className="bg-white shadow-md rounded my-6 custom-height">
+              <table className="min-w-max w-full table-auto ">
                 <thead>
                   <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                     {headers.map((header, index) => (
@@ -153,7 +151,7 @@ function CategoryBody() {
                         {row.name}
                       </td>
                       <td className="py-3 px-6 text-left whitespace-nowrap">
-                        {row.description}
+                        {row.description.slice(0, 50) + "..."}
                       </td>
                       <td className="px-6 py-4 md:py-6 md:px-8 text-sm md:text-base font-medium leading-5 text-gray-800 ">
                         <Link

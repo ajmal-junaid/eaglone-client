@@ -1,10 +1,26 @@
-import React, { useState } from "react";
-import { Link, Outlet } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import Modal from "react-modal";
 import AddCouponForm from "./AddCouponForm";
+import axios from "axios";
+import { baseUrl } from "../../../utils/constants";
+import sweetAlert from "../../Common/SweetAlert";
+import ConfirmDelete from "../../Common/ConfirmDelete";
 
 function Couponbody() {
-  const headers = ["No", "Coupon", "Title", "Course", "Tutor", "Actions"];
+  const [coupons, setCoupons] = useState([]);
+  const [confirmDialog, setConfirmDialog] = useState({});
+  const navigate = useNavigate();
+  const headers = [
+    "No",
+    "Coupon",
+    "Title",
+    "Expiry date",
+    "Percentage",
+    "MaxDiscount",
+    "MinPurchase",
+    "Actions",
+  ];
   const [modalIsOpen, setModalIsOpen] = useState(false);
   function openModal() {
     setModalIsOpen(true);
@@ -13,8 +29,79 @@ function Couponbody() {
   function closeModal() {
     setModalIsOpen(false);
   }
+  const getDatas = () => {
+    axios({
+      method: "get",
+      url: `${baseUrl}admin/coupons`,
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `bearer ${JSON.parse(
+          localStorage.getItem("adminToken")
+        )}`,
+        apikey:
+          "getCourse $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
+      },
+    })
+      .then((res) => {
+        setCoupons(res.data.data);
+      })
+      .catch((res) => {
+        if (res.response.status >= 401 && res.response.status <= 403) {
+          localStorage.removeItem("adminToken");
+          navigate("/admin");
+        }
+        console.log(res.response.data, "catch");
+        sweetAlert("warning", res.response.data.message);
+      });
+  };
+  const deleteRequest = (couponId) => {
+    setConfirmDialog({ active: true, couponId: couponId });
+  };
+  const handleDelete = () => {
+    console.log();
+    axios({
+      method: "delete",
+      url: `${baseUrl}admin/delete-coupon/${confirmDialog.couponId}`,
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `bearer ${JSON.parse(
+          localStorage.getItem("adminToken")
+        )}`,
+        apikey:
+          "getCourse $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
+      },
+    })
+      .then((res) => {
+        setConfirmDialog({ ...confirmDialog, active: false });
+        sweetAlert("success", res.data.message);
+        console.log(res.data.message);
+      })
+      .catch((res) => {
+        if (res.response.status >= 401 && res.response.status <= 403) {
+          localStorage.removeItem("adminToken");
+          navigate("/admin");
+        }
+        console.log(res.response.data, "catch");
+        sweetAlert("warning", res.response.data.message);
+      });
+  };
+  const closeConfirm = () => {
+    setConfirmDialog({ active: false });
+  };
+
+  useEffect(() => {
+    getDatas();
+  }, [handleDelete]);
   return (
     <>
+      {confirmDialog.active && (
+        <ConfirmDelete
+          itemName={confirmDialog.couponId}
+          isOpen={confirmDialog.active}
+          setIsOpen={closeConfirm}
+          handleDelete={handleDelete}
+        />
+      )}
       <div className="my-6 lg:my-12 container px-6 mx-auto flex flex-col lg:flex-row items-start lg:items-center justify-between pb-4 border-b border-gray-300">
         <div>
           <h4 className="text-2xl font-bold leading-tight text-gray-800">
@@ -60,12 +147,12 @@ function Couponbody() {
               />
             </svg>
           </button>
-          <AddCouponForm />
+          <AddCouponForm handleClose={closeModal} />
         </Modal>
         <div className="w-full rounded">
           <div className="max-w-7xl sm:px-2 ">
-            <div className="bg-white shadow-md rounded my-6 overflow-x-auto">
-              <table className="min-w-max w-full table-auto">
+            <div className="bg-white shadow-md rounded my-6 custom-height">
+              <table className="min-w-max w-full table-auto ">
                 <thead>
                   <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                     {headers.map((header, index) => (
@@ -75,33 +162,45 @@ function Couponbody() {
                     ))}
                   </tr>
                 </thead>
-                <tbody className="text-gray-600 text-sm font-light">
-                  <tr className="border-b border-gray-200 hover:bg-gray-100">
-                    <td className="py-3 px-6 text-left whitespace-nowrap">
-                      dfsadfsa
-                    </td>
-                    <td className="py-3 px-6 text-left whitespace-nowrap">
-                      fssda
-                    </td>
-                    <td className="py-3 px-6 text-left whitespace-nowrap">
-                      fsda
-                    </td>
-                    <td className="py-3 px-6 text-left whitespace-nowrap">
-                      fdsa
-                    </td>
-                    <td className="py-3 px-6 text-left whitespace-nowrap">
-                      dfas
-                    </td>
-
-                    <td className="px-6 py-4 md:py-6 md:px-8 text-sm md:text-base font-medium leading-5 text-gray-800 ">
-                      <Link
-                        className="bg-emerald-300 hover:bg-emerald-500 text-gray-800 text-xs py-1 px-3 ml-4 rounded"
-                        to={`update-coupon/`}
+                <tbody className="text-gray-600 text-sm font-light ">
+                  {coupons &&
+                    coupons.map((coupon, index) => (
+                      <tr
+                        key={index}
+                        className="border-b border-gray-200 hover:bg-gray-100"
                       >
-                        Edit
-                      </Link>
-                    </td>
-                  </tr>
+                        <td className="py-3 px-6 text-left whitespace-nowrap">
+                          {index + 1}
+                        </td>
+                        <td className="py-3 px-6 text-left whitespace-nowrap">
+                          {coupon.code}
+                        </td>
+                        <td className="py-3 px-6 text-left whitespace-nowrap">
+                          {coupon.name}
+                        </td>
+                        <td className="py-3 px-6 text-left whitespace-nowrap">
+                          {coupon.expiryDate.slice(0, 10)}
+                        </td>
+                        <td className="py-3 px-6 text-left whitespace-nowrap">
+                          {coupon.percentage}
+                        </td>
+                        <td className="py-3 px-6 text-left whitespace-nowrap">
+                          {coupon.maximumDiscount}
+                        </td>
+                        <td className="py-3 px-6 text-left whitespace-nowrap">
+                          {coupon.minimumPurchase}
+                        </td>
+
+                        <td className="px-6 py-4 md:py-6 md:px-8 text-sm md:text-base font-medium leading-5 text-gray-800 ">
+                          <Link
+                            onClick={() => deleteRequest(coupon._id)}
+                            className="bg-red-300 hover:bg-red-500 text-black hover:text-white text-xs py-1 px-3 ml-4 rounded"
+                          >
+                            delete
+                          </Link>
+                        </td>
+                      </tr>
+                    ))}
                 </tbody>
               </table>
               <Outlet />

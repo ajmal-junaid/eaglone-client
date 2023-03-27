@@ -22,3 +22,8 @@
 .animate-spin-slow {
   animation: fill-up 2s linear infinite;
 }
+
+.custom-height {
+  max-height: 69vh;
+  overflow: auto;
+}

@@ -102,7 +102,7 @@ function CourseBody() {
         </Modal>
         <div className="w-full rounded">
           <div className="max-w-7xl sm:px-2 ">
-            <div className="bg-white shadow-md rounded my-6 overflow-x-auto">
+            <div className="bg-white shadow-md rounded my-6 custom-height">
               <table className="min-w-max w-full table-auto">
                 <thead>
                   <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">

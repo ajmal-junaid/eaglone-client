@@ -4,8 +4,8 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 const validationSchema = Yup.object().shape({
-  couponCode: Yup.string().required("Coupon code is required"),
-  name: Yup.string().required("Name is required"),
+  couponCode: Yup.string().trim().required("Coupon code is required"),
+  name: Yup.string().trim().required("Name is required"),
   expiry: Yup.date().required("Expiry date is required"),
   minPurchase: Yup.number()
     .required("Minimum purchase is required")

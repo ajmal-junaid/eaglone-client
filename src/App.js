@@ -7,7 +7,6 @@ import AdminRoutes from './Routes/AdminRoutes';
 function App() {
   useEffect(() => {
     document.body.style.overflow = 'hidden';
-    // return a cleanup function to set the overflow back to auto when the component unmounts
     return () => {
       document.body.style.overflow = 'auto';
     };

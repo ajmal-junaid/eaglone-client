@@ -72,6 +72,8 @@ function EditCourseForm() {
       setCategory(res.data.data.category);
       setId(res.data.data.courseId);
       setPremium(res.data.data.premium);
+      setPrice(res.data.data.price)
+      setPercentage(res.data.data.percentage)
     });
   };
 

@@ -320,7 +320,7 @@ export default function Sidebar() {
                   >
                     Coupons
                   </NavLink>
-                  {/* <NavLink className="cursor-pointer h-full flex justify-between items-center text-sm text-indigo-700 tracking-normal border-b-2 border-indigo-700 p-5" to="/admin/home">Test</NavLink> */}
+                  
                 </nav>
               )}
             </div>

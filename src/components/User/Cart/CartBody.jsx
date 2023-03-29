@@ -20,9 +20,11 @@ const CartBody = () => {
   const [courseId, setCourseId] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+
   useEffect(() => {
     getData();
-  }, [isOpen]);
+    console.log("useEffectt");
+  }, [isOpen,delet]);
 
   const getData = () => {
     axios({
@@ -39,9 +41,6 @@ const CartBody = () => {
     })
       .then((res) => {
         setCart(res.data.data);
-        console.log(res.data.data);
-
-        //setIsLoading(false);
       })
       .catch((res) => {
         console.log(res, "catch");
@@ -104,37 +103,37 @@ const CartBody = () => {
       ) : (
         ""
       )}
-        <Modal
-            isOpen={modalIsOpen}
-            onRequestClose={closeModal}
-            style={{
-              content: {
-                width: "100%",
-                maxWidth: "800px",
-                height: "auto",
-                margin: "auto",
-                position: "absolute",
-              },
-            }}
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        style={{
+          content: {
+            width: "100%",
+            maxWidth: "800px",
+            height: "auto",
+            margin: "auto",
+            position: "absolute",
+          },
+        }}
+      >
+        <button
+          onClick={closeModal}
+          className="absolute top-0 right-0 m-2 text-gray-500 hover:text-gray-700 focus:outline-none"
+        >
+          <svg
+            className="h-6 w-6 fill-current"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
           >
-            <button
-              onClick={closeModal}
-              className="absolute top-0 right-0 m-2 text-gray-500 hover:text-gray-700 focus:outline-none"
-            >
-              <svg
-                className="h-6 w-6 fill-current"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M11.414 10l4.293-4.293a1 1 0 1 0-1.414-1.414L10 8.586 5.707 4.293a1 1 0 1 0-1.414 1.414L8.586 10l-4.293 4.293a1 1 0 1 0 1.414 1.414L10 11.414l4.293 4.293a1 1 0 1 0 1.414-1.414L11.414 10z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </button>
-            <Confirmation cart={cart} />
-          </Modal>
+            <path
+              fillRule="evenodd"
+              d="M11.414 10l4.293-4.293a1 1 0 1 0-1.414-1.414L10 8.586 5.707 4.293a1 1 0 1 0-1.414 1.414L8.586 10l-4.293 4.293a1 1 0 1 0 1.414 1.414L10 11.414l4.293 4.293a1 1 0 1 0 1.414-1.414L11.414 10z"
+              clipRule="evenodd"
+            />
+          </svg>
+        </button>
+        <Confirmation cart={cart} />
+      </Modal>
       <div className="mt-10">
         <h1 className="text-3xl font-bold">Your Cart</h1>
         <div className="flex justify-between items-center my-4 ">
@@ -149,8 +148,6 @@ const CartBody = () => {
             Checkout
             <FaChevronRight className="w-5 h-5 ml-2 " />
           </button>
-
-        
         </div>
         <div className="grid grid-cols-12 gap-4 ">
           <div className="col-span-12 md:col-span-8 border-x-2 p-4 gap-4">
@@ -233,6 +230,7 @@ const CartBody = () => {
               </div>
             </div>
           </div>
+
           <CartSummary cart={cart} />
         </div>
       </div>

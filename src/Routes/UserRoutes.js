@@ -10,6 +10,8 @@ import Navbar from '../components/User/Navbar'
 import Footer from '../components/User/Footer/Footer'
 import Course from '../pages/User/Course';
 import Cart from '../pages/User/Cart';
+import CoursesPurchased from '../pages/User/CoursesPurchased';
+import LessonView from '../pages/User/LessonView';
 
 function UserRoutes() {
   return (
@@ -27,9 +29,11 @@ function UserRoutes() {
           <Route path="home" element={<Home />} />
           <Route path='explore' element={<Categories />} />
           <Route path='courses' element={<Courses />} />
-          <Route path='course/:id' element={<Course/>}/>
+          <Route path='course/:id' element={<Course />} />
           <Route element={<PrivateUser />}>
             <Route path='cart/:id' element={<Cart />} />
+            <Route path='courses-purchased/:id' element={<CoursesPurchased />} />
+            <Route path='private-lesson/:id' element={<LessonView/>}/>
           </Route>
         </Routes>
       </div>

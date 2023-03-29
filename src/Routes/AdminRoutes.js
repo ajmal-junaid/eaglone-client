@@ -37,6 +37,7 @@ function AdminRoutes() {
             <Route path='lessons' element={<LessonManagement />} />
             <Route path='lessons/update-lesson/:id' element={<EditLessonForm />} />
             <Route path='coupons' element={<CouponManagement/>}/>
+            
           </Route>
         </Routes>
       </div>

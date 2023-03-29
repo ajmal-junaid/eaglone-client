@@ -18,6 +18,43 @@ function Body({ courses }) {
   const handleClick = (id) => {
     navigate(`/user/course/${id}`);
   };
+  const enrollCourse =(courseId)=>{
+    axios({
+      method: "post",
+      url: `${baseUrl}add-free-course`,
+      data: {
+        userId: _id,
+        courseId: courseId,
+      },
+      headers: {
+        apikey:
+          "login $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
+        authorization: `addToCart ${JSON.parse(
+          localStorage.getItem("userToken")
+        )}`,
+      },
+    })
+      .then((res) => {
+        setSuccess(true);
+        setErr(false);
+        setMessage(res.data.message);
+      })
+      .catch((res) => {
+        if (res.response.status >= 401 && res.response.status <= 403) {
+          localStorage.removeItem("userToken");
+          localStorage.removeItem("auth");
+          dispatch(
+            setUserData({
+              userData: { name: null, email: null, mobile: null, _id: null },
+            })
+          );
+          navigate("/user/login");
+        }
+        setErr(true);
+        setSuccess(false);
+        setMessage(res.response.data.message);
+      });
+  }
   const addToCart = (courseId) => {
     axios({
       method: "post",
@@ -36,6 +73,7 @@ function Body({ courses }) {
     })
       .then((res) => {
         setSuccess(true);
+        setErr(false);
         setMessage(res.data.message);
       })
       .catch((res) => {
@@ -50,6 +88,7 @@ function Body({ courses }) {
           navigate("/user/login");
         }
         setErr(true);
+        setSuccess(false);
         setMessage(res.response.data.message);
       });
   };
@@ -97,7 +136,7 @@ function Body({ courses }) {
                       Add to Cart
                     </button>
                   ) : (
-                    <button className="ml-auto self-end mt-auto inline-block px-5 py-1 font-medium text-white transition duration-500 ease-in-out transform bg-gray-400 border border-emerald-200 rounded-lg hover:bg-emerald-400 focus:outline-none focus:shadow-outline-blue">
+                    <button onClick={() => enrollCourse(course._id)} className="ml-auto self-end mt-auto inline-block px-5 py-1 font-medium text-white transition duration-500 ease-in-out transform bg-gray-400 border border-emerald-200 rounded-lg hover:bg-emerald-400 focus:outline-none focus:shadow-outline-blue">
                       Enroll
                     </button>
                   )}

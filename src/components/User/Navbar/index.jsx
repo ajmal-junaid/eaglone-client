@@ -7,7 +7,7 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserData } from "../../../Redux";
-import { FaShoppingCart } from "react-icons/fa";
+import { FaShoppingCart, FaBook } from "react-icons/fa";
 
 export default function Example() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -38,7 +38,7 @@ export default function Example() {
     localStorage.removeItem("auth");
     dispatch(
       setUserData({
-        userData: { name: null, email: null, mobile: null,_id:null },
+        userData: { name: null, email: null, mobile: null, _id: null },
       })
     );
     navigate("/");
@@ -368,6 +368,14 @@ export default function Example() {
                           2
                         </span>
                       </span>
+                    </NavLink>
+                    <NavLink
+                      to={`/user/courses-purchased/${userData._id}`}
+                      className="cursor-pointer text-gray-600 text-sm leading-3 tracking-normal mt-2 py-2 hover:text-indigo-700 focus:text-indigo-700 focus:outline-none flex items-center"
+                    >
+                      <FaBook className="mr-1 h-4 w-4 text-black-500" />
+
+                      <span className="ml-2">My Courses</span>
                     </NavLink>
                     <li className="cursor-pointer text-gray-600 text-sm leading-3 tracking-normal mt-2 py-2 hover:text-indigo-700 flex items-center focus:text-indigo-700 focus:outline-none">
                       <svg

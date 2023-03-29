@@ -5,12 +5,21 @@ import { baseUrl } from "../../../utils/constants";
 import sweetAlert from "../../Common/SweetAlert";
 import Loading from "../../Common/Loading";
 import LoadingBar from "../../Common/Loading";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function Dashboard() {
   const [isLoading, setIsLoading] = useState(true);
-  const [isCategoryLoading,setCatagoryLoading] = useState(true);
+  const [isCategoryLoading, setCatagoryLoading] = useState(true);
   const [courses, setCourses] = useState([]);
   const [categories, setCategories] = useState([]);
+  const userData = useSelector((state) => state.userData.value);
+  const navigate = useNavigate();
+
+  const handleMyCourse = () => {
+    console.log("fdshjkdsafhjk");
+    navigate(`/user/courses-purchased/${userData._id}`);
+  };
   useEffect(() => {
     getDatas();
   }, []);
@@ -45,7 +54,7 @@ function Dashboard() {
       },
     })
       .then((res) => {
-        setCatagoryLoading(false)
+        setCatagoryLoading(false);
         setCategories(res.data.data);
       })
       .catch((res) => {
@@ -149,8 +158,8 @@ function Dashboard() {
                   </div>
                 </div>
               </div>
-              <div className="w-full sm:w-1/2 lg:w-1/2 xl:w-1/2 px-2 mt-5">
-                <div className="card-container">
+              <div className="w-full sm:w-1/2 lg:w-1/2 xl:w-1/2 px-2 mt-5 cursor-pointer">
+                <div className="card-container" onClick={handleMyCourse}>
                   <div className="rounded-lg shadow-md bg-customGreen">
                     <div className="flex items-center mb-4">
                       <div className="w-full text-center mt-10 tracking-widest">
@@ -208,25 +217,29 @@ function Dashboard() {
               </h1>
             </div>
             <div>
-              {isCategoryLoading ? <LoadingBar/>:<div className="flex justify-center flex-wrap ">
-                {categories.map((card) => (
-                  <div
-                    key={card.name}
-                    className="hover:bg-slate-400 cursor-pointer m-2  w-1/3 md:w-1/6  2xl:w-2/12 max-w-sm rounded overflow-hidden shadow-lg p-4"
-                  >
-                    <img
-                      className="w-full h-20 object-scale-down"
-                      src={card.image}
-                      alt={card.name}
-                    />
-                    <div className=" w-auto">
-                      <div className="text-center font-light text-xs">
-                        {card.name}
+              {isCategoryLoading ? (
+                <LoadingBar />
+              ) : (
+                <div className="flex justify-center flex-wrap ">
+                  {categories.map((card) => (
+                    <div
+                      key={card.name}
+                      className="hover:bg-slate-400 cursor-pointer m-2  w-1/3 md:w-1/6  2xl:w-2/12 max-w-sm rounded overflow-hidden shadow-lg p-4"
+                    >
+                      <img
+                        className="w-full h-20 object-scale-down"
+                        src={card.image}
+                        alt={card.name}
+                      />
+                      <div className=" w-auto">
+                        <div className="text-center font-light text-xs">
+                          {card.name}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
-              </div>}
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>

@@ -9,7 +9,6 @@ function CourseDetails({ id }) {
   const [lessons, setLessons] = useState([]);
   const [category, setCategory] = useState({});
   const getData = (courseId) => {
-    console.log(courseId, "iddd");
     axios({
       method: "get",
       url: `${baseUrl}course/${courseId}`,
@@ -23,6 +22,7 @@ function CourseDetails({ id }) {
       },
     })
       .then((res) => {
+        console.log(res.data, "res from Course Details");
         setCourse(res.data.data);
         axios({
           method: "get",

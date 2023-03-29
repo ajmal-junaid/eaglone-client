@@ -320,7 +320,12 @@ export default function Sidebar() {
                   >
                     Coupons
                   </NavLink>
-                  
+                  <NavLink
+                    className="cursor-pointer h-full flex justify-between items-center text-sm tracking-normal border-b-2  p-5"
+                    to="/admin/banners"
+                  >
+                    Banners
+                  </NavLink>
                 </nav>
               )}
             </div>

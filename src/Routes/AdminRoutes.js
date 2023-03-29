@@ -13,6 +13,7 @@ import Login from '../pages/Admin/Login'
 import UserManagement from '../pages/Admin/UserManagement'
 import axios from 'axios'
 import CouponManagement from '../pages/Admin/CouponManagement'
+import BannerManagement from '../pages/Admin/BannerManagement'
 
 function AdminRoutes() {
   axios.defaults.headers.common['apikey'] = 'invalid $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi';
@@ -37,7 +38,7 @@ function AdminRoutes() {
             <Route path='lessons' element={<LessonManagement />} />
             <Route path='lessons/update-lesson/:id' element={<EditLessonForm />} />
             <Route path='coupons' element={<CouponManagement/>}/>
-            
+            <Route path='banners' element={<BannerManagement/>}/>
           </Route>
         </Routes>
       </div>

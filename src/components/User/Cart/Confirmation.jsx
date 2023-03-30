@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { baseUrl } from "../../../utils/constants";
+import Payment from "./Payment";
 
 function Confirmation(props) {
   const [couponCode, setCouponCode] = useState("");
@@ -126,6 +127,7 @@ function Confirmation(props) {
           >
             Proceed to Pay
           </button>
+          <Payment/>
         </div>
       </div>
     </>

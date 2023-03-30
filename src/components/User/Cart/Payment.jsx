@@ -10,9 +10,17 @@ try {
         url:`${baseUrl}payment`,
         method: 'post',
         data:{
-            amount:786*100,
+            amount:78*100,
             token,
-        }
+        },
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `bearer ${JSON.parse(
+          localStorage.getItem("userToken")
+        )}`,
+        apikey:
+          "getCourse $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
+      },
     })
     if(response.status==200){
         console.log("success",response);
@@ -30,7 +38,7 @@ try {
         name='Pay with Credit Card'
         billingAddress
         shippingAddress
-        amount={535*100}
+        amount={78*100}
         description={`your total price is secret da`}
         token={payNow}
 />

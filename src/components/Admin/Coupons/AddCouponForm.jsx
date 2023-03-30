@@ -24,7 +24,7 @@ const validationSchema = Yup.object().shape({
     .min(0, "Discount Percentage must be greater than or equal to 0")
     .max(100, "Discount Percentage must be lesser than or equal to 100")
     .required("Percentage is required"),
-});
+}); 
 function AddCouponForm({handleClose}) {
   const navigate = useNavigate();
   const handleCouponApply = async (values) => {

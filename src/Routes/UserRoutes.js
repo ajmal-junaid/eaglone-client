@@ -12,6 +12,7 @@ import Course from '../pages/User/Course';
 import Cart from '../pages/User/Cart';
 import CoursesPurchased from '../pages/User/CoursesPurchased';
 import LessonView from '../pages/User/LessonView';
+import NotFound from '../pages/NotFound';
 
 function UserRoutes() {
   return (
@@ -35,6 +36,7 @@ function UserRoutes() {
             <Route path='courses-purchased/:id' element={<CoursesPurchased />} />
             <Route path='private-lesson/:id' element={<LessonView/>}/>
           </Route>
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
       <Footer />

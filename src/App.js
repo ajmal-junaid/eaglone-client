@@ -4,6 +4,7 @@ import NotFound from './pages/NotFound';
 import UserRoutes from './Routes/UserRoutes'
 import AdminRoutes from './Routes/AdminRoutes';
 
+
 function App() {
   useEffect(() => {
     document.body.style.overflow = 'hidden';

@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 .active {
   @apply text-purple-900 text-indigo-700 tracking-normal border-b-2 border-indigo-700;
 }

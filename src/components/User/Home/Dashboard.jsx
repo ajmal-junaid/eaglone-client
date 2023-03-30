@@ -1,12 +1,12 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import bannerImage from "../../../asset/banner.jpg";
 import { baseUrl } from "../../../utils/constants";
 import sweetAlert from "../../Common/SweetAlert";
 import Loading from "../../Common/Loading";
 import LoadingBar from "../../Common/Loading";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import Banner from "./Banner";
 
 function Dashboard() {
   const [isLoading, setIsLoading] = useState(true);
@@ -67,13 +67,7 @@ function Dashboard() {
     <>
       <div className="container mx-auto px-6 py-24 flex flex-col lg:flex-row items-start lg:items-center justify-between">
         <div className="w-full">
-          <div>
-            <img
-              className="min-w-full object-center max-h-56"
-              src={bannerImage}
-              alt="banner"
-            ></img>
-          </div>
+          <Banner />
           <div>
             <div className="my-6 pt-4">
               <h1 className="text-2xl md:text-3xl lg:text-3xl font-extrabold font-mono">

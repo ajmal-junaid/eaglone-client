@@ -57,8 +57,6 @@ function AddCategoryForm() {
     setIsSubmitting(true);
     setSubmitError(null);
     setSubmitSuccess(false);
-    console.log(name, description, "nokkk");
-
     const formData = new FormData();
     formData.append("name", name);
     formData.append("description", description);

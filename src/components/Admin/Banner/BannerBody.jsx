@@ -5,10 +5,12 @@ import { Link, Outlet, useNavigate } from "react-router-dom";
 import { baseUrl } from "../../../utils/constants";
 import sweetAlert from "../../Common/SweetAlert";
 import AddBannerForm from "./AddBannerForm";
+import ConfirmDelete from "../../Common/ConfirmDelete";
 
 function BannerBody() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [banners, setBanners] = useState([]);
+  const [confirmDialog, setConfirmDialog] = useState({});
   const navigate = useNavigate();
   function openModal() {
     setModalIsOpen(true);
@@ -19,7 +21,7 @@ function BannerBody() {
   }
   useEffect(() => {
     getData();
-  }, []);
+  }, [confirmDialog]);
   const getData = () => {
     axios({
       method: "get",
@@ -46,11 +48,49 @@ function BannerBody() {
       });
   };
   const headers = ["index", "name", "image", "action"];
-  const handleDelete = (bannerId) => {
-    console.log(bannerId);
+  const handleDelete = () => {
+    axios({
+      url: `${baseUrl}admin/delete-banner/${confirmDialog.id}`,
+      method: "delete",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `bearer ${JSON.parse(
+          localStorage.getItem("adminToken")
+        )}`,
+        apikey:
+          "getCourse $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
+      },
+    })
+      .then((res) => {
+        setConfirmDialog({ ...confirmDialog, active: false });
+        sweetAlert("success", res.data.message);
+      })
+      .catch((res) => {
+        if (res.response.status >= 401 && res.response.status <= 403) {
+          localStorage.removeItem("adminToken");
+          navigate("/admin");
+        }
+        console.log(res.response.data, "catch");
+        sweetAlert("warning", res.response.data.message);
+      });
   };
+  const closeConfirm = () => {
+    setConfirmDialog({ active: false });
+  };
+  const deleteConfirm = (bannerId) => {
+    setConfirmDialog({ active: true, id: bannerId, message: "this banner" });
+  };
+
   return (
     <>
+      {confirmDialog.active && (
+        <ConfirmDelete
+          data={confirmDialog}
+          isOpen={confirmDialog.active}
+          setIsOpen={closeConfirm}
+          handleDelete={handleDelete}
+        />
+      )}
       <div className="my-6 lg:my-12 container px-6 mx-auto flex flex-col lg:flex-row items-start lg:items-center justify-between pb-4 border-b border-gray-300">
         <div>
           <h4 className="text-2xl font-bold leading-tight text-gray-800">
@@ -129,7 +169,7 @@ function BannerBody() {
                         </td>
                         <td className="px-6 py-4 md:py-6 md:px-8 text-sm md:text-base font-medium leading-5 text-gray-800 ">
                           <Link
-                            onClick={() => handleDelete(banner._id)}
+                            onClick={() => deleteConfirm(banner._id)}
                             className="bg-red-300 hover:bg-red-500 text-black hover:text-white text-xs py-1 px-3 ml-4 rounded"
                           >
                             delete

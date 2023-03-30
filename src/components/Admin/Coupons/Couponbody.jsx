@@ -54,8 +54,8 @@ function Couponbody() {
         sweetAlert("warning", res.response.data.message);
       });
   };
-  const deleteRequest = (couponId) => {
-    setConfirmDialog({ active: true, couponId: couponId });
+  const deleteRequest = (couponId,name) => {
+    setConfirmDialog({ active: true, couponId: couponId ,couponName:name});
   };
   const handleDelete = () => {
     console.log();
@@ -74,7 +74,6 @@ function Couponbody() {
       .then((res) => {
         setConfirmDialog({ ...confirmDialog, active: false });
         sweetAlert("success", res.data.message);
-        console.log(res.data.message);
       })
       .catch((res) => {
         if (res.response.status >= 401 && res.response.status <= 403) {
@@ -96,7 +95,7 @@ function Couponbody() {
     <>
       {confirmDialog.active && (
         <ConfirmDelete
-          itemName={confirmDialog.couponId}
+        data={confirmDialog}
           isOpen={confirmDialog.active}
           setIsOpen={closeConfirm}
           handleDelete={handleDelete}
@@ -193,7 +192,7 @@ function Couponbody() {
 
                         <td className="px-6 py-4 md:py-6 md:px-8 text-sm md:text-base font-medium leading-5 text-gray-800 ">
                           <Link
-                            onClick={() => deleteRequest(coupon._id)}
+                            onClick={() => deleteRequest(coupon._id,coupon.name)}
                             className="bg-red-300 hover:bg-red-500 text-black hover:text-white text-xs py-1 px-3 ml-4 rounded"
                           >
                             delete

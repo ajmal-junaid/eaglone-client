@@ -1,11 +1,10 @@
 import React from "react";
 import { Transition } from "@headlessui/react";
 
-function DeleteConfirmBox({ itemName, isOpen, setIsOpen,handleDelete }) {
-
+function DeleteConfirmBox({ data, setIsOpen, handleDelete }) {
   return (
     <>
-      <Transition show={isOpen}>
+      <Transition show={data.active}>
         <div className="fixed inset-0 z-10 flex items-center justify-center">
           <Transition.Child
             enter="transition-opacity duration-300"
@@ -30,7 +29,7 @@ function DeleteConfirmBox({ itemName, isOpen, setIsOpen,handleDelete }) {
                 Confirm Deletion
               </h2>
               <p className="mb-6 text-sm text-gray-500">
-                Are you sure you want to delete {itemName}?
+                Are you sure you want to delete {data.couponName}?
               </p>
               <div className="flex justify-end space-x-4">
                 <button

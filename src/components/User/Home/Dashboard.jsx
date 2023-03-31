@@ -22,7 +22,6 @@ function Dashboard() {
   const navigate = useNavigate();
 
   const handleMyCourse = () => {
-    console.log("fdshjkdsafhjk");
     navigate(`/user/courses-purchased/${userData._id}`);
   };
   useEffect(() => {
@@ -255,7 +254,6 @@ function Dashboard() {
                       </ul>
                     </div>
                     <div
-                      onClick={handleMyCourse}
                       className={`${
                         hovered ? "opacity-100" : "opacity-0"
                       } transition-opacity duration-300 absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-center items-center`}
@@ -263,11 +261,11 @@ function Dashboard() {
                       <h4 className="text-white font-bold text-lg mb-2">
                         Enrolled Courses
                       </h4>
-                      <button className="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg transform transition-all duration-300 hover:scale-105">
+                      <button onClick={handleMyCourse} className="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg transform transition-all duration-300 hover:scale-105">
                         View courses
                       </button>
                     </div>
-                    <div
+                    <div onClick={handleMyCourse}
                       className={`${
                         hovered ? "opacity-0" : "opacity-100"
                       } transition-opacity duration-300 absolute inset-0 flex justify-center items-center`}

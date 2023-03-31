@@ -5,11 +5,11 @@ import { FaChevronRight } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import { baseUrl } from "../../../utils/constants";
 import Tradional from "../../Common/Alerts/Traditional";
-import CartSummary from "./CartSummary";
+import CartSummary from "./Components/CartSummary";
 import DeleteConfirmBox from "../../Common/ConfirmDelete";
 import Modern from "../../Common/Alerts/Modern";
 import Modal from "react-modal";
-import Confirmation from "./Confirmation";
+import Confirmation from "./Components/Confirmation";
 
 const CartBody = () => {
   const params = useParams();

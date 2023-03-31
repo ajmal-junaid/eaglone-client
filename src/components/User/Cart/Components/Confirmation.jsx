@@ -1,9 +1,10 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { baseUrl } from "../../../utils/constants";
 import Payment from "./Payment";
+import { baseUrl } from "../../../../utils/constants";
 
 function Confirmation(props) {
+  const [clientSecret, setClientSecret] = useState("");
   const [couponCode, setCouponCode] = useState("");
   const [couponApplied, setCouponApplied] = useState(false);
   const [couponDiscount, setCouponDiscount] = useState(null);
@@ -45,12 +46,34 @@ function Confirmation(props) {
         console.log(res.response.data, "catch");
       });
   };
-  const handlePurchase = () => {
-    console.log("succ");
+  const handlePurchase = async () => {
+    try {
+      const response = await axios({
+        url: `${baseUrl}payment`,
+        method: "post",
+        data: {
+          amount: totalPrice,
+        },
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `bearer ${JSON.parse(
+            localStorage.getItem("userToken")
+          )}`,
+          apikey:
+            "getCourse $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
+        },
+      });
+      if (response.status == 200) {
+        console.log("success", response);
+        setClientSecret(response.data.clientSecret);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <>
-      <div className="inset-0 z-40 flex flex-col justify-items-start pt-14 border-b-2 pb-2 mb-4">
+      {clientSecret ? <Payment clientSecret={clientSecret} /> : <div className="inset-0 z-40 flex flex-col justify-items-start pt-14 border-b-2 pb-2 mb-4">
         <div className="text-center w-full">
           {/* {submitError ? <Traditional err={submitError} /> : ""} */}
           <h2 className="text-lg font-bold text-gray-800 uppercase tracking-wider mb-1">
@@ -127,9 +150,10 @@ function Confirmation(props) {
           >
             Proceed to Pay
           </button>
-          <Payment/>
+         
         </div>
-      </div>
+      </div>}
+      
     </>
   );
 }

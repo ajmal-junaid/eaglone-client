@@ -15,6 +15,7 @@ import LessonView from '../pages/User/LessonView';
 import NotFound from '../pages/NotFound';
 import PurchaseHistory from '../pages/User/PurchaseHistory';
 import PremiumFeatures from '../pages/User/PremiumFeatures';
+import PaymentSuccess from '../pages/User/PaymentSuccess';
 
 function UserRoutes() {
   return (
@@ -39,6 +40,7 @@ function UserRoutes() {
             <Route path='courses-purchased/:id' element={<CoursesPurchased />} />
             <Route path='private-lesson/:id' element={<LessonView/>}/>
             <Route path='purchase-history' element={<PurchaseHistory/>}/>
+            <Route path='payment-success' element={<PaymentSuccess/>}/>
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

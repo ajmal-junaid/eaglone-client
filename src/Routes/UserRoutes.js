@@ -13,6 +13,8 @@ import Cart from '../pages/User/Cart';
 import CoursesPurchased from '../pages/User/CoursesPurchased';
 import LessonView from '../pages/User/LessonView';
 import NotFound from '../pages/NotFound';
+import PurchaseHistory from '../pages/User/PurchaseHistory';
+import PremiumFeatures from '../pages/User/PremiumFeatures';
 
 function UserRoutes() {
   return (
@@ -31,10 +33,12 @@ function UserRoutes() {
           <Route path='explore' element={<Categories />} />
           <Route path='courses' element={<Courses />} />
           <Route path='course/:id' element={<Course />} />
+          <Route path='premium-benefits' element={<PremiumFeatures/>}/>
           <Route element={<PrivateUser />}>
             <Route path='cart/:id' element={<Cart />} />
             <Route path='courses-purchased/:id' element={<CoursesPurchased />} />
             <Route path='private-lesson/:id' element={<LessonView/>}/>
+            <Route path='purchase-history' element={<PurchaseHistory/>}/>
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

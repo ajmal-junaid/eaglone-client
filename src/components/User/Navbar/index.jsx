@@ -7,7 +7,12 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserData } from "../../../Redux";
-import { FaShoppingCart, FaBook } from "react-icons/fa";
+import {
+  FaShoppingCart,
+  FaBook,
+  FaDollarSign,
+  FaSignOutAlt,
+} from "react-icons/fa";
 
 export default function Example() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -369,32 +374,25 @@ export default function Example() {
                         </span>
                       </span>
                     </NavLink>
+
                     <NavLink
-                      to={`/user/courses-purchased/${userData._id}`}
+                      to={`/user/my-courses/${userData._id}`}
                       className="cursor-pointer text-gray-600 text-sm leading-3 tracking-normal mt-2 py-2 hover:text-indigo-700 focus:text-indigo-700 focus:outline-none flex items-center"
                     >
                       <FaBook className="mr-1 h-4 w-4 text-black-500" />
 
                       <span className="ml-2">My Courses</span>
                     </NavLink>
-                    <li className="cursor-pointer text-gray-600 text-sm leading-3 tracking-normal mt-2 py-2 hover:text-indigo-700 flex items-center focus:text-indigo-700 focus:outline-none">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="icon icon-tabler icon-tabler-logout"
-                        width="20"
-                        height="20"
-                        viewBox="0 0 24 24"
-                        strokeWidth="1.5"
-                        stroke="currentColor"
-                        fill="none"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path stroke="none" d="M0 0h24v24H0z" />
-                        <path d="M14 8v-2a2 2 0 0 0 -2 -2h-5a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h5a2 2 0 0 0 2 -2v-2" />
-                        <path d="M7 12h14l-3 -3m0 6l3 -3" />
-                      </svg>
+                    <NavLink
+                      to={`/user/purchase-history/${userData._id}`}
+                      className="cursor-pointer text-gray-600 text-sm leading-3 tracking-normal mt-2 py-2 hover:text-indigo-700 focus:text-indigo-700 focus:outline-none flex items-center"
+                    >
+                      <FaDollarSign className="mr-1 h-4 w-4 text-black-500" />
 
+                      <span className="ml-2">Orders</span>
+                    </NavLink>
+                    <li className="cursor-pointer text-gray-600 text-sm leading-3 tracking-normal mt-2 py-2 hover:text-indigo-700 flex items-center focus:text-indigo-700 focus:outline-none">
+                      <FaSignOutAlt />
                       <button onClick={logout} className="ml-2">
                         Logout
                       </button>

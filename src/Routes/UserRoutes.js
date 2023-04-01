@@ -10,12 +10,12 @@ import Navbar from '../components/User/Navbar'
 import Footer from '../components/User/Footer/Footer'
 import Course from '../pages/User/Course';
 import Cart from '../pages/User/Cart';
-import CoursesPurchased from '../pages/User/CoursesPurchased';
 import LessonView from '../pages/User/LessonView';
 import NotFound from '../pages/NotFound';
 import PurchaseHistory from '../pages/User/PurchaseHistory';
 import PremiumFeatures from '../pages/User/PremiumFeatures';
 import PaymentSuccess from '../pages/User/PaymentSuccess';
+import MyCourses from '../pages/User/MyCourses';
 
 function UserRoutes() {
   return (
@@ -37,9 +37,9 @@ function UserRoutes() {
           <Route path='premium-benefits' element={<PremiumFeatures />} />
           <Route element={<PrivateUser />}>
             <Route path='cart/:id' element={<Cart />} />
-            <Route path='courses-purchased/:id' element={<CoursesPurchased />} />
+            <Route path='my-courses/:id' element={<MyCourses />} /> 
             <Route path='private-lesson/:id' element={<LessonView />} />
-            <Route path='purchase-history' element={<PurchaseHistory />} />
+            <Route path='purchase-history/:id' element={<PurchaseHistory />} />
             <Route path='payment-success' element={<PaymentSuccess />} />
             {/* <Route path='community' element={<Community/>}/>  */}
           </Route>

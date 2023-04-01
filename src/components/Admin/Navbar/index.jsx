@@ -276,7 +276,7 @@ export default function Sidebar() {
             <div className="h-full flex items-center">
               <div className="mr-10 flex items-center">
                 <div className="flex lg:flex-1">
-                  <Link to="/admin/home" className="-m-1.5 p-1.5">
+                  <Link to="/admin/orders" className="-m-1.5 p-1.5">
                     <span className="sr-only">Your Company</span>
                     <img className="h-11 w-auto" src={Logo} alt="LL" />
                   </Link>
@@ -286,7 +286,7 @@ export default function Sidebar() {
                 <nav className="pr-12 xl:flex items-center h-full hidden">
                   <NavLink
                     className="cursor-pointer h-full flex justify-between items-center text-sm tracking-normal border-b-2  p-5"
-                    to="/admin/home"
+                    to="/admin/orders"
                   >
                     Home
                   </NavLink>

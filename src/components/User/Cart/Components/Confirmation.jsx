@@ -3,9 +3,11 @@ import React, { useState } from "react";
 import Payment from "./Payment";
 import { baseUrl } from "../../../../utils/constants";
 import { useSelector } from "react-redux";
+import Traditional from "../../../Common/Alerts/Danger";
 
 function Confirmation(props) {
   const [clientSecret, setClientSecret] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const [couponCode, setCouponCode] = useState("");
   const [couponApplied, setCouponApplied] = useState(false);
   const [couponDiscount, setCouponDiscount] = useState(null);
@@ -13,7 +15,6 @@ function Confirmation(props) {
     props.cart.reduce((acc, item) => acc + item.ourPrice, 0)
   );
   const totalPrice = props.cart.reduce((acc, item) => acc + item.ourPrice, 0);
-  const checkoutData = useSelector((state) => state.checkout.value);
   const userData = useSelector((state) => state.userData.value);
 
   const handleApplyCoupon = (e) => {
@@ -83,16 +84,16 @@ function Confirmation(props) {
       method: "post",
       data: {
         user: userData._id,
-        courses: props.cart.map(course=>course._id),
+        courses: props.cart.map((course) => course._id),
         payment: {
           method: "card",
           transactionId: clientSecret,
         },
         client: clientSecret,
         coupon: {
-           code: couponCode ,
-           discount:couponDiscount
-          },
+          code: couponCode,
+          discount: couponDiscount,
+        },
       },
       headers: {
         "Content-Type": "application/json",
@@ -102,15 +103,19 @@ function Confirmation(props) {
         apikey:
           "getCourse $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
       },
-    }).then((res)=>{
-      console.log(res,"respomse");
-    }).catch((err)=>{
-      console.log(err.response.data);
     })
+      .then((res) => {
+        console.log(res, "respomse");
+      })
+      .catch((err) => {
+        setClientSecret("");
+        setErrorMessage(err.response.data.message);
+        console.log(err.response.data);
+      });
   };
   return (
     <>
-      {console.log(checkoutData, "data daaaaaaaa")}
+      {errorMessage ? <Traditional err={errorMessage} /> : ""}
       {clientSecret ? (
         <Payment clientSecret={clientSecret} />
       ) : (

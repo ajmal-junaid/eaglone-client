@@ -10,6 +10,8 @@ import DeleteConfirmBox from "../../Common/ConfirmDelete";
 import Modern from "../../Common/Alerts/Modern";
 import Modal from "react-modal";
 import Confirmation from "./Components/Confirmation";
+import { useDispatch, useSelector } from "react-redux";
+import { setCheckout } from "../../../Redux";
 
 const CartBody = () => {
   const params = useParams();
@@ -20,11 +22,12 @@ const CartBody = () => {
   const [courseId, setCourseId] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const dispatch = useDispatch();
+  const userData = useSelector((state) => state.userData.value);
 
   useEffect(() => {
     getData();
-    console.log("useEffectt");
-  }, [isOpen,delet]);
+  }, [isOpen, delet]);
 
   const getData = () => {
     axios({
@@ -53,7 +56,6 @@ const CartBody = () => {
     setDelete(title);
   };
   const handleDeletee = () => {
-    console.log("hiiii", courseId, params.id);
     axios({
       method: "post",
       url: `${baseUrl}remove-from-cart`,
@@ -84,8 +86,15 @@ const CartBody = () => {
   };
   function openModal() {
     setModalIsOpen(true);
+    dispatch(
+      setCheckout({
+        checkout: {
+          user:userData._id,
+          courses: cart,
+        },
+      })
+    )
   }
-
   function closeModal() {
     setModalIsOpen(false);
   }

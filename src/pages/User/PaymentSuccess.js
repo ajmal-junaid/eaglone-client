@@ -1,4 +1,5 @@
 import React from 'react'
+import { useSelector } from 'react-redux';
 
 
 function PaymentSuccess() {
@@ -7,6 +8,8 @@ function PaymentSuccess() {
     const clientSecretParam = params.get('payment_intent_client_secret');
     const redirectStatusParam = params.get('redirect_status');
     console.log(paymentIntentParam,clientSecretParam,redirectStatusParam);
+    const checkout = useSelector((state) => state.checkout.value);
+    console.log(checkout,"chekout kitty lle moneuuu");
     return (
         <div className='pt-16 pb-8'>
             <div className="flex flex-col items-center justify-center min-h-screen py-12 px-4 sm:px-6 lg:px-8">

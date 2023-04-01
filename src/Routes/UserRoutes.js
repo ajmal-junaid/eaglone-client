@@ -34,13 +34,14 @@ function UserRoutes() {
           <Route path='explore' element={<Categories />} />
           <Route path='courses' element={<Courses />} />
           <Route path='course/:id' element={<Course />} />
-          <Route path='premium-benefits' element={<PremiumFeatures/>}/>
+          <Route path='premium-benefits' element={<PremiumFeatures />} />
           <Route element={<PrivateUser />}>
             <Route path='cart/:id' element={<Cart />} />
             <Route path='courses-purchased/:id' element={<CoursesPurchased />} />
-            <Route path='private-lesson/:id' element={<LessonView/>}/>
-            <Route path='purchase-history' element={<PurchaseHistory/>}/>
-            <Route path='payment-success' element={<PaymentSuccess/>}/>
+            <Route path='private-lesson/:id' element={<LessonView />} />
+            <Route path='purchase-history' element={<PurchaseHistory />} />
+            <Route path='payment-success' element={<PaymentSuccess />} />
+            {/* <Route path='community' element={<Community/>}/>  */}
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

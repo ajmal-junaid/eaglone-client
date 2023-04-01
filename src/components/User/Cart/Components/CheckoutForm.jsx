@@ -49,8 +49,6 @@ export default function CheckoutForm() {
     e.preventDefault();
 
     if (!stripe || !elements) {
-      // Stripe.js has not yet loaded.
-      // Make sure to disable form submission until Stripe.js has loaded.
       return;
     }
 
@@ -59,10 +57,9 @@ export default function CheckoutForm() {
     const response = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: `http://localhost:3001/user/payment-success`,
+        return_url: `${window.location.origin}/user/payment-success`,
       },
     });
-    console.log(response, "respojnse daaaaa");
     if (
       response.error.type === "card_error" ||
       response.error.type === "validation_error"

@@ -26,6 +26,7 @@ function Dashboard() {
   };
   useEffect(() => {
     getDatas();
+    window.history.pushState(null, null, '/');
   }, []);
   const getDatas = () => {
     axios({

@@ -22,16 +22,20 @@ function Dashboard() {
   const navigate = useNavigate();
 
   const handleMyCourse = () => {
-    navigate(`/user/courses-purchased/${userData._id}`);
+    navigate(`/user/my-courses/${userData._id}`);
   };
   useEffect(() => {
     getDatas();
-    window.history.pushState(null, null, '/');
+    window.history.pushState(null, null, "/");
   }, []);
   const getDatas = () => {
     axios({
       method: "get",
       url: `${baseUrl}courses`,
+      params: {
+        page: 1,
+        limit: 7,
+      },
       headers: {
         "Content-Type": "application/json",
         authorization: `bearer ${JSON.parse(
@@ -85,49 +89,56 @@ function Dashboard() {
     setHoveredf(false);
   };
 
-
   return (
     <>
       <div className="container mx-auto px-6 py-24 flex flex-col lg:flex-row items-start lg:items-center justify-between">
         <div className="w-full">
           <Banner />
           <div>
-            <div className="my-6 pt-4">
-              <h1 className="text-2xl md:text-3xl lg:text-3xl font-extrabold font-mono">
-                Popular Courses
-              </h1>
-            </div>
-            <div>
-              {isLoading ? (
-                <Loading />
-              ) : (
-                <div className="flex justify-center flex-wrap">
-                  {courses.map((card) => (
-                    <div
-                      key={card.title}
-                      className="relative w-1/2 md:w-1/3 lg:w-1/6 max-w-sm rounded overflow-hidden shadow-lg p-4 flex-row"
-                    >
-                      <img
-                        className="w-full h-36 max-h-fit object-fill p-5"
-                        src={card.image}
-                        alt={card.title}
-                      />
+            <div className="shadow-inner">
+              <div className="my-6 pt-4">
+                <h1 className="text-2xl md:text-3xl lg:text-3xl font-extrabold font-mono">
+                  Popular Courses
+                </h1>
+              </div>
+              <div>
+                {isLoading ? (
+                  <Loading />
+                ) : (
+                  <div className="flex flex-no-wrap overflow-y-auto">
+                    {courses.map((card) => (
+                      <div
+                        key={card.title}
+                        style={{
+                          scrollBehavior: "smooth",
+                          scrollLeft: "scrollLeft",
+                        }}
+                        className="mr-10  border relative w-1/2 md:w-1/3 lg:w-1/6 max-w-sm rounded overflow-hidden shadow-lg  flex-row"
+                      >
+                        <img
+                          className="w-full max-h-28 object-contain p-3"
+                          src={card.image}
+                          alt={card.title}
+                        />
 
-                      <div className="px-1 py-1 mb-3">
-                        <div className="font-bold text-sm mb-1">
-                          {card.title}
+                        <div className="px-1 py-1 text-center">
+                          <div className="font-bold text-sm mb-1">
+                            {card.title}
+                          </div>
+                          <p className="text-gray-700 text-sm">
+                            {card.category}
+                          </p>
                         </div>
-                        <p className="text-gray-700 text-sm">{card.category}</p>
+                        <div className="text-right text-sm top-2 right-2 absolute">
+                          <span className="text-gray-700">
+                            {card.rating ? "⭐" : "⭐"}
+                          </span>
+                        </div>
                       </div>
-                      <div className="text-right text-sm bottom-2 right-2 absolute">
-                        <span className="text-gray-700">
-                          {card.rating ? "⭐" : "⭐"}
-                        </span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
           <div className="mt-11 container">
@@ -262,11 +273,15 @@ function Dashboard() {
                       <h4 className="text-white font-bold text-lg mb-2">
                         Enrolled Courses
                       </h4>
-                      <button onClick={handleMyCourse} className="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg transform transition-all duration-300 hover:scale-105">
+                      <button
+                        onClick={handleMyCourse}
+                        className="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg transform transition-all duration-300 hover:scale-105"
+                      >
                         View courses
                       </button>
                     </div>
-                    <div onClick={handleMyCourse}
+                    <div
+                      onClick={handleMyCourse}
                       className={`${
                         hovered ? "opacity-0" : "opacity-100"
                       } transition-opacity duration-300 absolute inset-0 flex justify-center items-center`}

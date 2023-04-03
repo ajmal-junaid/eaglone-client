@@ -42,7 +42,7 @@ function Banner() {
         banners.map((banner, index) => (
           <div key={index}>
             <img
-              className="min-w-full object-full max-h-56 w-full"
+              className="min-w-full object-contain max-h-56 w-screen border shadow-zinc-800 "
               src={banner.image}
               alt="banner"
             />

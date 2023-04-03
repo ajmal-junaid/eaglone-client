@@ -8,7 +8,7 @@ function Pagination({ pageNo, setPageNo, totalPages }) {
     if (pageNo < totalPages) setPageNo(pageNo + 1);
   };
   return (
-    <div className="flex flex-col items-center mt-7">
+    <div className="flex flex-col items-center mt-7 bottom-0">
       <span className="text-sm text-gray-700 dark:text-gray-400">
         Showing{" "}
         <span className="font-semibold text-gray-900 dark:text-gray">

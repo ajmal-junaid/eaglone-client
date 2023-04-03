@@ -21,7 +21,7 @@ function BannerBody() {
   }
   useEffect(() => {
     getData();
-  }, [confirmDialog]);
+  }, [confirmDialog,modalIsOpen]);
   const getData = () => {
     axios({
       method: "get",
@@ -165,7 +165,10 @@ function BannerBody() {
                           {banner.name}
                         </td>
                         <td className="py-3 px-6 text-left whitespace-nowrap h-32">
-                          <img className="h-32" src={banner.image}></img>
+                          <img
+                            className="h-32 max-w-2xl"
+                            src={banner.image}
+                          ></img>
                         </td>
                         <td className="px-6 py-4 md:py-6 md:px-8 text-sm md:text-base font-medium leading-5 text-gray-800 ">
                           <Link

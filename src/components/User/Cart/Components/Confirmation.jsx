@@ -42,12 +42,14 @@ function Confirmation(props) {
         if (!couponApplied) {
           setDiscountedPrice(discountedPrice - res.data.data);
         }
+        setErrorMessage("")
       })
       .catch((res) => {
         setCouponApplied(false);
         if (couponApplied) {
           setDiscountedPrice(discountedPrice + couponDiscount);
         }
+        setErrorMessage(res.response.data.message)
         console.log(res.response.data, "catch");
       });
   };

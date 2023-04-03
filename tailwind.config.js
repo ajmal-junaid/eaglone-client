@@ -7,9 +7,14 @@ module.exports = {
     extend: {
       colors: {
         customGreen: '#3BECB8'
+      },
+      scrollbar: {
+        thumb: '#6b7280'
       }
     },
   },
-  variants: [],
+  variants: {
+    scrollbar: ['rounded']
+  },
   plugins: [],
 }

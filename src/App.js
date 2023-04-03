@@ -13,7 +13,7 @@ function App() {
     };
   }, []);
   return (
-    <div className=''>
+    <div className='overflow-hidden'>
       <Router>
         <Routes>
           <Route path='/' element={<Navigate to='/user/home' replace />} />

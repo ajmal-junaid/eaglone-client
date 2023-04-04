@@ -30,6 +30,7 @@
     "react-stripe-checkout": "^2.6.3",
     "react-tippy": "^1.4.0",
     "slick-carousel": "^1.8.1",
+    "socket.io-client": "^4.6.1",
     "stripe": "^11.16.0",
     "sweetalert2": "^11.7.3",
     "sweetalert2-react-content": "^5.0.7",

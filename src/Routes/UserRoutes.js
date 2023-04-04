@@ -16,6 +16,7 @@ import PurchaseHistory from '../pages/User/PurchaseHistory';
 import PremiumFeatures from '../pages/User/PremiumFeatures';
 import PaymentSuccess from '../pages/User/PaymentSuccess';
 import MyCourses from '../pages/User/MyCourses';
+import Community from '../pages/User/Community'
 
 function UserRoutes() {
   return (
@@ -41,7 +42,7 @@ function UserRoutes() {
             <Route path='private-lesson/:id' element={<LessonView />} />
             <Route path='purchase-history/:id' element={<PurchaseHistory />} />
             <Route path='payment-success' element={<PaymentSuccess />} />
-            {/* <Route path='community' element={<Community/>}/>  */}
+            <Route path='community' element={<Community/>}/> 
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

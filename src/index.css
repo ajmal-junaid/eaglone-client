@@ -31,3 +31,8 @@
   max-height: 69vh;
   overflow: auto;
 }
+
+.chatHeight {
+  max-height: 77vh;
+  overflow: auto;
+}

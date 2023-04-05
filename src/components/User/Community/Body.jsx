@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { FaEllipsisV } from "react-icons/fa";
 
 import io from "socket.io-client";
 import { useSelector } from "react-redux";
@@ -15,17 +14,15 @@ function Body() {
     socket.emit("join_room", roomId);
   }, []);
   return (
-    <div>
-      {" "}
-      <div className="flex flex-col bg-gray-50">
-        <header className="flex items-center justify-between bg-white shadow-md px-4 py-3">
-          <h1 className="text-lg font-bold text-gray-800">
-            Design Community Chat
-          </h1>
-          <button className="text-purple-600 hover:text-purple-800 focus:outline-none">
-            <FaEllipsisV />
-          </button>
-        </header>
+    <div className="flex flex-col max-h-screen">
+      <header className="bg-gray-100 py-5">
+        <nav className=" text-center container mx-auto">
+          <a href="/" className="text-3xl font-bold text-black font-serif tex">
+            Eaglone Community
+          </a>
+        </nav>
+      </header>
+      <div>
         <Chat socket={socket} userName={userData.name} roomId={roomId} />
       </div>
     </div>

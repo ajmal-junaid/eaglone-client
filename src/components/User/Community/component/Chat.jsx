@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import ChatBubble from "./chatBubble";
+import { motion } from "framer-motion";
 import { FaPaperPlane } from "react-icons/fa";
+import ScrollToBottom from "react-scroll-to-bottom";
 
 const Chat = ({ socket, userName, roomId }) => {
   const [currentMessage, setCurrentMessage] = useState("");
   const [messageList, setMessageList] = useState([]);
-  const sendMessage = async (event) => {
-    event.preventDefault();
+  const sendMessage = async () => {
+    // event.preventDefault();
     if (currentMessage) {
       const timestamp = new Date().toLocaleTimeString([], {
         hour: "2-digit",
@@ -31,35 +33,45 @@ const Chat = ({ socket, userName, roomId }) => {
   });
   return (
     <div className="">
-      <div className="flex-grow px-6 py-4 overflow-x-scroll chatHeight">
-        {messageList.map((message, index) => (
-          <ChatBubble
-            key={index}
-            socket={socket}
-            time={message.time}
-            userName={message.user}
-            message={message.message}
-            isUser={message.user === userName}
-          />
-        ))}
+      <div className="flex-grow px-6 py-4 overflow-y-scroll">
+        <ScrollToBottom className="chatHeight">
+          {messageList.map((message, index) => (
+            <ChatBubble
+              key={index}
+              socket={socket}
+              time={message.time}
+              userName={message.user}
+              message={message.message}
+              isUser={message.user === userName}
+            />
+          ))}
+        </ScrollToBottom>
       </div>
-      <div
-        className="bg-white shadow-md px-6 py-3 w-full static"
-        style={{ position: "", bottom: 0 }}
-      >
+      <div className="bg-white shadow-md px-6 py-3 w-full static">
         <div className="flex items-center justify-between rounded-lg overflow-hidden">
-          <input
+          <motion.input
             type="text"
             placeholder="Type your message here..."
-            className="flex-grow px-3 py-2 text-sm bg-gray-100 text-gray-800 focus:outline-none"
+            className="w-full text-sm bg-gray-100 flex-grow text-gray-800 rounded-lg border border-gray-300 py-2 px-4 leading-tight focus:outline-none focus:border-blue-500"
             value={currentMessage}
             onChange={(event) => setCurrentMessage(event.target.value)}
+            onKeyPress={(e) => {
+              e.key === "Enter" && sendMessage();
+            }}
+            whileFocus={{ boxShadow: "0 0 0 2px #2563eb40" }}
           />
           <button
             onClick={sendMessage}
-            className="text-purple-600 hover:text-purple-800 focus:outline-none"
+            className="text-purple-600 hover:text-purple-800 focus:outline-none right-4 top-1/2 transform "
+            disabled={!currentMessage}
           >
-            <FaPaperPlane />
+            <motion.div
+              className="bg-blue-500 rounded-full p-2"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              <FaPaperPlane className="text-white" />
+            </motion.div>
           </button>
         </div>
       </div>

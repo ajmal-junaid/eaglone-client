@@ -33,6 +33,7 @@
 }
 
 .chatHeight {
-  max-height: 77vh;
+  height: 71vh;
   overflow: auto;
+  scroll-behavior: smooth;
 }

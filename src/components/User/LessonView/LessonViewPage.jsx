@@ -1,30 +1,36 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import { FaBook, FaPlay } from "react-icons/fa";
+import { FaBook, FaPause, FaPlay } from "react-icons/fa";
 import axios from "axios";
 import { baseUrl } from "../../../utils/constants";
 import sweetAlert from "../../Common/SweetAlert";
 
 function LessonViewPage() {
   const params = useParams();
-  console.log(params.id);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [selectedLesson, setSelectedLesson] = useState(null);
   const [lessons, setLessons] = useState([]);
   const [course, setCourse] = useState({});
-  function playVideo() {
-    const videoUrl = lessons[selectedLesson - 1].video;
-    const videoTitle = lessons[selectedLesson - 1].title;
-    const videoPlayer = document.createElement("iframe");
-    videoPlayer.className = "absolute top-0 left-0 w-screen h-screen";
-    videoPlayer.src = videoUrl;
-    videoPlayer.title = videoTitle;
-    videoPlayer.sandbox =
-      "allow-scripts allow-forms allow-same-origin allow-modals allow-popups allow-popups-to-escape-sandbox allow-pointer-lock allow-orientation-lock allow-top-navigation-by-user-activation allow-presentation";
-    videoPlayer.allowDownloads = false;
-    videoPlayer.allowFullScreen = true;
-    videoPlayer.allowDownload = false;
-    const videoContainer = document.querySelector(".flex.justify-center.mb-4");
-    videoContainer.appendChild(videoPlayer);
+  const videoRef = useRef(null);
+
+  const handlePlayPause = () => {
+    const video = videoRef.current;
+
+    if (video.paused) {
+      setIsPlaying(true);
+      video.play();
+    } else {
+      setIsPlaying(false);
+      video.pause();
+    }
+  };
+
+  function handleRewind() {
+    videoRef.current.currentTime -= 10;
+  }
+
+  function handleVolumeChange(event) {
+    videoRef.current.volume = event.target.value;
   }
   useEffect(() => {
     getDatas();
@@ -57,7 +63,6 @@ function LessonViewPage() {
           },
         })
           .then((res) => {
-            console.log(res, "rsponodfshjljk");
             setLessons(res.data.data);
             //setIsLoading(false);
           })
@@ -72,13 +77,11 @@ function LessonViewPage() {
   };
   return (
     <div className="min-h-screen bg-gray-100 custom-height">
-      {/* Header section */}
       <header className="bg-white shadow px-4 py-2 flex justify-between items-center container mx-auto">
         <h1 className="text-2xl font-bold py-2">{course.title}</h1>
         <div className="flex items-center"></div>
       </header>
 
-      {/* Course overview section */}
       <section className="bg-white mt-4 shadow container mx-auto px-4 py-4">
         <h2 className="text-lg font-bold mb-2">Course Overview</h2>
         <p className="mb-2">{course.description}.</p>
@@ -86,7 +89,6 @@ function LessonViewPage() {
         <p className="mb-2">Duration: 10 hours</p>
       </section>
 
-      {/* Lesson list section */}
       <section className="container mx-auto px-4 py-4 mt-4 flex flex-col md:flex-row">
         <div className="md:w-1/3">
           <h2 className="text-lg font-bold mb-2">Course Outline</h2>
@@ -115,30 +117,57 @@ function LessonViewPage() {
             <h1 className=" text-red-500">Lessons under uploading</h1>
           )}
         </div>
-        <div className="md:w-2/3">
+        <div className="md:w-full border">
           {selectedLesson ? (
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center ">
               <h2 className="text-lg font-bold mb-2">
                 {lessons[selectedLesson - 1].title}
               </h2>
-              <div className="flex justify-center mb-4">
-                <div className="absolute h-0" style={{ paddingTop: "56.25%" }}>
-                  <iframe
-                    className="absolute top-0 left-0 w-full h-full"
+              <div className="flex justify-center mb-4 ">
+                <div>
+                  <video
                     src={lessons[selectedLesson - 1].video}
                     title={lessons[selectedLesson - 1].title}
-                    allowFullScreen
-                  />
+                    width="100%"
+                    height="auto"
+                    className="w-full"
+                    ref={videoRef}
+                  ></video>
                 </div>
               </div>
               <p className="mb-2">{lessons[selectedLesson - 1].lessonId}</p>
-              <button
-                className="px-4 py-2 bg-blue-500 text-white rounded-md flex items-center"
-                onClick={playVideo}
-              >
-                <FaPlay className="text-white mr-2" />
-                Watch Video
-              </button>
+              <div className="flex flex-row justify-self-start border w-1/2">
+                {isPlaying ? (
+                  <button
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg "
+                    onClick={handlePlayPause}
+                  >
+                    <FaPause className="text-white mr-2" />
+                    Pause
+                  </button>
+                ) : (
+                  <button
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg "
+                    onClick={handlePlayPause}
+                  >
+                    <FaPlay className="text-white mr-2" />
+                    Play
+                  </button>
+                )}
+
+                <button className="ml-5" onClick={handleRewind}>
+                  Rewind
+                </button>
+                <input
+                  type="range"
+                  min="0"
+                  max="1"
+                  step="0.1"
+                  defaultValue="1"
+                  onChange={handleVolumeChange}
+                  className="ml-6"
+                />
+              </div>
             </div>
           ) : (
             <p className="text-lg text-gray-600">

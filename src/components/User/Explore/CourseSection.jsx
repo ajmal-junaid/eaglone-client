@@ -5,13 +5,14 @@ import { baseUrl } from "../../../utils/constants";
 import sweetAlert from "../../Common/SweetAlert";
 import Spinner from "../../Common/Spinner";
 import Pagination from "../../Common/Pagination";
+import { useNavigate } from "react-router-dom";
 
 function CourseSection({ current }) {
   const [courses, setCourses] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [pageNo, setPageNo] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-
+  const navigate = useNavigate();
 
   const getDatas = () => {
     if (current) {
@@ -58,14 +59,17 @@ function CourseSection({ current }) {
         });
     }
   };
-  const changed =()=>{
+  const changed = () => {
     console.log("working");
-    getDatas()
-  }
+    getDatas();
+  };
   useEffect(() => {
     setIsLoading(true);
     getDatas();
   }, [current]);
+  const handleCourse = (id) => {
+    navigate(`/user/course/${id}`);
+  };
 
   return (
     <>
@@ -96,10 +100,11 @@ function CourseSection({ current }) {
             courses.map((data) => (
               <li
                 key={data._id}
-                className="flex flex-row m-2 h-24 container border border-black"
+                onClick={() => handleCourse(data.courseId)}
+                className="cursor-pointer flex flex-row m-2 h-24 container border border-black hover:border-green-400"
               >
                 <img
-                  className="md:w-2/12 object-contain m-2 border border-gray"
+                  className="md:w-2/12 object-contain m-2 border border-gray hover:scale-110"
                   src={data.image}
                 />
                 <div className="w-full">
@@ -108,15 +113,15 @@ function CourseSection({ current }) {
                 </div>
               </li>
             ))
-            )}
-            {
-              !isLoading && <Pagination
+          )}
+          {!isLoading && (
+            <Pagination
               pageNo={parseInt(pageNo)}
               setPageNo={setPageNo}
               totalPages={parseInt(totalPages)}
               changed={changed}
             />
-            }
+          )}
         </motion.ul>
       </AnimatePresence>
     </>

@@ -13,12 +13,14 @@ import {
   faChevronDown,
   faGraduationCap,
 } from "@fortawesome/free-solid-svg-icons";
+import Popular from "./components/Popular";
 function Dashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [isCategoryLoading, setCatagoryLoading] = useState(true);
   const [courses, setCourses] = useState([]);
   const [categories, setCategories] = useState([]);
   const userData = useSelector((state) => state.userData.value);
+  const [clickedCard, setClickedCard] = useState(null);
   const navigate = useNavigate();
 
   const handleMyCourse = () => {
@@ -88,6 +90,13 @@ function Dashboard() {
   const handleMouseLeavef = () => {
     setHoveredf(false);
   };
+  const handleCardClick = (card) => {
+    if (clickedCard === card) {
+      setClickedCard(null); // if the same card is clicked twice, reset state to null
+    } else {
+      setClickedCard(card);
+    }
+  };
 
   return (
     <>
@@ -102,42 +111,7 @@ function Dashboard() {
                 </h1>
               </div>
               <div>
-                {isLoading ? (
-                  <Loading />
-                ) : (
-                  <div className="flex flex-no-wrap overflow-y-auto">
-                    {courses.map((card) => (
-                      <div
-                        key={card.title}
-                        style={{
-                          scrollBehavior: "smooth",
-                          scrollLeft: "scrollLeft",
-                        }}
-                        className="mr-10  border relative w-1/2 md:w-1/3 lg:w-1/6 max-w-sm rounded overflow-hidden shadow-lg  flex-row"
-                      >
-                        <img
-                          className="w-full max-h-28 object-contain p-3"
-                          src={card.image}
-                          alt={card.title}
-                        />
-
-                        <div className="px-1 py-1 text-center">
-                          <div className="font-bold text-sm mb-1">
-                            {card.title}
-                          </div>
-                          <p className="text-gray-700 text-sm">
-                            {card.category}
-                          </p>
-                        </div>
-                        <div className="text-right text-sm top-2 right-2 absolute">
-                          <span className="text-gray-700">
-                            {card.rating ? "⭐" : "⭐"}
-                          </span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
+                {isLoading ? <Loading /> : <Popular courses={courses} />}
               </div>
             </div>
           </div>
@@ -305,7 +279,13 @@ function Dashboard() {
               <h1 className="text-2xl md:text-3xl lg:text-3xl font-extrabold font-mono">
                 Categories
               </h1>
+              {clickedCard && (
+                <p className="text-lg bg-slate-50 border-green-200 bold mt-2 border w-full">
+                  {clickedCard.description}
+                </p>
+              )}
             </div>
+
             <div>
               {isCategoryLoading ? (
                 <LoadingBar />
@@ -314,7 +294,8 @@ function Dashboard() {
                   {categories.map((card) => (
                     <div
                       key={card.name}
-                      className="hover:bg-slate-400 cursor-pointer m-2  w-1/3 md:w-1/6  2xl:w-2/12 max-w-sm rounded overflow-hidden shadow-lg p-4"
+                      onClick={() => handleCardClick(card)}
+                      className="hover:scale-110 hover:bg-slate-100 cursor-pointer m-2  w-1/3 md:w-1/6  2xl:w-2/12 max-w-sm rounded overflow-hidden shadow-lg p-4"
                     >
                       <img
                         className="w-full h-20 object-scale-down"

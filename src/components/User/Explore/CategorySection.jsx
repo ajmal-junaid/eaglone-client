@@ -5,7 +5,7 @@ import { baseUrl } from "../../../utils/constants";
 import sweetAlert from "../../Common/SweetAlert";
 import Spinner from "../../Common/Spinner";
 
-function CategorySection({ setCurrent }) {
+function CategorySection({ setCurrent, current }) {
   const [categories, setCategories] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
@@ -63,11 +63,15 @@ function CategorySection({ setCurrent }) {
             categories.map((data) => (
               <li
                 key={data.name}
-                className="cursor-pointer pt-6 flex flex-col m-2 justify-self-center"
+                className={`${
+                  current == data.name
+                    ? "bg-slate-100 border scale-105"
+                    : "scale-75"
+                } cursor-pointer pt-6 flex flex-col m-2 justify-self-center`}
                 onClick={() => handleCurrent(data.name)}
               >
                 <img
-                  className="-mt-1 md:mx-0 opacity-95 px-0 lg:px-20"
+                  className="-mt-1 md:mx-0 opacity-95 px-0 lg:px-24"
                   src={data.image}
                 />
 

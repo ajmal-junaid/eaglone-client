@@ -1,7 +1,83 @@
+import axios from "axios";
 import React from "react";
 import { FaStar, FaRegSquare } from "react-icons/fa";
+import { baseUrl } from "../../../../utils/constants";
+import { useDispatch, useSelector } from "react-redux";
+import Swal from "sweetalert2";
+import { setUserData } from "../../../../Redux";
+import { useNavigate } from "react-router-dom";
 
 function Body({ course, lessons, category }) {
+  const { _id } = useSelector((state) => state.userData.value);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const addToCart = (courseId) => {
+    axios({
+      method: "post",
+      url: `${baseUrl}add-to-cart`,
+      data: {
+        userId: _id,
+        courseId: courseId,
+      },
+      headers: {
+        apikey:
+          "login $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
+        authorization: `addToCart ${JSON.parse(
+          localStorage.getItem("userToken")
+        )}`,
+      },
+    })
+      .then((res) => {
+        new Swal("success", res.data.message, "success");
+      })
+      .catch((res) => {
+        if (res.response.status >= 401 && res.response.status <= 403) {
+          localStorage.removeItem("userToken");
+          localStorage.removeItem("auth");
+          dispatch(
+            setUserData({
+              userData: { name: null, email: null, mobile: null, _id: null },
+            })
+          );
+          navigate("/user/login");
+        }
+        new Swal("warning", res.response.data.message, "warning");
+      });
+  };
+
+  const enrollCourse = (courseId) => {
+    axios({
+      method: "post",
+      url: `${baseUrl}add-free-course`,
+      data: {
+        userId: _id,
+        courseId: courseId,
+      },
+      headers: {
+        apikey:
+          "login $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
+        authorization: `addToCart ${JSON.parse(
+          localStorage.getItem("userToken")
+        )}`,
+      },
+    })
+      .then((res) => {
+        new Swal("success", res.data.message, "success");
+      })
+      .catch((res) => {
+        if (res.response.status >= 401 && res.response.status <= 403) {
+          localStorage.removeItem("userToken");
+          localStorage.removeItem("auth");
+          dispatch(
+            setUserData({
+              userData: { name: null, email: null, mobile: null, _id: null },
+            })
+          );
+          navigate("/user/login");
+        }
+        new Swal("warning", res.response.data.message, "warning");
+      });
+  };
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="md:flex md:items-center md:justify-between">
@@ -27,6 +103,7 @@ function Body({ course, lessons, category }) {
             {course.price > 0 ? (
               <button
                 type="button"
+                onClick={() => addToCart(course._id)}
                 className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
                 Add to cart
@@ -34,6 +111,7 @@ function Body({ course, lessons, category }) {
             ) : (
               <button
                 type="button"
+                onClick={() => enrollCourse(course._id)}
                 className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
                 Enroll now

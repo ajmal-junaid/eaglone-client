@@ -3,12 +3,14 @@ import ChatBubble from "./chatBubble";
 import { motion } from "framer-motion";
 import { FaPaperPlane } from "react-icons/fa";
 import ScrollToBottom from "react-scroll-to-bottom";
+import { baseUrl } from "../../../../utils/constants";
+import axios from "axios";
 
-const Chat = ({ socket, userName, roomId }) => {
+const Chat = ({ socket, userName, roomId, userId }) => {
   const [currentMessage, setCurrentMessage] = useState("");
   const [messageList, setMessageList] = useState([]);
+ 
   const sendMessage = async () => {
-    // event.preventDefault();
     if (currentMessage) {
       const timestamp = new Date().toLocaleTimeString([], {
         hour: "2-digit",
@@ -17,20 +19,44 @@ const Chat = ({ socket, userName, roomId }) => {
       const messageData = {
         room: roomId,
         user: userName,
+        userId: userId,
         message: currentMessage,
         time: timestamp,
       };
       await socket.emit("send_message", messageData);
-      setMessageList((list) => [...list, messageData]);
+      // setMessageList((list) => [...list, messageData]);
       setCurrentMessage("");
     }
   };
   useEffect(() => {
+    getMessages(roomId);
     socket.on("recieve_message", (data) => {
       setMessageList((list) => [...list, data]);
     });
-    console.log(messageList, "list");
-  });
+  }, [roomId]);
+  const getMessages = (room) => {
+    axios({
+      method: "get",
+      url: `${baseUrl}community?room=${room}`,
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `bearer ${JSON.parse(
+          localStorage.getItem("user Token")
+        )}`,
+        apikey:
+          "getCourse $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
+      },
+    })
+      .then((res) => {
+        console.log(res.data.data.messages, "sucess");
+        setMessageList(res.data.data.messages)
+      })
+      .catch((res) => {
+        console.log(res, "catch");
+      });
+
+     
+  };
   return (
     <div className="">
       <div className="flex-grow px-6 py-4 overflow-y-scroll">
@@ -61,7 +87,7 @@ const Chat = ({ socket, userName, roomId }) => {
             whileFocus={{ boxShadow: "0 0 0 2px #2563eb40" }}
           />
           <button
-            onClick={sendMessage}
+            onClick={() => sendMessage()}
             className="text-purple-600 hover:text-purple-800 focus:outline-none right-4 top-1/2 transform "
             disabled={!currentMessage}
           >

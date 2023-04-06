@@ -37,3 +37,8 @@
   overflow: auto;
   scroll-behavior: smooth;
 }
+
+.chat-main {
+  max-height: 50;
+  overflow: auto;
+}

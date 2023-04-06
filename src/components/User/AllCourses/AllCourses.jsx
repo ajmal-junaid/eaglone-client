@@ -38,9 +38,12 @@ function AllCouses() {
         sweetAlert("warning", res.response.data.message);
       });
   };
+  const changed=()=>{
+    getData()
+  }
   useEffect(() => {
     getData();
-  }, [pageNo]);
+  }, []);
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -49,6 +52,7 @@ function AllCouses() {
         pageNo={parseInt(pageNo)}
         setPageNo={setPageNo}
         totalPages={parseInt(totalPages)}
+        changed={changed}
       />
     </div>
   );

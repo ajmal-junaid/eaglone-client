@@ -11,10 +11,7 @@ function CourseSection({ current }) {
   const [isLoading, setIsLoading] = useState(true);
   const [pageNo, setPageNo] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  useEffect(() => {
-    setIsLoading(true);
-    getDatas();
-  }, [current, pageNo]);
+
 
   const getDatas = () => {
     if (current) {
@@ -61,6 +58,14 @@ function CourseSection({ current }) {
         });
     }
   };
+  const changed =()=>{
+    console.log("working");
+    getDatas()
+  }
+  useEffect(() => {
+    setIsLoading(true);
+    getDatas();
+  }, [current]);
 
   return (
     <>
@@ -103,12 +108,15 @@ function CourseSection({ current }) {
                 </div>
               </li>
             ))
-          )}
-          <Pagination
-            pageNo={parseInt(pageNo)}
-            setPageNo={setPageNo}
-            totalPages={parseInt(totalPages)}
-          />
+            )}
+            {
+              !isLoading && <Pagination
+              pageNo={parseInt(pageNo)}
+              setPageNo={setPageNo}
+              totalPages={parseInt(totalPages)}
+              changed={changed}
+            />
+            }
         </motion.ul>
       </AnimatePresence>
     </>

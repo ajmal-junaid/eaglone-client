@@ -1,32 +1,20 @@
-import axios from "axios";
 import React from "react";
 import { FaStar, FaRegSquare } from "react-icons/fa";
-import { baseUrl } from "../../../../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import { setUserData } from "../../../../Redux";
 import { useNavigate } from "react-router-dom";
+import instance from "../../../../utils/axios";
 
 function Body({ course, lessons, category }) {
   const { _id } = useSelector((state) => state.userData.value);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const addToCart = (courseId) => {
-    axios({
-      method: "post",
-      url: `${baseUrl}add-to-cart`,
-      data: {
-        userId: _id,
-        courseId: courseId,
-      },
-      headers: {
-        apikey:
-          "login $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
-        authorization: `addToCart ${JSON.parse(
-          localStorage.getItem("userToken")
-        )}`,
-      },
-    })
+   instance.post('add-to-cart',{
+    userId: _id,
+    courseId: courseId,
+  })
       .then((res) => {
         new Swal("success", res.data.message, "success");
       })
@@ -44,23 +32,12 @@ function Body({ course, lessons, category }) {
         new Swal("warning", res.response.data.message, "warning");
       });
   };
-
+  
   const enrollCourse = (courseId) => {
-    axios({
-      method: "post",
-      url: `${baseUrl}add-free-course`,
-      data: {
-        userId: _id,
-        courseId: courseId,
-      },
-      headers: {
-        apikey:
-          "login $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
-        authorization: `addToCart ${JSON.parse(
-          localStorage.getItem("userToken")
-        )}`,
-      },
-    })
+   instance.post('add-free-course',{
+    userId: _id,
+    courseId: courseId,
+  })
       .then((res) => {
         new Swal("success", res.data.message, "success");
       })

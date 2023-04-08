@@ -21,9 +21,6 @@ function CourseCard(props) {
               <div className="text-gray-900">{prop.createdAt.slice(0, 10)}</div>
               <div className="text-gray-900">{prop.courses.length}</div>
               <div className="text-gray-900">${prop.totalAmount}</div>
-              {/* <div className="text-gray-900">
-              {props.order.client == "succeeded" ? "true" : "false"}
-            </div> */}
               <div
                 className={`text-gray-900 ${
                   prop.client == "succeeded"

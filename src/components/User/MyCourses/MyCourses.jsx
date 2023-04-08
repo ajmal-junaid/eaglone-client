@@ -1,25 +1,13 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { baseUrl } from "../../../utils/constants";
 import CourseCard from "./CourseCard";
+import instance from "../../../utils/axios";
 
 function Purchased() {
   const [courses, setCourses] = useState([]);
   const params = useParams();
   useEffect(() => {
-    axios({
-      method: "get",
-      url: `${baseUrl}get-purchased-courses/${params.id}`,
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `bearer ${JSON.parse(
-          localStorage.getItem("userToken")
-        )}`,
-        apikey:
-          "getCourse $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
-      },
-    })
+    instance.get(`get-purchased-courses/${params.id}`)
       .then((res) => {
         setCourses(res.data.data);
         console.log(res.data.data);

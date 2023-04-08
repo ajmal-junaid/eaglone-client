@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 function CourseCard({ title, instructor, thumbnail, rating, _id }) {
   const navigate = useNavigate();
   const handleCourse = (courseId) => {
-    console.log(courseId, "dkljdjklsjkldsf");
     navigate(`/user/private-lesson/${courseId}`);
   };
   return (

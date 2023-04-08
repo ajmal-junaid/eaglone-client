@@ -3,8 +3,7 @@ import ChatBubble from "./chatBubble";
 import { motion } from "framer-motion";
 import { FaPaperPlane } from "react-icons/fa";
 import ScrollToBottom from "react-scroll-to-bottom";
-import { baseUrl } from "../../../../utils/constants";
-import axios from "axios";
+import instance from "../../../../utils/axios";
 
 const Chat = ({ socket, userName, roomId, userId }) => {
   const [currentMessage, setCurrentMessage] = useState("");
@@ -23,8 +22,7 @@ const Chat = ({ socket, userName, roomId, userId }) => {
         message: currentMessage,
         time: timestamp,
       };
-      await socket.emit("send_message", messageData);
-      // setMessageList((list) => [...list, messageData]);
+      await socket.emit("send_message", messageData); 
       setCurrentMessage("");
     }
   };
@@ -35,18 +33,7 @@ const Chat = ({ socket, userName, roomId, userId }) => {
     });
   }, [roomId]);
   const getMessages = (room) => {
-    axios({
-      method: "get",
-      url: `${baseUrl}community?room=${room}`,
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `bearer ${JSON.parse(
-          localStorage.getItem("user Token")
-        )}`,
-        apikey:
-          "getCourse $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
-      },
-    })
+    instance.get(`community?room=${room}`)
       .then((res) => {
         console.log(res.data.data.messages, "sucess");
         setMessageList(res.data.data.messages)

@@ -3,8 +3,7 @@ import React, { useEffect, useState } from "react";
 import io from "socket.io-client";
 import { useSelector } from "react-redux";
 import Chat from "./component/Chat";
-import axios from "axios";
-import { baseUrl } from "../../../utils/constants";
+import instance from "../../../utils/axios";
 
 function Body() {
   const userData = useSelector((state) => state.userData.value);
@@ -14,18 +13,7 @@ function Body() {
   const socket = io.connect("http://localhost:3000");
 
   useEffect(() => {
-    axios({
-      method: "get",
-      url: `${baseUrl}categories`,
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `bearer ${JSON.parse(
-          localStorage.getItem("adminToken")
-        )}`,
-        apikey:
-          "getCourse $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
-      },
-    })
+    instance.get('categories')
       .then((res) => {
         setCategories(res.data.data);
       })

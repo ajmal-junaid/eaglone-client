@@ -1,7 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { baseUrl } from '../../utils/constants';
 import { Link } from 'react-router-dom';
 import LoadingBar from '../../components/Common/Loading';
 import instance from '../../utils/axios';

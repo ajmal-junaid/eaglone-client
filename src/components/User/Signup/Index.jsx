@@ -1,7 +1,5 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { baseUrl } from "../../../utils/constants";
 import ErrorMessage from "../../Common/ErrorMessage";
 import instance from "../../../utils/axios";
 

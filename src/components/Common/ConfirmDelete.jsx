@@ -29,7 +29,7 @@ function DeleteConfirmBox({ data, setIsOpen, handleDelete }) {
                 Confirm Deletion
               </h2>
               <p className="mb-6 text-sm text-gray-500">
-                Are you sure you want to delete {data.couponName}?
+                Are you sure you want to delete {data.name}?
               </p>
               <div className="flex justify-end space-x-4">
                 <button

@@ -54,8 +54,8 @@ function Couponbody() {
         sweetAlert("warning", res.response.data.message);
       });
   };
-  const deleteRequest = (couponId,name) => {
-    setConfirmDialog({ active: true, couponId: couponId ,couponName:name});
+  const deleteRequest = (couponId,couponName) => {
+    setConfirmDialog({ active: true, id: couponId ,name:couponName});
   };
   const handleDelete = () => {
     console.log();

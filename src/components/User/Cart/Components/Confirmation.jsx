@@ -4,6 +4,7 @@ import Payment from "./Payment";
 import { baseUrl } from "../../../../utils/constants";
 import { useSelector } from "react-redux";
 import Traditional from "../../../Common/Alerts/Danger";
+import instance from "../../../../utils/axios";
 
 function Confirmation(props) {
   const [clientSecret, setClientSecret] = useState("");
@@ -19,21 +20,9 @@ function Confirmation(props) {
 
   const handleApplyCoupon = (e) => {
     e.preventDefault();
-    axios({
-      method: "post",
-      url: `${baseUrl}apply-coupon`,
-      data: {
-        code: couponCode,
-        totalAmount: totalPrice,
-      },
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `bearer ${JSON.parse(
-          localStorage.getItem("userToken")
-        )}`,
-        apikey:
-          "getCourse $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
-      },
+    instance.post('apply-coupon',{
+      code: couponCode,
+      totalAmount: totalPrice,
     })
       .then((res) => {
         setCouponApplied(true);
@@ -80,30 +69,17 @@ function Confirmation(props) {
     }
   };
   const createOrder = async (clientSecret) => {
-    console.log(clientSecret, "kittyy", userData, props.cart);
-    await axios({
-      url: `${baseUrl}create-order`,
-      method: "post",
-      data: {
-        user: userData._id,
-        courses: props.cart.map((course) => course._id),
-        payment: {
-          method: "card",
-          transactionId: clientSecret,
-        },
-        client: clientSecret,
-        coupon: {
-          code: couponCode,
-          discount: couponDiscount,
-        },
+    instance.post('create-order', {
+      user: userData._id,
+      courses: props.cart.map((course) => course._id),
+      payment: {
+        method: "card",
+        transactionId: clientSecret,
       },
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `bearer ${JSON.parse(
-          localStorage.getItem("userToken")
-        )}`,
-        apikey:
-          "getCourse $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
+      client: clientSecret,
+      coupon: {
+        code: couponCode,
+        discount: couponDiscount,
       },
     })
       .then((res) => {

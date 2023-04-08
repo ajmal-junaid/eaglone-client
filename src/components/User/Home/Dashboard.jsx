@@ -1,6 +1,4 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { baseUrl } from "../../../utils/constants";
 import sweetAlert from "../../Common/SweetAlert";
 import Loading from "../../Common/Loading";
 import LoadingBar from "../../Common/Loading";
@@ -14,6 +12,7 @@ import {
   faGraduationCap,
 } from "@fortawesome/free-solid-svg-icons";
 import Popular from "./components/Popular";
+import instance from "../../../utils/axios";
 function Dashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [isCategoryLoading, setCatagoryLoading] = useState(true);
@@ -31,22 +30,8 @@ function Dashboard() {
     window.history.pushState(null, null, "/");
   }, []);
   const getDatas = () => {
-    axios({
-      method: "get",
-      url: `${baseUrl}courses`,
-      params: {
-        page: 1,
-        limit: 7,
-      },
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `bearer ${JSON.parse(
-          localStorage.getItem("adminToken")
-        )}`,
-        apikey:
-          "getCourse $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
-      },
-    })
+    instance
+      .get("courses?page=1&limit=6")
       .then((res) => {
         setCourses(res.data.data);
         setIsLoading(false);
@@ -55,15 +40,7 @@ function Dashboard() {
         console.log(res.response.data, "catch");
         sweetAlert("warning", res.response.data.message);
       });
-    axios({
-      method: "get",
-      url: `${baseUrl}admin/categories`,
-      headers: {
-        "Content-Type": "application/json",
-        apikey:
-          "bearer $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
-      },
-    })
+    instance.get('categories')
       .then((res) => {
         setCatagoryLoading(false);
         setCategories(res.data.data);

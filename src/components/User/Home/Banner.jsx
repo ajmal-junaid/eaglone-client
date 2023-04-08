@@ -3,8 +3,7 @@ import Slider from "react-slick";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import axios from "axios";
-import { baseUrl } from "../../../utils/constants";
+import instance from "../../../utils/axios";
 
 function Banner() {
   const [banners, setBanners] = useState([]);
@@ -20,15 +19,7 @@ function Banner() {
     getBanner();
   }, []);
   const getBanner = () => {
-    axios({
-      method: "get",
-      url: `${baseUrl}banners`,
-      headers: {
-        "Content-Type": "application/json",
-        apikey:
-          "bearer $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
-      },
-    })
+  instance.get('banners')
       .then((res) => {
         setBanners(res.data.data);
       })

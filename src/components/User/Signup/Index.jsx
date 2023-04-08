@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { baseUrl } from "../../../utils/constants";
 import ErrorMessage from "../../Common/ErrorMessage";
+import instance from "../../../utils/axios";
 
 function Index() {
   const [name, setName] = useState("");
@@ -50,14 +51,11 @@ function Index() {
   const toggleShowPassword = () => setShowPassword(!showPassword);
   const handleOtpSubmit = (e) => {
     e.preventDefault();
-    axios({
-      method: "post",
-      url: `${baseUrl}verify-email`,
-      data: {
-        email,
-        otp,
-      },
-    }).then((res) => {
+   
+  instance.post('verify-email', {
+    email,
+    otp,
+  }).then((res) => {
       if (res.data.success) {
         navigate("/user/login");
       } else {
@@ -69,20 +67,13 @@ function Index() {
     e.preventDefault();
     if (password === confirmPassword && password.length >= 5) {
       setValidPassword(false);
-      axios({
-        method: "post",
-        url: `${baseUrl}user-signup`,
-        data: {
-          name,
-          email,
-          mobile,
-          password,
-          active: false,
-        },
-        headers: {
-          apikey:
-            "signUp $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
-        },
+     
+      instance.post('user-signup', {
+        name,
+        email,
+        mobile,
+        password,
+        active: false,
       }).then((res) => {
         if (res.data.success) {
           setOtpSent(true);

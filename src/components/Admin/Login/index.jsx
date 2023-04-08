@@ -14,7 +14,7 @@ function Index() {
   useEffect(() => {
     const auth = localStorage.getItem("adminToken");
     if (auth) {
-      navigate("/user/home");
+      navigate("/admin/home");
     }
   }, []);
   const handleLogin = (e) => {

@@ -1,10 +1,10 @@
 import React from "react";
-import Dashboard from "../../components/Admin/Home/Dashboard";
+import Body from '../Admin/OrderManagement'
 
 function Home() {
   return (
     <>
-      <Dashboard />
+      <Body/>
     </>
   );
 }

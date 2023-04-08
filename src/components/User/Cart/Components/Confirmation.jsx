@@ -1,7 +1,5 @@
-import axios from "axios";
 import React, { useState } from "react";
 import Payment from "./Payment";
-import { baseUrl } from "../../../../utils/constants";
 import { useSelector } from "react-redux";
 import Traditional from "../../../Common/Alerts/Danger";
 import instance from "../../../../utils/axios";
@@ -44,21 +42,9 @@ function Confirmation(props) {
   };
   const handlePurchase = async () => {
     try {
-      const response = await axios({
-        url: `${baseUrl}payment`,
-        method: "post",
-        data: {
-          amount: totalPrice,
-        },
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `bearer ${JSON.parse(
-            localStorage.getItem("userToken")
-          )}`,
-          apikey:
-            "getCourse $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
-        },
-      });
+      const response = await instance.post('payment',{
+        amount: totalPrice,
+      })
       if (response.status == 200) {
         console.log("success", response);
         setClientSecret(response.data.clientSecret);

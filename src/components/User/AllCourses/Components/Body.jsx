@@ -18,7 +18,7 @@ function Body({ courses }) {
   const handleClick = (id) => {
     navigate(`/user/course/${id}`);
   };
-  const enrollCourse =(courseId)=>{
+  const enrollCourse = (courseId) => {
     axios({
       method: "post",
       url: `${baseUrl}add-free-course`,
@@ -54,7 +54,7 @@ function Body({ courses }) {
         setSuccess(false);
         setMessage(res.response.data.message);
       });
-  }
+  };
   const addToCart = (courseId) => {
     axios({
       method: "post",
@@ -136,7 +136,10 @@ function Body({ courses }) {
                       Add to Cart
                     </button>
                   ) : (
-                    <button onClick={() => enrollCourse(course._id)} className="ml-auto self-end mt-auto inline-block px-5 py-1 font-medium text-white transition duration-500 ease-in-out transform bg-gray-400 border border-emerald-200 rounded-lg hover:bg-emerald-400 focus:outline-none focus:shadow-outline-blue">
+                    <button
+                      onClick={() => enrollCourse(course._id)}
+                      className="ml-auto self-end mt-auto inline-block px-5 py-1 font-medium text-white transition duration-500 ease-in-out transform bg-gray-400 border border-emerald-200 rounded-lg hover:bg-emerald-400 focus:outline-none focus:shadow-outline-blue"
+                    >
                       Enroll
                     </button>
                   )}

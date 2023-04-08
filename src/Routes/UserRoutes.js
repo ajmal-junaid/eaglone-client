@@ -17,6 +17,8 @@ import PremiumFeatures from '../pages/User/PremiumFeatures';
 import PaymentSuccess from '../pages/User/PaymentSuccess';
 import MyCourses from '../pages/User/MyCourses';
 import Community from '../pages/User/Community'
+import ErrorBoundary from '../components/Common/ErrorBoundary';
+import ErrorPage from '../components/Common/ErrorPage';
 
 function UserRoutes() {
   return (
@@ -28,6 +30,7 @@ function UserRoutes() {
         msOverflowStyle: "none",
         WebkitScrollbar: { display: "none" },
       }}>
+        <ErrorBoundary fallback={<ErrorPage/>}>
         <Routes>
           <Route path="login" element={<Login />} />
           <Route path='signup' element={<Signup />} />
@@ -46,6 +49,7 @@ function UserRoutes() {
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
+        </ErrorBoundary>
       </div>
       <Footer />
     </div>

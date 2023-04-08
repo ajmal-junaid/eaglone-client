@@ -1,13 +1,13 @@
 import React from "react";
 
-function Pagination({ pageNo, setPageNo, totalPages ,changed }) {
+function Pagination({ pageNo, setPageNo, totalPages, changed }) {
   const handlePrev = () => {
     if (pageNo > 1) setPageNo(pageNo - 1);
-    changed()
+    changed();
   };
   const handleNext = () => {
     if (pageNo < totalPages) setPageNo(pageNo + 1);
-    changed()
+    changed();
   };
   return (
     <div className="flex flex-col items-center mt-7 bottom-0">

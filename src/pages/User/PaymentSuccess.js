@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { baseUrl } from '../../utils/constants';
 import { Link } from 'react-router-dom';
 import LoadingBar from '../../components/Common/Loading';
+import instance from '../../utils/axios';
 
 
 function PaymentSuccess() {
@@ -18,23 +19,12 @@ function PaymentSuccess() {
         approvedPayment()
     }, [])
     const approvedPayment = () => {
-        axios({
-            method: "post",
-            url: `${baseUrl}confirm-payment`,
-            data: {
-                clientSecret: clientSecretParam,
-                transactionId: paymentIntentParam,
-                status: redirectStatusParam
-            },
-            headers: {
-                "Content-Type": "application/json",
-                authorization: `bearer ${JSON.parse(
-                    localStorage.getItem("userToken")
-                )}`,
-                apikey:
-                    "getCourse $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
-            },
-        })
+        
+       instance.post('confirm-payment',{
+        clientSecret: clientSecretParam,
+        transactionId: paymentIntentParam,
+        status: redirectStatusParam
+    })
             .then((res) => {
                 console.log(res.data.message, "suceess");
                 setSuccess(true)

@@ -1,12 +1,11 @@
-import axios from "axios";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { baseUrl } from "../../../../utils/constants";
 import Rating from "./Rating";
 import Traditional from "../../../Common/Alerts/Traditional";
 import Banner from "../../../Common/Alerts/Modern";
 import { setUserData } from "../../../../Redux";
+import instance from "../../../../utils/axios";
 
 function Body({ courses }) {
   const { _id } = useSelector((state) => state.userData.value);
@@ -19,20 +18,9 @@ function Body({ courses }) {
     navigate(`/user/course/${id}`);
   };
   const enrollCourse = (courseId) => {
-    axios({
-      method: "post",
-      url: `${baseUrl}add-free-course`,
-      data: {
-        userId: _id,
-        courseId: courseId,
-      },
-      headers: {
-        apikey:
-          "login $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
-        authorization: `addToCart ${JSON.parse(
-          localStorage.getItem("userToken")
-        )}`,
-      },
+    instance.post('add-free-course', {
+      userId: _id,
+      courseId: courseId,
     })
       .then((res) => {
         setSuccess(true);
@@ -56,21 +44,10 @@ function Body({ courses }) {
       });
   };
   const addToCart = (courseId) => {
-    axios({
-      method: "post",
-      url: `${baseUrl}add-to-cart`,
-      data: {
-        userId: _id,
-        courseId: courseId,
-      },
-      headers: {
-        apikey:
-          "login $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
-        authorization: `addToCart ${JSON.parse(
-          localStorage.getItem("userToken")
-        )}`,
-      },
-    })
+   instance.post('add-to-cart',{
+    userId: _id,
+    courseId: courseId,
+  })
       .then((res) => {
         setSuccess(true);
         setErr(false);

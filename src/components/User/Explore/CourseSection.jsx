@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import axios from "axios";
-import { baseUrl } from "../../../utils/constants";
 import sweetAlert from "../../Common/SweetAlert";
 import Spinner from "../../Common/Spinner";
 import Pagination from "../../Common/Pagination";
 import { useNavigate } from "react-router-dom";
+import instance from "../../../utils/axios";
 
 function CourseSection({ current }) {
   const [courses, setCourses] = useState([]);
@@ -16,15 +15,7 @@ function CourseSection({ current }) {
 
   const getDatas = () => {
     if (current) {
-      axios({
-        method: "get",
-        url: `${baseUrl}get-course-category/${current}`,
-        headers: {
-          "Content-Type": "application/json",
-          apikey:
-            "get $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
-        },
-      })
+     instance.get( `get-course-category/${current}`)
         .then((res) => {
           setCourses(res.data.data);
           setIsLoading(false);
@@ -34,18 +25,7 @@ function CourseSection({ current }) {
           sweetAlert("warning", err.response.data.message);
         });
     } else {
-      axios({
-        method: "get",
-        url: `${baseUrl}courses?page=${pageNo}`,
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `bearer ${JSON.parse(
-            localStorage.getItem("adminToken")
-          )}`,
-          apikey:
-            "getCourse $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
-        },
-      })
+      instance.get(`courses?page=${pageNo}`)
         .then((res) => {
           setPageNo(res.data.currentPage);
           setTotalPages(res.data.totalPages);

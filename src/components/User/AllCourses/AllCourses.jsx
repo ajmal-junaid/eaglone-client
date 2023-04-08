@@ -1,11 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { baseUrl } from "../../../utils/constants";
 import Pagination from "../../Common/Pagination";
 import sweetAlert from "../../Common/SweetAlert";
 import Body from "./Components/Body";
 import Loading from "../../Common/Spinner";
+import instance from "../../../utils/axios";
 
 function AllCouses() {
   const [isLoading, setIsLoading] = useState(true);
@@ -14,18 +13,7 @@ function AllCouses() {
   const [totalPages, setTotalPages] = useState(1);
   const getData = () => {
     setIsLoading(true);
-    axios({
-      method: "get",
-      url: `${baseUrl}courses?page=${pageNo}`,
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `bearer ${JSON.parse(
-          localStorage.getItem("adminToken")
-        )}`,
-        apikey:
-          "getCourse $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
-      },
-    })
+    instance.get(`courses?page=${pageNo}`)
       .then((res) => {
         setPageNo(res.data.currentPage);
         setTotalPages(res.data.totalPages);

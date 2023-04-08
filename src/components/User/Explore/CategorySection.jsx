@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import axios from "axios";
-import { baseUrl } from "../../../utils/constants";
 import sweetAlert from "../../Common/SweetAlert";
 import Spinner from "../../Common/Spinner";
+import instance from "../../../utils/axios";
 
 function CategorySection({ setCurrent, current }) {
   const [categories, setCategories] = useState([]);
@@ -13,15 +12,7 @@ function CategorySection({ setCurrent, current }) {
     getDatas();
   }, []);
   const getDatas = () => {
-    axios({
-      method: "get",
-      url: `${baseUrl}admin/categories`,
-      headers: {
-        "Content-Type": "application/json",
-        apikey:
-          "bearer $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
-      },
-    })
+    instance.get('categories')
       .then((res) => {
         //setCatagoryLoading(false)
         setIsLoading(false);

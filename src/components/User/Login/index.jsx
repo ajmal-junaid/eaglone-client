@@ -6,6 +6,7 @@ import { baseUrl } from "../../../utils/constants";
 import jwt_decode from "jwt-decode";
 import { setUserData } from "../../../Redux";
 import Spinner from "../../Common/Spinner";
+import instance from "../../../utils/axios";
 
 function Index() {
   const [email, setEmail] = useState("");
@@ -27,18 +28,11 @@ function Index() {
   const handleLogin = (e) => {
     setIsLoading(true);
     e.preventDefault();
-    axios({
-      method: "post",
-      url: `${baseUrl}user-login`,
-      data: {
-        email,
-        password,
-      },
-      headers: {
-        apikey:
-          "login $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
-      },
-    })
+   
+   instance.post('user-login', {
+    email,
+    password,
+  })
       .then((res) => {
         setIsLoading(false);
         if (!res.data.err) {

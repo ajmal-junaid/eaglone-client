@@ -1,8 +1,6 @@
 import { Modal } from "@windmill/react-ui";
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
-import { baseUrl } from "../../../utils/constants";
 import sweetAlert from "../../Common/SweetAlert";
 import AddBannerForm from "./AddBannerForm";
 import ConfirmDelete from "../../Common/ConfirmDelete";

@@ -9,7 +9,6 @@ function PremiumFeatures() {
     return (
         <div className='pt-16 pb-4'>
             <div className="bg-gradient-to-b from-indigo-900 to-indigo-800 min-h-screen flex justify-center items-center relative">
-                {/* Background animations */}
                 <motion.div
                     className="absolute w-16 h-16 rounded-full bg-white opacity-25"
                     style={{ top: '70%', right: '-10%' }}
@@ -30,7 +29,6 @@ function PremiumFeatures() {
                         transition: { duration: 30, repeat: Infinity, ease: 'linear' },
                     }}
                 ></motion.div>
-                {/* Content */}
                 <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-white">
                     <h1 className="text-4xl font-bold mb-8">Upgrade to Premium</h1>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

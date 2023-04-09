@@ -12,6 +12,7 @@ export default function Sidebar() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(setAdmin());
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const logout = () => {

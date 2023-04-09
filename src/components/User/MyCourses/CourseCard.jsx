@@ -1,8 +1,9 @@
 import React from "react";
 import { FaAngleRight } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import calculateRating from "../../Common/calculateRating";
 
-function CourseCard({ title, instructor, thumbnail, rating, _id }) {
+function CourseCard({ title, instructor, rating, thumbnail, _id }) {
   const navigate = useNavigate();
   const handleCourse = (courseId) => {
     navigate(`/user/private-lesson/${courseId}`);
@@ -17,7 +18,9 @@ function CourseCard({ title, instructor, thumbnail, rating, _id }) {
         <h3 className="text-lg font-semibold">{title}</h3>
         <p className="text-sm text-gray-500">{instructor}</p>
         <div className="flex items-center mt-2">
-          <span className="text-sm font-medium text-yellow-500">{rating}</span>
+          <span className="text-sm font-medium text-yellow-500">
+            {calculateRating(rating)}*
+          </span>
           <FaAngleRight className="w-4 h-4 ml-2 text-gray-500" />
         </div>
       </div>

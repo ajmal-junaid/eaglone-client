@@ -1,8 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import calculateRating from "../../../Common/calculateRating";
 
 const Popular = ({ courses }) => {
-    const navigate = useNavigate()
+  const navigate = useNavigate();
   const handleCourse = (id) => {
     navigate(`/user/course/${id}`);
   };
@@ -29,7 +30,9 @@ const Popular = ({ courses }) => {
             <p className="text-gray-700 text-sm">{card.category}</p>
           </div>
           <div className="text-right text-sm top-2 right-2 absolute">
-            <span className="text-gray-700">{card.rating ? "⭐" : "⭐"}</span>
+            <span className="text-gray-700">
+              {calculateRating(card.rating) + "⭐"}
+            </span>
           </div>
         </div>
       ))}

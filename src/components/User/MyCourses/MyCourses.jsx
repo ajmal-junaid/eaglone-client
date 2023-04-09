@@ -10,9 +10,6 @@ function Purchased() {
     instance.get(`get-purchased-courses/${params.id}`)
       .then((res) => {
         setCourses(res.data.data);
-        console.log(res.data.data);
-
-        //setIsLoading(false);
       })
       .catch((res) => {
         console.log(res.response, "catch");
@@ -27,7 +24,7 @@ function Purchased() {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-8">
         {courses.map((course) => (
           <CourseCard
-            key={course.id}
+            key={course._id}
             _id={course._id}
             title={course.title}
             instructor={course.tutorName}

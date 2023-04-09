@@ -20,6 +20,8 @@ function Dashboard() {
   const [categories, setCategories] = useState([]);
   const userData = useSelector((state) => state.userData.value);
   const [clickedCard, setClickedCard] = useState(null);
+  const [hovered, setHovered] = useState(false);
+  const [hoveredf, setHoveredf] = useState(false);
   const navigate = useNavigate();
 
   const handleMyCourse = () => {
@@ -50,9 +52,6 @@ function Dashboard() {
         sweetAlert("warning", res.response.data.message);
       });
   };
-  const [hovered, setHovered] = useState(false);
-  const [hoveredf, setHoveredf] = useState(false);
-
   const handleMouseEnter = () => {
     setHovered(true);
   };

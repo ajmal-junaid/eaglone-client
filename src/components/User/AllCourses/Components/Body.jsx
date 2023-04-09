@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import Rating from "./Rating";
 import Traditional from "../../../Common/Alerts/Traditional";
 import Banner from "../../../Common/Alerts/Modern";
 import { setUserData } from "../../../../Redux";
 import instance from "../../../../utils/axios";
+import calculateRating from "../../../Common/calculateRating";
+import Rating from "../../../Common/Rating";
 
 function Body({ courses }) {
   const { _id } = useSelector((state) => state.userData.value);
@@ -78,9 +79,10 @@ function Body({ courses }) {
         {courses &&
           courses.map((course) => (
             <a
-              key={course._id}
-              className="flex cursor-pointer flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-400 dark:bg-slate-300-100 dark:hover:bg-gray-200"
+            key={course._id}
+            className="flex cursor-pointer flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-400 dark:bg-slate-300-100 dark:hover:bg-gray-200"
             >
+             
               <img
                 onClick={() => handleClick(course.courseId)}
                 className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-40 md:rounded-none md:rounded-l-lg p-3"
@@ -103,7 +105,7 @@ function Body({ courses }) {
                 <div className="flex"></div>
                 <div className="justify-self-end flex">
                   <span className="flex mb-3 font-normal text-gray-700 dark:text-gray-400">
-                    <Rating rating={course.rating} />
+                    <Rating rating={calculateRating(course.rating)} />
                   </span>
                   {course.price > 0 ? (
                     <button

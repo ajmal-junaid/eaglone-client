@@ -5,16 +5,19 @@ import Swal from "sweetalert2";
 import { setUserData } from "../../../../Redux";
 import { useNavigate } from "react-router-dom";
 import instance from "../../../../utils/axios";
+import calculateRating from "../../../Common/calculateRating";
+import Rating from "../../../Common/Rating";
 
 function Body({ course, lessons, category }) {
   const { _id } = useSelector((state) => state.userData.value);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const addToCart = (courseId) => {
-   instance.post('add-to-cart',{
-    userId: _id,
-    courseId: courseId,
-  })
+    instance
+      .post("add-to-cart", {
+        userId: _id,
+        courseId: courseId,
+      })
       .then((res) => {
         new Swal("success", res.data.message, "success");
       })
@@ -32,12 +35,13 @@ function Body({ course, lessons, category }) {
         new Swal("warning", res.response.data.message, "warning");
       });
   };
-  
+
   const enrollCourse = (courseId) => {
-   instance.post('add-free-course',{
-    userId: _id,
-    courseId: courseId,
-  })
+    instance
+      .post("add-free-course", {
+        userId: _id,
+        courseId: courseId,
+      })
       .then((res) => {
         new Swal("success", res.data.message, "success");
       })
@@ -65,9 +69,11 @@ function Body({ course, lessons, category }) {
           <div className="mt-1 flex flex-col sm:flex-row sm:flex-wrap sm:mt-0 sm:space-x-6">
             <div className="mt-2 flex items-center text-sm text-gray-500">
               <FaStar className="mr-1 h-4 w-4 text-yellow-500" />
-              <span className="font-medium">{course.rating}</span>
+              <span className="font-medium">
+                {course && calculateRating(course.rating)}
+              </span>
               <span className="mx-2"></span>
-              {/* <span>1,500 ratings</span> */}
+              <span>{course?.rating?.length} ratings</span>
             </div>
             <div className="mt-2 flex items-center text-sm text-gray-500">
               <FaRegSquare className="mr-1 h-4 w-4" />
@@ -126,6 +132,30 @@ function Body({ course, lessons, category }) {
                 lessons.map((lesson, index) => (
                   <li key={lesson} className="mt-2">
                     {index + 1} : {lesson.title}
+                  </li>
+                ))
+              ) : (
+                <li className="mt-2 text-red-600">Modules Uploading Soon</li>
+              )}
+            </ul>
+          </div>
+          <div className="mt-6 ">
+            <h4 className="text-lg font-medium text-gray-900">Comments</h4>
+            <ul className="mt-4 text-gray-500 text-sm h-32 overflow-auto">
+              {course?.rating?.length > 0 ? (
+                course.rating.map((rating, index) => (
+                  <li
+                    key={index}
+                    className="mt-2 w-full max-w-md rounded overflow-hidden shadow-lg"
+                  >
+                    <div className="px-6 py-4">
+                      <div className="font-bold text-xl mb-2">
+                        <Rating rating={rating.rating} />
+                      </div>
+                      <p className="text-gray-700 text-base">
+                        {rating.comment}
+                      </p>
+                    </div>
                   </li>
                 ))
               ) : (

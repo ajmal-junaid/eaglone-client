@@ -4,6 +4,12 @@ import { FaBook, FaPause, FaPlay, FaSpinner } from "react-icons/fa";
 import sweetAlert from "../../Common/SweetAlert";
 import instance from "../../../utils/axios";
 import Video from "./components/Video";
+import RatingSystem from "./components/RatingSystem";
+import CommentBox from "./components/CommentBox";
+import Swal from "sweetalert2";
+import calculateRating from "../../Common/calculateRating";
+import Rating from "../../Common/Rating";
+import { useSelector } from "react-redux";
 
 function LessonViewPage() {
   const params = useParams();
@@ -12,8 +18,11 @@ function LessonViewPage() {
   const [lessons, setLessons] = useState([]);
   const [course, setCourse] = useState({});
   const [url, setUrl] = useState("");
+  const [rating, setRating] = useState(0);
+  const [avg, setAvg] = useState(0);
+  const [comment, setComment] = useState("");
   const videoRef = useRef(null);
-
+  const userData = useSelector((state) => state.userData.value);
   const handlePlayPause = () => {
     const video = videoRef.current;
 
@@ -41,10 +50,15 @@ function LessonViewPage() {
       .get(`cours/${params.id}`)
       .then((res) => {
         setCourse(res.data.data);
+        setAvg(calculateRating(res.data.data.rating));
+        const data = res.data.data?.rating?.find((obj) => obj.user = userData._id)
+        setComment(data.comment)
+        setRating(data.rating)
         instance
           .get(`get-lessons-pcourse/${res.data.data.courseId}`)
           .then((res) => {
             setLessons(res.data.data);
+
             //setIsLoading(false);
           })
           .catch((res) => {
@@ -68,45 +82,123 @@ function LessonViewPage() {
         console.log(err.response);
       });
   };
+  const handleRating = () => {
+    instance
+      .post("rate-course", {
+        courseId: course._id,
+        rating: rating,
+        comment: comment,
+      })
+      .then(() => {
+        alert("success");
+      })
+      .catch((err) => {
+        new Swal("Error", err.response.data.message, "warning");
+      });
+  };
+  const isUserCommented = () => {
+    return (
+      course &&
+      course?.rating?.find((obj) => obj.user === userData._id) !== undefined
+    );
+  };
   return (
     <div className="min-h-screen bg-gray-100 custom-height">
       <header className="bg-white shadow px-4 py-2 flex justify-between items-center container mx-auto">
-        <h1 className="text-2xl font-bold py-2">{course.title}</h1>
+        <h1 className="text-2xl font-bold py-2">
+          {course.title}{" "}
+          <span className="text-sm">{avg ? "⭐️" + avg : "Not rated"}</span>
+        </h1>
         <div className="flex items-center"></div>
       </header>
-
-      <section className="bg-white mt-4 shadow container mx-auto px-4 py-4">
-        <h2 className="text-lg font-bold mb-2">Course Overview</h2>
-        <p className="mb-2">{course.description}.</p>
-        <p className="mb-2 font-bold">Instructor: John Doe</p>
-        <p className="mb-2">Duration: 10 hours</p>
-      </section>
-
+      <div className="flex">
+        <section className="bg-white mt-4 shadow container mx-auto px-4 py-4">
+          <h2 className="text-lg font-bold mb-2">Course Overview</h2>
+          <p className="mb-2">{course.description}.</p>
+          <p className="mb-2 font-bold">Instructor: John Doe</p>
+          <p className="mb-2">Duration: 10 hours</p>
+        </section>
+        <section className="bg-white mt-4 shadow container mx-auto px-4 py-4">
+          <div className="flex justify-between">
+            <h2 className="text-lg font-bold mb-2">Rate The Course</h2>
+            <div className="ml-auto">
+              {isUserCommented() ? (
+                <button
+                  disabled
+                  className="px-2 py-1 rounded-md bg-green-500 text-white text-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50"
+                >
+                  Commented
+                </button>
+              ) : (
+                <button
+                  onClick={handleRating}
+                  className="px-2 py-1 rounded-md bg-blue-500 text-white text-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50"
+                >
+                  Submit
+                </button>
+              )}
+            </div>
+          </div>
+          <div className="mb-2">
+            <RatingSystem rating={rating} setRating={setRating} />
+          </div>
+          <div className="mb-2">
+            <CommentBox comment={comment} setComment={setComment} />
+          </div>
+        </section>
+      </div>
       <section className="container mx-auto px-4 py-4 mt-4 flex flex-col md:flex-row">
         <div className="md:w-1/3">
           <h2 className="text-lg font-bold mb-2">Course Outline</h2>
-          {lessons.length > 0 ? (
-            lessons.map((lesson, index) => (
-              <div
-                key={index}
-                className={`p-2 cursor-pointer hover:bg-gray-200 ${
-                  selectedLesson === lesson.index ? "bg-gray-200" : ""
-                }`}
-                onClick={() => lessonChange(index + 1, lesson._id)}
-              >
-                <div className="flex items-center">
-                  <FaBook className="text-gray-600 mr-2" />
-                  <div>
-                    <h3 className="text-base font-bold">{lesson.title}</h3>
-                    <p className="text-gray-600">{lesson.description}</p>
+          <div className=" h-40 overflow-auto">
+            {lessons.length > 0 ? (
+              lessons.map((lesson, index) => (
+                <div
+                  key={index}
+                  className={`p-2 cursor-pointer hover:bg-gray-200 ${
+                    selectedLesson === lesson.index ? "bg-gray-200" : ""
+                  }`}
+                  onClick={() => lessonChange(index + 1, lesson._id)}
+                >
+                  <div className="flex items-center">
+                    <FaBook className="text-gray-600 mr-2" />
+                    <div>
+                      <h3 className="text-base font-bold">{lesson.title}</h3>
+                      <p className="text-gray-600">{lesson.description}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))
-          ) : (
-            <h1 className=" text-red-500">Lessons under uploading</h1>
-          )}
+              ))
+            ) : (
+              <h1 className=" text-red-500">Lessons under uploading</h1>
+            )}
+          </div>
+          <div className="mt-6">
+            <h4 className="text-lg font-medium text-gray-900">Comments </h4>
+            <ul className="mt-4 text-gray-500 text-sm h-32 overflow-auto">
+              {course && course?.rating?.length > 0 ? (
+                course.rating.map((rating, index) => (
+                  <li
+                    key={index}
+                    className="mt-2 w-full max-w-md rounded overflow-hidden shadow-lg"
+                  >
+                    <div className="px-6 py-4">
+                      <div className="font-bold text-xl mb-2">
+                        <Rating rating={rating.rating} />
+                      </div>
+                      <p className="text-gray-700 text-base">
+                        {rating.comment}
+                      </p>
+                    </div>
+                  </li>
+                ))
+              ) : (
+                <li className="mt-2 text-red-600">Modules Uploading Soon</li>
+              )}
+            </ul>
+          </div>
         </div>
+
         <div className="md:w-full border">
           {selectedLesson ? (
             <div className="flex flex-col items-center ">

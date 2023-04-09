@@ -1,10 +1,9 @@
-import axios from "axios";
 import React, { useState } from "react";
-import { baseUrl } from "../../../utils/constants";
 import { useDispatch } from "react-redux";
 import { unSetCategoryForm } from "../../../Redux";
 import Swal from "sweetalert2";
 import Traditional from "../../Common/Alerts/Traditional";
+import { adminInstance } from "../../../utils/axios";
 
 function AddCategoryForm() {
   const [name, setName] = useState("");
@@ -65,19 +64,7 @@ function AddCategoryForm() {
       setSubmitError("Entered fields are invalid");
     } else {
       try {
-        const response = await axios.post(
-          `${baseUrl}admin/add-category`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-              apikey:
-                "bearer $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
-            },
-          }
-        );
-
-        console.log(response.data);
+        const response = await adminInstance.post("add-category", formData);
         if (response.status >= 200 && response.status < 300) {
           if (response.data.err) {
             sweetAlert("warning", response.data.message);

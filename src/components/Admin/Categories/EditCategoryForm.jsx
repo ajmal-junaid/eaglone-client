@@ -1,8 +1,8 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { baseUrl } from "../../../utils/constants";
 import sweetAlert from "../../Common/SweetAlert";
+import { adminInstance } from "../../../utils/axios";
+import Swal from "sweetalert2";
 
 function EditCategoryForm() {
   const [name, setName] = useState("");
@@ -35,19 +35,13 @@ function EditCategoryForm() {
     // eslint-disable-next-line
   }, []);
   const getCategory = () => {
-    axios({
-      method: "get",
-      url: `${baseUrl}admin/category/${params.id}`,
-      headers: {
-        "Content-Type": "application/json",
-        apikey:
-          "bearer $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
-      },
-    }).then((res) => {
+    adminInstance(`category/${params.id}`).then((res) => {
       console.log(res.data);
       setName(res.data.data.name);
       setDescription(res.data.data.description);
-    });
+    }).catch((err)=>{
+      Swal("Warning",err.message,"error")
+    })
   };
 
   const handleSubmit = async (event) => {
@@ -62,17 +56,7 @@ function EditCategoryForm() {
     formData.append("image", image);
 
     try {
-      const response = await axios.put(
-        `${baseUrl}admin/update-category/${params.id}`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            apikey:
-              "bearer $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
-          },
-        }
-      );
+      const response = await adminInstance.put( `update-category/${params.id}`,formData)
       console.log(response);
       if (response.status >= 200 && response.status < 300) {
         navigate("/admin/categories");

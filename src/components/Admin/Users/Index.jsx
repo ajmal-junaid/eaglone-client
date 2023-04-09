@@ -1,10 +1,10 @@
 import React from 'react'
 import Dashboard from './Dashboard'
 
-function index() {
+function Index() {
   return (
     <Dashboard/>
   )
 }
 
-export default index
+export default Index

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { baseUrl } from './constants';
+import { baseUrl ,adminBaseUrl} from './constants';
 
 const instance = axios.create({
     baseURL: baseUrl,
@@ -12,7 +12,7 @@ const instance = axios.create({
     }
 });
 const adminInstance = axios.create({
-    baseURL: baseUrl,
+    baseURL: adminBaseUrl,
     headers: {
         authorization: `bearer ${JSON.parse(
             localStorage.getItem("adminToken")

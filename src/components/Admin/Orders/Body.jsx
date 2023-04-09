@@ -11,7 +11,8 @@ function Body() {
     getData();
   }, []);
   const getData = () => {
-    adminInstance.get('admin/orders')
+    adminInstance
+      .get("orders")
       .then((res) => {
         setOrders(res.data.data);
       })
@@ -20,8 +21,7 @@ function Body() {
           localStorage.removeItem("adminToken");
           navigate("/admin");
         }
-        console.log(res.response.data, "catch");
-        sweetAlert("warning", res.response.data.message);
+        sweetAlert("warning", res.message);
       });
   };
   return (

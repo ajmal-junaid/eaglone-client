@@ -1,13 +1,12 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { Link, Outlet } from "react-router-dom";
-import { baseUrl } from "../../../utils/constants";
 import AddCategoryForm from "./AddCategoryForm";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { useDispatch, useSelector } from "react-redux";
 import { setCategoryForm, unSetCategoryForm } from "../../../Redux";
+import { adminInstance } from "../../../utils/axios";
 
 const MySwal = withReactContent(Swal);
 Modal.setAppElement("#root");
@@ -41,39 +40,24 @@ function CategoryBody() {
   }
 
   function deleteFunction(name) {
-    axios({
-      method: "delete",
-      url: `${baseUrl}admin/delete-category/${name}`,
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `bearer ${JSON.parse(
-          localStorage.getItem("adminToken")
-        )}`,
-        apikey:
-          "delet $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
-      },
-    }).then((res) => {
-      console.log(res.data.message);
-      console.log(res.data);
-      setIsDeleted(!isDeleted);
-    });
+    adminInstance
+      .delete(`delete-category/${name}`)
+      .then(() => {
+        setIsDeleted(!isDeleted);
+      })
+      .catch((err) => {
+        Swal("warning", err.message, "error");
+      });
   }
   useEffect(() => {
     getCategories();
   }, [modalIsOpen, isDeleted]);
   const getCategories = () => {
-    axios({
-      method: "get",
-      url: `${baseUrl}admin/categories`,
-      headers: {
-        "Content-Type": "application/json",
-        apikey:
-          "bearer $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
-      },
-    }).then((res) => {
-      console.log(res);
+   adminInstance.get('categories').then((res) => {
       setCategories(res.data.data);
-    });
+    }).catch((err)=>{
+      Swal("warning", err.message, "error");
+    })
   };
   const headers = ["No", "Name", "Descriptions", "Actions"];
   return (

@@ -1,24 +1,13 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
-import {baseUrl} from '../../../utils/constants'
+import { adminInstance } from "../../../utils/axios";
 function Dashboard() {
   const [rows,setRows] = useState([]);
   useEffect(()=>{
     getUsers()
   },[])
   const getUsers=()=>{
-    axios({
-      method:'get',
-      url:`${baseUrl}admin/users`,
-      headers: {
-        'Content-Type': 'application/json',
-        'authorization': `bearer ${JSON.parse(localStorage.getItem('adminToken'))}`,
-        'apikey':'userDetails $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi'
-      }
-    }).then((res)=>{
-      console.log(res.data.userData);
+    adminInstance.get('users').then((res)=>{
       setRows(res.data.userData)
-      console.log(rows)
     })
   }
   const headers = ["No", "Name", "Email", "Mobile","Status"];
@@ -29,7 +18,7 @@ function Dashboard() {
           <h4 className="text-2xl font-bold leading-tight text-gray-800">
             User Management
           </h4>
-          {/* <ul className="flex flex-col md:flex-row items-start md:items-center text-gray-600 text-sm mt-3">
+          <ul className="flex flex-col md:flex-row items-start md:items-center text-gray-600 text-sm mt-3">
             <li className="flex items-center mr-3 mt-3 md:mt-0">
               <span className="mr-2">
                 <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-paperclip" width={16} height={16} viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
@@ -57,14 +46,12 @@ function Dashboard() {
                   <line x1={3} y1={21} x2={21} y2={21} />
                 </svg>
               </span>
-              <span>Started on 29 Jan 2020</span>
+              <span>Started on 29 Feb 2023</span>
             </li>
-          </ul> */}
+          </ul>
         </div>
         <div className="mt-6 lg:mt-0">
-          {/* <button className="mx-2 my-2 bg-white transition duration-150 ease-in-out focus:outline-none hover:bg-gray-100 rounded text-indigo-700 px-6 py-2 text-sm">
-            Blocked Users
-          </button> */}
+         
         </div>
       </div>
       <div className="container mx-auto px-6">

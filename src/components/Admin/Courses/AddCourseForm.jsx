@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { baseUrl } from "../../../utils/constants";
 import { unSetCourseForm } from "../../../Redux";
 import sweetAlert from "../../Common/SweetAlert";
+import { adminInstance } from "../../../utils/axios";
 
 function AddCourseForm() {
   const [id, setId] = useState("");
@@ -76,17 +77,7 @@ function AddCourseForm() {
     formData.append("price", price);
     formData.append("percentage", percentage);
     try {
-      const response = await axios.post(
-        `${baseUrl}admin/add-course`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            apikey:
-              "addCategory $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
-          },
-        }
-      );
+      const response = await adminInstance.post('add-course',formData)
 
       console.log(response.data);
       if (response.status >= 200 && response.status < 300) {

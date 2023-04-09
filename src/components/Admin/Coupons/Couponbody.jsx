@@ -2,10 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import Modal from "react-modal";
 import AddCouponForm from "./AddCouponForm";
-import axios from "axios";
-import { baseUrl } from "../../../utils/constants";
 import sweetAlert from "../../Common/SweetAlert";
 import ConfirmDelete from "../../Common/ConfirmDelete";
+import { adminInstance } from "../../../utils/axios";
 
 function Couponbody() {
   const [coupons, setCoupons] = useState([]);
@@ -30,18 +29,7 @@ function Couponbody() {
     setModalIsOpen(false);
   }
   const getDatas = () => {
-    axios({
-      method: "get",
-      url: `${baseUrl}admin/coupons`,
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `bearer ${JSON.parse(
-          localStorage.getItem("adminToken")
-        )}`,
-        apikey:
-          "getCourse $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
-      },
-    })
+    adminInstance.get('coupons')
       .then((res) => {
         setCoupons(res.data.data);
       })
@@ -58,19 +46,7 @@ function Couponbody() {
     setConfirmDialog({ active: true, id: couponId ,name:couponName});
   };
   const handleDelete = () => {
-    console.log();
-    axios({
-      method: "delete",
-      url: `${baseUrl}admin/delete-coupon/${confirmDialog.couponId}`,
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `bearer ${JSON.parse(
-          localStorage.getItem("adminToken")
-        )}`,
-        apikey:
-          "getCourse $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
-      },
-    })
+    adminInstance.delete(`delete-coupon/${confirmDialog.couponId}`)
       .then((res) => {
         setConfirmDialog({ ...confirmDialog, active: false });
         sweetAlert("success", res.data.message);

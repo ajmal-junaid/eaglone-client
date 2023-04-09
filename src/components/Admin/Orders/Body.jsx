@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import sweetAlert from "../../Common/SweetAlert";
-import { baseUrl } from "../../../utils/constants";
-import axios from "axios";
+import { adminInstance } from "../../../utils/axios";
 
 function Body() {
   const [orders, setOrders] = useState([]);
@@ -12,18 +11,7 @@ function Body() {
     getData();
   }, []);
   const getData = () => {
-    axios({
-      method: "get",
-      url: `${baseUrl}admin/orders`,
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `bearer ${JSON.parse(
-          localStorage.getItem("adminToken")
-        )}`,
-        apikey:
-          "getCourse $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
-      },
-    })
+    adminInstance.get('admin/orders')
       .then((res) => {
         setOrders(res.data.data);
       })

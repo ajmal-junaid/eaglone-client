@@ -1,7 +1,5 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import sweetAlert from "../../Common/SweetAlert";
-import { baseUrl } from "../../../utils/constants";
 import { useNavigate, useParams } from "react-router-dom";
 import { adminInstance } from "../../../utils/axios";
 

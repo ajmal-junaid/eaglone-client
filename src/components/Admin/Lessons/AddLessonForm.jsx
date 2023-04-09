@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { baseUrl } from "../../../utils/constants";
 import { unSetLessonForm } from "../../../Redux";
 import sweetAlert from "../../Common/SweetAlert";
+import { adminInstance } from "../../../utils/axios";
 
 function AddLessonForm() {
   const [title, setTitle] = useState("");
@@ -85,22 +86,7 @@ function AddLessonForm() {
       setSubmitError("Entered fields are invalid");
     } else {
       try {
-        const response = await axios.post(
-          `${baseUrl}admin/add-lesson`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-              apikey:
-                "bearer $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
-              authorization: `bearer ${JSON.parse(
-                localStorage.getItem("adminToken")
-              )}`,
-            },
-          }
-        );
-
-        console.log(response.data);
+        const response = await adminInstance.post('add-lesson',formData)
         if (response.status >= 200 && response.status < 300) {
           if (response.data.err) {
             sweetAlertt("warning", response.data.message);
@@ -109,7 +95,6 @@ function AddLessonForm() {
             sweetAlertt("success", response.data.message);
             dispatch(unSetLessonForm());
           }
-
           setSubmitSuccess(false);
         } else {
           setSubmitError("Failed to submit form");

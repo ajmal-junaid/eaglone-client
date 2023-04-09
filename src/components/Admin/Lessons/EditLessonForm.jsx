@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import sweetAlert from "../../Common/SweetAlert";
 import { baseUrl } from "../../../utils/constants";
 import { useNavigate, useParams } from "react-router-dom";
+import { adminInstance } from "../../../utils/axios";
 
 function EditLessonForm() {
   const [title, setTitle] = useState("");
@@ -27,32 +28,11 @@ function EditLessonForm() {
     /* eslint-disable react-hooks/exhaustive-deps */
   }, []);
   const getDatas = () => {
-    axios({
-      method: "get",
-      url: `${baseUrl}admin/courses`,
-      headers: {
-        "Content-Type": "application/json",
-        apikey:
-          "bearer $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
-        authorization: `bearer ${JSON.parse(
-          localStorage.getItem("adminToken")
-        )}`,
-      },
-    }).then((res) => {
+    adminInstance.get('courses').then((res) => {
       console.log(res.data);
       setOptions(res.data.data);
     });
-    console.log(params.id);
-    axios({
-      method: "get",
-      url: `${baseUrl}admin/lesson/${params.id}`,
-      headers: {
-        "Content-Type": "application/json",
-        apikey:
-          "getlesson $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
-      },
-    }).then((res) => {
-      console.log(res.data);
+   adminInstance.get(`lesson/${params.id}`).then((res) => {
       setTitle(res.data.data.title);
       setTutor(res.data.data.tutorName);
       setLessonId(res.data.data.lessonId);
@@ -97,20 +77,7 @@ function EditLessonForm() {
       setSubmitError("Entered fields are invalid");
     } else {
       try {
-        const response = await axios.put(
-          `${baseUrl}admin/update-lesson/${params.id}`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-              apikey:
-                "bearer $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
-              authorization: `bearer ${JSON.parse(
-                localStorage.getItem("adminToken")
-              )}`,
-            },
-          }
-        );
+        const response = await adminInstance.put(`update-lesson/${params.id}`,formData)
 
         console.log(response.data);
         if (response.status >= 200 && response.status < 300) {

@@ -1,12 +1,11 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, Outlet } from "react-router-dom";
-import { baseUrl } from "../../../utils/constants";
 import AddLessonForm from "./AddLessonForm";
 import Modal from "react-modal";
 import { setLessonForm, unSetLessonForm } from "../../../Redux";
 import { useDispatch, useSelector } from "react-redux";
 import sweetAlert from "../../Common/SweetAlert";
+import { adminInstance } from "../../../utils/axios";
 
 function LessonBody() {
   const [lessons, setLessons] = useState([]);
@@ -16,18 +15,7 @@ function LessonBody() {
     getLessons();
   }, [modalIsOpen]);
   const getLessons = () => {
-    axios({
-      method: "get",
-      url: `${baseUrl}admin/lessons`,
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `bearer ${JSON.parse(
-          localStorage.getItem("adminToken")
-        )}`,
-        apikey:
-          "getlesson $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
-      },
-    })
+    adminInstance.get('lessons')
       .then((res) => {
         setLessons(res.data.data);
       })

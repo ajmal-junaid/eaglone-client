@@ -19,6 +19,7 @@ import MyCourses from '../pages/User/MyCourses';
 import Community from '../pages/User/Community'
 import ErrorBoundary from '../components/Common/ErrorBoundary';
 import ErrorPage from '../components/Common/ErrorPage';
+import ResetPassword from '../pages/User/ResetPassword';
 
 function UserRoutes() {
   return (
@@ -39,6 +40,7 @@ function UserRoutes() {
           <Route path='courses' element={<Courses />} />
           <Route path='course/:id' element={<Course />} />
           <Route path='premium-benefits' element={<PremiumFeatures />} />
+          <Route path='reset-password/:id' element={<ResetPassword/>}/>
           <Route element={<PrivateUser />}>
             <Route path='cart/:id' element={<Cart />} />
             <Route path='my-courses/:id' element={<MyCourses />} /> 

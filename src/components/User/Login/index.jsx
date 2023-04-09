@@ -5,6 +5,7 @@ import jwt_decode from "jwt-decode";
 import { setUserData } from "../../../Redux";
 import Spinner from "../../Common/Spinner";
 import instance from "../../../utils/axios";
+import Swal from "sweetalert2";
 
 function Index() {
   const [email, setEmail] = useState("");
@@ -26,11 +27,12 @@ function Index() {
   const handleLogin = (e) => {
     setIsLoading(true);
     e.preventDefault();
-   
-   instance.post('user-login', {
-    email,
-    password,
-  })
+
+    instance
+      .post("user-login", {
+        email,
+        password,
+      })
       .then((res) => {
         setIsLoading(false);
         if (!res.data.err) {
@@ -57,6 +59,24 @@ function Index() {
         setError(err.response.data.message);
       });
   };
+  const handleForgotPassword = () => {
+    if (!email) {
+      return setError("Enter valid email");
+    }
+    instance
+      .post("forgot-password", { email })
+      .then(() => {
+        new Swal(
+          "Sended successfully",
+          "Check Your mail To Continue",
+          "success"
+        );
+        navigate("/user/home");
+      })
+      .catch((err) => {
+        new Swal("Error", err.response.data.message, "error");
+      });
+  };
   return (
     <>
       {isLoading ? (
@@ -67,7 +87,7 @@ function Index() {
             <h1 className="text-3xl font-bold text-center text-teal-300 font-outline-4">
               Log in
             </h1>
-            <form className="mt-6">
+            <div className="mt-6">
               <div className="mb-2">
                 <label className="block text-sm font-semibold text-gray-800">
                   Email
@@ -90,9 +110,12 @@ function Index() {
                   className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-md focus:border-teal-400 focus:ring-teal-300 focus:outline-none focus:ring focus:ring-opacity-40"
                 />
               </div>
-              <a href="#" className="text-xs text-teal-400 hover:underline">
+              <button
+                onClick={() => handleForgotPassword()}
+                className="text-xs text-teal-400 hover:underline"
+              >
                 Forgot Password?
-              </a>
+              </button>
               <div className="mt-6">
                 <button
                   onClick={handleLogin}
@@ -101,7 +124,7 @@ function Index() {
                   Login
                 </button>
               </div>
-            </form>
+            </div>
             <span className=" text-red-600 px-2 py-1 rounded">{error}</span>
 
             <p className="mt-8 text-xs font-light text-center text-gray-700">

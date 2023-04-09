@@ -1,8 +1,7 @@
-import axios from "axios";
 import React, { useState } from "react";
-import { baseUrl } from "../../../utils/constants";
 import Traditional from "../../Common/Alerts/Traditional";
 import SweetAlert from "../../Common/SweetAlert";
+import { adminInstance } from "../../../utils/axios";
 
 function AddBannerForm({ handleClose }) {
   const [name, setName] = useState("");
@@ -25,19 +24,7 @@ function AddBannerForm({ handleClose }) {
     const formData = new FormData();
     formData.append("image", image);
     try {
-      const response = await axios.post(
-        `${baseUrl}admin/add-banner`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            apikey:
-              "addCategory $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
-          },
-        }
-      );
-
-      console.log(response.data);
+      const response = await adminInstance.post('add-banner',formData)
       if (response.status >= 200 && response.status < 300) {
         setResponse(response.data.message);
         handleClose();

@@ -6,6 +6,7 @@ import { baseUrl } from "../../../utils/constants";
 import sweetAlert from "../../Common/SweetAlert";
 import AddBannerForm from "./AddBannerForm";
 import ConfirmDelete from "../../Common/ConfirmDelete";
+import { adminInstance } from "../../../utils/axios";
 
 function BannerBody() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -21,20 +22,10 @@ function BannerBody() {
   }
   useEffect(() => {
     getData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [confirmDialog,modalIsOpen]);
   const getData = () => {
-    axios({
-      method: "get",
-      url: `${baseUrl}admin/banners`,
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `bearer ${JSON.parse(
-          localStorage.getItem("adminToken")
-        )}`,
-        apikey:
-          "getCourse $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
-      },
-    })
+   adminInstance.get('banners')
       .then((res) => {
         setBanners(res.data.data);
       })
@@ -49,18 +40,7 @@ function BannerBody() {
   };
   const headers = ["index", "name", "image", "action"];
   const handleDelete = () => {
-    axios({
-      url: `${baseUrl}admin/delete-banner/${confirmDialog.id}`,
-      method: "delete",
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `bearer ${JSON.parse(
-          localStorage.getItem("adminToken")
-        )}`,
-        apikey:
-          "getCourse $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
-      },
-    })
+   adminInstance.delete(`delete-banner/${confirmDialog.id}`)
       .then((res) => {
         setConfirmDialog({ ...confirmDialog, active: false });
         sweetAlert("success", res.data.message);

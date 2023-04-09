@@ -1,9 +1,8 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { baseUrl } from "../../../utils/constants";
 import { setAdmin } from "../../../Redux";
 import { useDispatch } from "react-redux";
+import { adminInstance } from "../../../utils/axios";
 
 function Index() {
   const [email, setEmail] = useState("");
@@ -16,20 +15,13 @@ function Index() {
     if (auth) {
       navigate("/admin/home");
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const handleLogin = (e) => {
     e.preventDefault();
-    axios({
-      method: "post",
-      url: `${baseUrl}admin/login`,
-      data: {
-        email,
-        password,
-      },
-      headers: {
-        apikey:
-          "login $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
-      },
+    adminInstance.post('login', {
+      email,
+      password,
     })
       .then((res) => {
         if (!res.data.err) {

@@ -41,7 +41,6 @@ function AddLessonForm() {
       },
     })
       .then((res) => {
-        console.log(res.data, "waht happend");
         setOptions(res.data.data);
       })
       .catch((error) => {

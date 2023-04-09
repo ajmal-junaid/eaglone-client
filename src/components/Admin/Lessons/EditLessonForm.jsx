@@ -27,7 +27,6 @@ function EditLessonForm() {
   }, []);
   const getDatas = () => {
     adminInstance.get('courses').then((res) => {
-      console.log(res.data);
       setOptions(res.data.data);
     });
    adminInstance.get(`lesson/${params.id}`).then((res) => {
@@ -76,8 +75,6 @@ function EditLessonForm() {
     } else {
       try {
         const response = await adminInstance.put(`update-lesson/${params.id}`,formData)
-
-        console.log(response.data);
         if (response.status >= 200 && response.status < 300) {
           if (response.data.err) {
             sweetAlertt("warning", response.data.message);

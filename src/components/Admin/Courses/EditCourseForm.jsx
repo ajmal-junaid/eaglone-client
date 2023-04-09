@@ -1,8 +1,7 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { baseUrl } from "../../../utils/constants";
 import sweetAlert from "../../Common/SweetAlert";
+import { adminInstance } from "../../../utils/axios";
 
 function EditCourseForm() {
   const [id, setId] = useState("");
@@ -46,27 +45,11 @@ function EditCourseForm() {
     /* eslint-disable react-hooks/exhaustive-deps */
   }, []);
   const getDatas = () => {
-    axios({
-      method: "get",
-      url: `${baseUrl}admin/categories`,
-      headers: {
-        "Content-Type": "application/json",
-        apikey:
-          "category $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
-      },
-    }).then((res) => {
+    adminInstance.get('categories').then((res) => {
       console.log(res.data);
       setOptions(res.data.data);
     });
-    axios({
-      method: "get",
-      url: `${baseUrl}admin/course/${params.id}`,
-      headers: {
-        "Content-Type": "application/json",
-        apikey:
-          "get $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
-      },
-    }).then((res) => {
+   adminInstance.get(`course/${params.id}`).then((res) => {
       console.log(res.data);
       setTitle(res.data.data.title);
       setCategory(res.data.data.category);
@@ -91,18 +74,7 @@ function EditCourseForm() {
     formData.append("price", price);
     formData.append("percentage", percentage);
     try {
-      const response = await axios.put(
-        `${baseUrl}admin/update-course/${params.id}`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            apikey:
-              "edit $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
-          },
-        }
-      );
-      console.log(response);
+      const response = await adminInstance.put(`update-course/${params.id}`,formData)
       if (response.status >= 200 && response.status < 300) {
         setSubmitSuccess(true);
         navigate("/admin/courses");

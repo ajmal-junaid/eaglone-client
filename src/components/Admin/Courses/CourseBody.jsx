@@ -1,12 +1,11 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { Link, Outlet, useNavigate } from "react-router-dom";
-import { baseUrl } from "../../../utils/constants";
 import AddCourseForm from "./AddCourseForm";
 import sweetAlert from "../../Common/SweetAlert";
 import { useDispatch, useSelector } from "react-redux";
 import { setCourseForm, unSetCourseForm } from "../../../Redux";
+import { adminInstance } from "../../../utils/axios";
 function CourseBody() {
   const modalIsOpen = useSelector((state) => state.courseForm.value);
   const [courses, setCourses] = useState([]);
@@ -17,18 +16,7 @@ function CourseBody() {
     /* eslint-disable react-hooks/exhaustive-deps */
   }, [modalIsOpen]);
   const getCourses = () => {
-    axios({
-      method: "get",
-      url: `${baseUrl}admin/courses`,
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `bearer ${JSON.parse(
-          localStorage.getItem("adminToken")
-        )}`,
-        apikey:
-          "getCourse $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
-      },
-    })
+   adminInstance.get('courses')
       .then((res) => {
         setCourses(res.data.data);
       })

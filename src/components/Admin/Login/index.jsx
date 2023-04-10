@@ -15,14 +15,15 @@ function Index() {
     if (auth) {
       navigate("/admin/home");
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const handleLogin = (e) => {
     e.preventDefault();
-    adminInstance.post('login', {
-      email,
-      password,
-    })
+    adminInstance
+      .post("login", {
+        email,
+        password,
+      })
       .then((res) => {
         if (!res.data.err) {
           localStorage.setItem("adminToken", JSON.stringify(res.data.token));

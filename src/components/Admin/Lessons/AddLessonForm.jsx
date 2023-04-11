@@ -17,6 +17,7 @@ function AddLessonForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState(null);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [progress, setProgress] = useState(0);
   const dispatch = useDispatch();
 
   const sweetAlertt = (icon = "success", text) => {
@@ -85,7 +86,15 @@ function AddLessonForm() {
       setSubmitError("Entered fields are invalid");
     } else {
       try {
-        const response = await adminInstance.post('add-lesson',formData)
+        const response = await adminInstance.post("add-lesson", formData, {
+          onUploadProgress: (progressEvent) => {
+            setProgress(
+              parseInt(
+                Math.round((progressEvent.loaded * 100) / progressEvent.total)
+              )
+            );
+          },
+        });
         if (response.status >= 200 && response.status < 300) {
           if (response.data.err) {
             sweetAlertt("warning", response.data.message);
@@ -198,6 +207,28 @@ function AddLessonForm() {
             required
           />
         </div>
+       {progress ?  <div className="relative pt-1">
+  <div className="flex mb-2 items-center justify-between">
+    <div>
+      <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blue-600 bg-blue-200">
+        Upload Progress
+      </span>
+    </div>
+    <div className="text-right">
+      <span className="text-xs font-semibold inline-block text-blue-600">
+        {progress}%
+      </span>
+    </div>
+  </div>
+  <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-blue-200">
+    <div
+      style={{ width: `${progress}%` }}
+      className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500 transition-all duration-500"
+    ></div>
+  </div>
+</div>:""}
+
+
         <div className="flex justify-center">
           {submitError && <div>Error: {submitError}</div>}
           {submitSuccess ? sweetAlertt("warning", response) : ""}

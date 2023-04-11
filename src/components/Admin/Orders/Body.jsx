@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import sweetAlert from "../../Common/SweetAlert";
 import { adminInstance } from "../../../utils/axios";
 
 function Body() {
   const [orders, setOrders] = useState([]);
-  const navigate = useNavigate();
   const headers = ["No", "orderId", "Date", "Total amount", "Payment Status"];
   useEffect(() => {
     getData();
@@ -17,10 +16,6 @@ function Body() {
         setOrders(res.data.data);
       })
       .catch((res) => {
-        if (res.response.status >= 401 && res.response.status <= 403) {
-          localStorage.removeItem("adminToken");
-          navigate("/admin");
-        }
         sweetAlert("warning", res.message);
       });
   };

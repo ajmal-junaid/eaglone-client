@@ -13,7 +13,8 @@ function Body() {
   const socket = io.connect("http://localhost:3000");
 
   useEffect(() => {
-    instance.get('categories')
+    instance
+      .get("categories")
       .then((res) => {
         setCategories(res.data.data);
       })
@@ -29,7 +30,7 @@ function Body() {
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col relative">
       <header className="bg-gray-100 py-5">
         <nav className=" text-center container mx-auto">
           <a href="/" className="text-3xl font-bold text-black font-serif tex">
@@ -37,16 +38,14 @@ function Body() {
           </a>
         </nav>
       </header>
-      <div className="flex">
-        <div
-          className="w-2/6 bg-gray-200 p-4 border-r border-gray-400"
-        >
+      <div className="flex relative">
+        <div className="w-2/6 bg-gray-200 p-4 border-r border-gray-400">
           <div className="bg-gray-700 text-white rounded-t-md px-4 py-2">
             <h2 className="text-lg font-bold">Communities</h2>
           </div>
           <div
             className=" rounded-b-md px-4 py-2 overflow-y-auto"
-            style={{ maxHeight: "300px" }}
+            style={{ maxHeight: "500px" }}
           >
             {categories.map((category, index) => (
               <div
@@ -66,12 +65,7 @@ function Body() {
             ))}
           </div>
         </div>
-        <div
-          className="px-4 w-full
-
-  bg-white 
-  p-4"
-        >
+        <div className="px-4 w-full bg-white p-4">
           <Chat
             socket={socket}
             userId={userData._id}

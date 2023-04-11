@@ -33,7 +33,7 @@
 }
 
 .chatHeight {
-  height: 71vh;
+  height: 68vh;
   overflow: auto;
   scroll-behavior: smooth;
 }
@@ -41,4 +41,8 @@
 .chat-main {
   max-height: 50;
   overflow: auto;
+}
+
+.chatMain {
+  max-height: 98vh;
 }

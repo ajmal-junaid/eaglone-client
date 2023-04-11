@@ -14,13 +14,28 @@ const instance = axios.create({
 const adminInstance = axios.create({
     baseURL: adminBaseUrl,
     headers: {
-        authorization: `bearer ${JSON.parse(
-            localStorage.getItem("adminToken")
-        )}`,
         apikey:
             "key $2b$14$Spul3qDosNUGfGA.AnYWl.W1DH4W4AnQsFrNVEKJi6.CsbgncfCUi",
     }
 });
+instance.interceptors.request.use((config) => {
+    const userToken = JSON.parse(localStorage.getItem('userToken'));
+    if (userToken) {
+      config.headers.authorization = `Bearer ${userToken}`;
+    }
+    return config;
+  }, (error) => {
+    return Promise.reject(error);
+  });
+adminInstance.interceptors.request.use((config) => {
+    const adminToken = JSON.parse(localStorage.getItem('adminToken'));
+    if (adminToken) {
+      config.headers.authorization = `Bearer ${adminToken}`;
+    }
+    return config;
+  }, (error) => {
+    return Promise.reject(error);
+  });
 
 instance.interceptors.response.use(
     response => response,
@@ -40,7 +55,7 @@ adminInstance.interceptors.response.use(
     response => response,
     error => {
         if (error.response.status === 401 || error.response.status === 403) {
-            new Swal("Please", "Login Again to Continue", "warning")
+            new Swal("Please", error.response.data.message, "warning")
             setTimeout(function () {
                 localStorage.removeItem('adminToken');
                 window.location.href = '/admin';

@@ -8,7 +8,7 @@ import instance from "../../../../utils/axios";
 const Chat = ({ socket, userName, roomId, userId }) => {
   const [currentMessage, setCurrentMessage] = useState("");
   const [messageList, setMessageList] = useState([]);
- 
+
   const sendMessage = async () => {
     if (currentMessage) {
       const timestamp = new Date().toLocaleTimeString([], {
@@ -22,7 +22,7 @@ const Chat = ({ socket, userName, roomId, userId }) => {
         message: currentMessage,
         time: timestamp,
       };
-      await socket.emit("send_message", messageData); 
+      await socket.emit("send_message", messageData);
       setCurrentMessage("");
     }
   };
@@ -33,20 +33,19 @@ const Chat = ({ socket, userName, roomId, userId }) => {
     });
   }, [roomId]);
   const getMessages = (room) => {
-    instance.get(`community?room=${room}`)
+    instance
+      .get(`community?room=${room}`)
       .then((res) => {
         console.log(res.data.data.messages, "sucess");
-        setMessageList(res.data.data.messages)
+        setMessageList(res.data.data.messages);
       })
       .catch((res) => {
         console.log(res, "catch");
       });
-
-     
   };
   return (
-    <div className="">
-      <div className="flex-grow px-6 py-4 overflow-y-scroll">
+    <div className="relative">
+      <div className="flex-grow px-6 py-4">
         <ScrollToBottom className="chatHeight">
           {messageList.map((message, index) => (
             <ChatBubble
@@ -60,7 +59,7 @@ const Chat = ({ socket, userName, roomId, userId }) => {
           ))}
         </ScrollToBottom>
       </div>
-      <div className="bg-white shadow-md px-6 py-3 w-full static">
+      <div className="bg-white shadow-md px-3 py-2 w-full static">
         <div className="flex items-center justify-between rounded-lg overflow-hidden">
           <motion.input
             type="text"

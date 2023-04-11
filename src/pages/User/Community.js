@@ -4,7 +4,7 @@ import Body from '../../components/User/Community/Body'
 function Community() {
 
   return (
-    <div className='pt-16 pb-4'>
+    <div className='pt-16 pb-4 chatMain'>
       <Body />
     </div>
   )

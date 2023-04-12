@@ -9,8 +9,7 @@ function Body() {
   const userData = useSelector((state) => state.userData.value);
   const [categories, setCategories] = useState([]);
   const [roomId, setRoomId] = useState("Common");
-  console.log(userData, "hihjihih");
-  const socket = io.connect("http://localhost:3000");
+  const socket = io.connect("https://www.eaglone.online");
 
   useEffect(() => {
     instance

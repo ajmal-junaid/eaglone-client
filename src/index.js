@@ -5,19 +5,15 @@ import App from './App';
 import { Provider } from 'react-redux';
 import store from './Redux/store'
 
-
-// function disableRightClick(event) {
-//   event.preventDefault();
-// }
-// document.addEventListener('contextmenu', disableRightClick);
-
+function disableRightClick(event) {
+  event.preventDefault();
+}
+document.addEventListener('contextmenu', disableRightClick);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
-
     <App />
-
   </Provider>
 );
 

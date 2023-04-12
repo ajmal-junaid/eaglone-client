@@ -1,4 +1,4 @@
-export const baseUrl = "http://localhost:3000/api/v1/"
-export const adminBaseUrl = "http://localhost:3000/admin/api/v1/"
+export const baseUrl = "https://www.eaglone.online/api/v1/"
+export const adminBaseUrl = "https://www.eaglone.online/api/v1/"
 
 

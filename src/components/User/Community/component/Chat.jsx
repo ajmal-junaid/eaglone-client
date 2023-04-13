@@ -36,7 +36,6 @@ const Chat = ({ socket, userName, roomId, userId }) => {
     instance
       .get(`community?room=${room}`)
       .then((res) => {
-        console.log(res.data.data.messages, "sucess");
         setMessageList(res.data.data.messages);
       })
       .catch((res) => {

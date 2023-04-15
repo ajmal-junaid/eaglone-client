@@ -2,16 +2,16 @@ import React, { useEffect, useState } from "react";
 import CourseCard from "./CourseCard";
 import { useParams } from "react-router-dom";
 import instance from "../../../utils/axios";
+import { PropagateLoader } from "react-spinners";
 
 function Body() {
   const [orders, setOrders] = useState([]);
   useEffect(() => {
-   instance.get(`get-orders/${params.id}`)
+    instance
+      .get(`get-orders/${params.id}`)
       .then((res) => {
         setOrders(res.data.data);
         console.log(res.data.data);
-
-        //setIsLoading(false);
       })
       .catch((res) => {
         console.log(res.response, "catch");
@@ -20,7 +20,7 @@ function Body() {
   }, []);
   const params = useParams();
   console.log(params.id, "id daaaaaaaaa");
- 
+
   return (
     <div>
       <div className="bg-gray-100 min-h-screen">
@@ -31,12 +31,15 @@ function Body() {
             </a>
           </div>
         </header>
-
         <div className="container mx-auto px-4 mt-5">
           <div className="">
-                <CourseCard  
-                  orders={orders}
-                /> 
+            {!orders.length ? (
+              <div className="flex justify-center items-center h-96">
+                <PropagateLoader size={15} color="#3B82F6" />
+              </div>
+            ) : (
+              <CourseCard orders={orders} />
+            )}
           </div>
         </div>
       </div>

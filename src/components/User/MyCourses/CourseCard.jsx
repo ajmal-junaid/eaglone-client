@@ -19,7 +19,7 @@ function CourseCard({ title, instructor, rating, thumbnail, _id }) {
         <p className="text-sm text-gray-500">{instructor}</p>
         <div className="flex items-center mt-2">
           <span className="text-sm font-medium text-yellow-500">
-            {calculateRating(rating)}*
+            {calculateRating(rating)}⭐
           </span>
           <FaAngleRight className="w-4 h-4 ml-2 text-gray-500" />
         </div>

@@ -10,6 +10,7 @@ import Swal from "sweetalert2";
 import calculateRating from "../../Common/calculateRating";
 import Rating from "../../Common/Rating";
 import { useSelector } from "react-redux";
+import { ClipLoader } from "react-spinners";
 
 function LessonViewPage() {
   const params = useParams();
@@ -21,6 +22,7 @@ function LessonViewPage() {
   const [rating, setRating] = useState(0);
   const [avg, setAvg] = useState(0);
   const [comment, setComment] = useState("");
+  const [isCommented, setIsCommented] = useState(false);
   const videoRef = useRef(null);
   const userData = useSelector((state) => state.userData.value);
   const handlePlayPause = () => {
@@ -43,22 +45,28 @@ function LessonViewPage() {
     videoRef.current.volume = event.target.value;
   }
   useEffect(() => {
-    getDatas();
-  }, []);
+    if (userData) {
+      getDatas();
+    }
+  }, [userData]);
   const getDatas = () => {
     instance
       .get(`cours/${params.id}`)
       .then((res) => {
         setCourse(res.data.data);
         setAvg(calculateRating(res.data.data.rating));
-        const data = res.data.data?.rating?.find((obj) => obj.user = userData._id)
-        setComment(data.comment)
-        setRating(data.rating)
+        const data = res.data.data?.rating?.find(
+          (obj) => (obj.user = userData._id)
+        );
+        setComment(data.comment);
+        setRating(data.rating);
+        if (data.comment || data.rating) {
+          setIsCommented(true);
+        }
         instance
           .get(`get-lessons-pcourse/${res.data.data.courseId}`)
           .then((res) => {
             setLessons(res.data.data);
-
             //setIsLoading(false);
           })
           .catch((res) => {
@@ -83,6 +91,7 @@ function LessonViewPage() {
       });
   };
   const handleRating = () => {
+    setIsCommented(true);
     instance
       .post("rate-course", {
         courseId: course._id,
@@ -90,18 +99,14 @@ function LessonViewPage() {
         comment: comment,
       })
       .then(() => {
-        alert("success");
+        setIsCommented(true);
       })
       .catch((err) => {
+        setIsCommented(false);
         new Swal("Error", err.response.data.message, "warning");
       });
   };
-  const isUserCommented = () => {
-    return (
-      course &&
-      course?.rating?.find((obj) => obj.user === userData._id) !== undefined
-    );
-  };
+
   return (
     <div className="min-h-screen bg-gray-100 custom-height">
       <header className="bg-white shadow px-4 py-2 flex justify-between items-center container mx-auto">
@@ -122,7 +127,7 @@ function LessonViewPage() {
           <div className="flex justify-between">
             <h2 className="text-lg font-bold mb-2">Rate The Course</h2>
             <div className="ml-auto">
-              {isUserCommented() ? (
+              {isCommented ? (
                 <button
                   disabled
                   className="px-2 py-1 rounded-md bg-green-500 text-white text-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50"
@@ -140,7 +145,11 @@ function LessonViewPage() {
             </div>
           </div>
           <div className="mb-2">
-            <RatingSystem rating={rating} setRating={setRating} />
+            {rating ? (
+              <RatingSystem rating={rating} setRating={setRating} />
+            ) : (
+              <ClipLoader color="#01BFFF" loading={true} size={50} />
+            )}
           </div>
           <div className="mb-2">
             <CommentBox comment={comment} setComment={setComment} />

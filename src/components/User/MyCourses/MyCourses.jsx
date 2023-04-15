@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import CourseCard from "./CourseCard";
 import instance from "../../../utils/axios";
+import { SyncLoader } from "react-spinners";
 
 function Purchased() {
   const [courses, setCourses] = useState([]);
   const params = useParams();
   useEffect(() => {
-    instance.get(`get-purchased-courses/${params.id}`)
+    instance
+      .get(`get-purchased-courses/${params.id}`)
       .then((res) => {
         setCourses(res.data.data);
       })
@@ -22,16 +24,22 @@ function Purchased() {
         Purchased /Enrolled Courses
       </h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-8">
-        {courses.map((course) => (
-          <CourseCard
-            key={course._id}
-            _id={course._id}
-            title={course.title}
-            instructor={course.tutorName}
-            thumbnail={course.image}
-            rating={course.rating}
-          />
-        ))}
+        {courses.length ? (
+          courses.map((course) => (
+            <CourseCard
+              key={course._id}
+              _id={course._id}
+              title={course.title}
+              instructor={course.tutorName}
+              thumbnail={course.image}
+              rating={course.rating}
+            />
+          ))
+        ) : (
+          <div className="flex justify-center items-center h-96">
+            <SyncLoader size={15} color="#3B82F6" />
+          </div>
+        )}
       </div>
     </div>
   );

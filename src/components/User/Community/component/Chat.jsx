@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { FaPaperPlane } from "react-icons/fa";
 import ScrollToBottom from "react-scroll-to-bottom";
 import instance from "../../../../utils/axios";
+import { BeatLoader } from "react-spinners";
 
 const Chat = ({ socket, userName, roomId, userId }) => {
   const [currentMessage, setCurrentMessage] = useState("");
@@ -46,7 +47,7 @@ const Chat = ({ socket, userName, roomId, userId }) => {
     <div className="relative">
       <div className="flex-grow px-6 py-4">
         <ScrollToBottom className="chatHeight">
-          {messageList.map((message, index) => (
+          {messageList.length ? messageList.map((message, index) => (
             <ChatBubble
               key={index}
               socket={socket}
@@ -55,7 +56,9 @@ const Chat = ({ socket, userName, roomId, userId }) => {
               message={message.message}
               isUser={message.user === userName}
             />
-          ))}
+          )):<div className="absolute top-0 left-0 w-full h-full flex justify-center items-center bg-gray-100 opacity-50 z-10">
+          <BeatLoader size={10} color="#3B82F6" />
+        </div>}
         </ScrollToBottom>
       </div>
       <div className="bg-white shadow-md px-3 py-2 w-full static">

@@ -1,14 +1,18 @@
-import React, { useState } from "react";
-
+import React, { useCallback, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import instance from "../../utils/axios";
+import { debounce } from 'lodash';
 const SearchBar = ({ setCourses, reset, setMessage }) => {
   const [query, setQuery] = useState("");
   function handleQueryChange(event) {
     setQuery(event.target.value);
-    if (event.target.value) {
+    debouncedSearch(event.target.value);
+  }
+  const debouncedSearch = useCallback(
+  debounce((searchTerm) => {
+    if (searchTerm) {
       instance
-        .get(`search/${event.target.value}`)
+        .get(`search/${searchTerm}`)
         .then((res) => {
           setCourses(res.data.data);
           setMessage(`${res.data.data.length} Course found`);
@@ -20,7 +24,8 @@ const SearchBar = ({ setCourses, reset, setMessage }) => {
     } else {
       handleClear();
     }
-  }
+  }, 500),[]);
+  
   const handleClear = () => {
     setQuery("");
     setMessage("");

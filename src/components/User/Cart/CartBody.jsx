@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setCheckout } from "../../../Redux";
 import instance from "../../../utils/axios";
 import CartEmpty from "./Components/CartEmpy";
+import { ScaleLoader } from "react-spinners";
 
 const CartBody = () => {
   const params = useParams();
@@ -133,14 +134,15 @@ const CartBody = () => {
             <FaCartArrowDown className="w-6 h-6 mr-2" />
             <span className="text-sm font-medium">{cart.length} items</span>
           </div>
-{message != "Cart is empty" &&  <button
-            onClick={openModal}
-            className="flex bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          >
-            Checkout
-            <FaChevronRight className="w-5 h-5 ml-2 " />
-          </button>}
-         
+          {message != "Cart is empty" && (
+            <button
+              onClick={openModal}
+              className="flex bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            >
+              Checkout
+              <FaChevronRight className="w-5 h-5 ml-2 " />
+            </button>
+          )}
         </div>
         {message == "Cart is empty" ? (
           <CartEmpty />
@@ -148,7 +150,7 @@ const CartBody = () => {
           <div className="grid grid-cols-12 gap-4 ">
             <div className="col-span-12 md:col-span-8 border-x-2 p-4 gap-4">
               <div className="max-h-96 overflow-auto">
-                {cart &&
+                {cart.length ? (
                   cart.map((item) => {
                     return (
                       <div
@@ -191,7 +193,12 @@ const CartBody = () => {
                         </div>
                       </div>
                     );
-                  })}
+                  })
+                ) : (
+                  <div className="flex justify-center items-center h-52">
+                    <ScaleLoader size={50} color="#3B82F6" />
+                  </div>
+                )}
               </div>
               <div
                 onClick={openModal}

@@ -11,7 +11,7 @@ function Body() {
   const [categories, setCategories] = useState([]);
   const [roomId, setRoomId] = useState("Common");
   const socket = io.connect("wss://www.eaglone.online");
-  const [onlineCount, setOnlineCount] = useState(io.sockets.adapter.rooms.get(roomId)?.size ||0);
+  const [onlineCount, setOnlineCount] = useState(0);
   useEffect(() => {
     instance
       .get("categories")
@@ -22,11 +22,17 @@ function Body() {
         console.log(res.response, "catch");
       });
     socket.emit("join_room", roomId);
+    socket.on("room_count", (size) => {
+      setOnlineCount(size)
+    });
+      
   }, []);
   const changeRoom = (newRoom) => {
     setRoomId(newRoom);
     socket.emit("join_room", newRoom);
-    setOnlineCount(io.sockets.adapter.rooms.get(newRoom)?.size || 0);
+    socket.on("room_count", (size) => {
+      setOnlineCount(size)
+    });
   };
 
   return (
@@ -45,7 +51,7 @@ function Body() {
             <button className="bg-gray-200 text-gray-700 py-2 px-4 rounded-full">
               <span className="text-sm font-medium">Online</span>
               <span className="ml-1 py-1 px-2 bg-green-500 text-white rounded-full">
-               {onlineCount}
+                {onlineCount}
               </span>
             </button>
           </div>
@@ -61,24 +67,30 @@ function Body() {
             className=" rounded-b-md px-4 py-2 overflow-y-auto"
             style={{ maxHeight: "500px" }}
           >
-            {categories.length ? categories.map((category, index) => (
-              <div
-                key={index}
-                onClick={() => changeRoom(category.name)}
-                className={`flex cursor-pointer items-center py-3 hover:border-blue-600 ${
-                  category.name === roomId ? "bg-slate-300 border" : ""
-                } `}
-              >
-                <div className="h-12 w-12 rounded  flex items-center justify-center text-white font-bold text-2xl">
-                  <img src={category.image}></img>
+            {categories.length ? (
+              categories.map((category, index) => (
+                <div
+                  key={index}
+                  onClick={() => changeRoom(category.name)}
+                  className={`flex cursor-pointer items-center py-3 hover:border-blue-600 ${
+                    category.name === roomId ? "bg-slate-300 border" : ""
+                  } `}
+                >
+                  <div className="h-12 w-12 rounded  flex items-center justify-center text-white font-bold text-2xl">
+                    <img src={category.image}></img>
+                  </div>
+                  <div className="ml-4">
+                    <div className="text-gray-800 font-bold">
+                      {category.name}
+                    </div>
+                  </div>
                 </div>
-                <div className="ml-4">
-                  <div className="text-gray-800 font-bold">{category.name}</div>
-                </div>
+              ))
+            ) : (
+              <div className="flex justify-center items-center h-32">
+                <BeatLoader size={20} color="#3B82F6" />
               </div>
-            )):  <div className="flex justify-center items-center h-32">
-            <BeatLoader size={20} color="#3B82F6" />
-          </div>}
+            )}
           </div>
         </div>
         <div className="px-4 w-full bg-white p-4">

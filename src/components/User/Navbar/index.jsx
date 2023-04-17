@@ -336,6 +336,12 @@ export default function Example() {
             >
               Community
             </NavLink>
+            <NavLink
+              to="/user/tech-news"
+              className="text-sm font-semibold leading-6 text-gray-900"
+            >
+              Tech News
+            </NavLink>
           </Popover.Group>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
             {userData.name ? (

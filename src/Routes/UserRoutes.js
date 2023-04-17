@@ -20,6 +20,7 @@ import Community from '../pages/User/Community'
 import ErrorBoundary from '../components/Common/ErrorBoundary';
 import ErrorPage from '../components/Common/ErrorPage';
 import ResetPassword from '../pages/User/ResetPassword';
+import Technews from '../pages/User/Technews';
 
 function UserRoutes() {
   return (
@@ -41,6 +42,7 @@ function UserRoutes() {
           <Route path='course/:id' element={<Course />} />
           <Route path='premium-benefits' element={<PremiumFeatures />} />
           <Route path='reset-password/:id' element={<ResetPassword/>}/>
+          <Route path='tech-news' element={<Technews/>}/> 
           <Route element={<PrivateUser />}>
             <Route path='cart/:id' element={<Cart />} />
             <Route path='my-courses/:id' element={<MyCourses />} /> 

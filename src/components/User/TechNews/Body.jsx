@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Article from "./Article";
+import UnderConstruction from "../../Common/UnderConstruction";
 
 const Body = () => {
   const [articles, setArticles] = useState([]);
@@ -19,14 +20,21 @@ const Body = () => {
   });
   return (
     <div className="container mx-auto mt-5">
-      <h1 className="text-4xl sm:text-5xl font-bold border-b-2 pb-2 text-center text-gray-800">
-        Latest Articles
-      </h1>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {articles.map((article, index) => (
-          <Article key={index} article={article} />
-        ))}
-      </div>
+      {articles.length ? (
+        <>
+          {" "}
+          <h1 className="text-4xl sm:text-5xl font-bold border-b-2 pb-2 text-center text-gray-800">
+            Latest Articles
+          </h1>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {articles.map((article, index) => (
+              <Article key={index} article={article} />
+            ))}
+          </div>
+        </>
+      ) : (
+        <UnderConstruction />
+      )}
     </div>
   );
 };

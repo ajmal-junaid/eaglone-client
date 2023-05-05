@@ -146,13 +146,15 @@ function LessonViewPage() {
           </div>
           <div className="mb-2">
             {rating ? (
-              <RatingSystem rating={rating} setRating={setRating} />
+              <>
+                <RatingSystem rating={rating} setRating={setRating} />
+                <div className="mb-2">
+                  <CommentBox comment={comment} setComment={setComment} />
+                </div>
+              </>
             ) : (
               <ClipLoader color="#01BFFF" loading={true} size={50} />
             )}
-          </div>
-          <div className="mb-2">
-            <CommentBox comment={comment} setComment={setComment} />
           </div>
         </section>
       </div>

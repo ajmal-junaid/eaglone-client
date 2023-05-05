@@ -21,21 +21,21 @@ const adminInstance = axios.create({
 instance.interceptors.request.use((config) => {
     const userToken = JSON.parse(localStorage.getItem('userToken'));
     if (userToken) {
-      config.headers.authorization = `Bearer ${userToken}`;
+        config.headers.authorization = `Bearer ${userToken}`;
     }
     return config;
-  }, (error) => {
+}, (error) => {
     return Promise.reject(error);
-  });
+});
 adminInstance.interceptors.request.use((config) => {
     const adminToken = JSON.parse(localStorage.getItem('adminToken'));
     if (adminToken) {
-      config.headers.authorization = `Bearer ${adminToken}`;
+        config.headers.authorization = `Bearer ${adminToken}`;
     }
     return config;
-  }, (error) => {
+}, (error) => {
     return Promise.reject(error);
-  });
+});
 
 instance.interceptors.response.use(
     response => response,
